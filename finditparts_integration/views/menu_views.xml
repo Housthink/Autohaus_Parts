@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Root Menu - visible as main app -->
+        <menuitem id="menu_finditparts_root" 
+                  name="FindinPart"
+                  action="action_finditparts_product"
+                  sequence="50"
+                  groups="base.group_user"
+                  web_icon="finditparts_integration,static/description/icon.png"/>
+        
+        <!-- Configuration Menu -->
+        <menuitem id="menu_finditparts_config" 
+                  name="Configuration" 
+                  parent="menu_finditparts_root" 
+                  action="action_finditparts_config"
+                  sequence="10"/>
+        
+        <!-- Sync Products Menu -->
+        <menuitem id="menu_finditparts_sync"
+                  name="Sync Products xd:n"
+                  parent="menu_finditparts_root"
+                  action="action_finditparts_product_sync_wizard"
+                  sequence="20"/>
+        
+        <!-- Products Menu -->
+        <menuitem id="menu_finditparts_products" 
+                  name="Products" 
+                  parent="menu_finditparts_root" 
+                  action="action_finditparts_product"
+                  sequence="30"/>
+        
+        <!-- Orders Menu -->
+        <menuitem id="menu_finditparts_orders" 
+                  name="Orders" 
+                  parent="menu_finditparts_root" 
+                  action="action_finditparts_order"
+                  sequence="40"/>
+        
+    </data>
+</odoo>

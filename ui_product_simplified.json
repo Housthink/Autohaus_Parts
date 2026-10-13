@@ -1,0 +1,63 @@
+{
+  "id": 15337111,
+  "part_number": "TKPRO-UPS2",
+  "manufacturer": "HALDEX",
+  "name": "HALDEX TKPRO-UPS2",
+  "description": "Test TruckPro Short Description",
+  "long_description": "Test TruckPro Long Description. . California Proposition 65: WARNING: This product can expose you to chemical which is known to the State of California to cause cancer and birth defects or other reproductive harm. For more information, go to www.P65Warnings.ca.gov.",
+  "price_msrp": 100.0,
+  "current_price": "500.49",
+  "stock": 994,
+  "sellable": true,
+  "condition": "new",
+  "weight": "13.33",
+  "url": "https://www-build.finditparts.com/products/15337111/haldex-tkpro-ups2",
+  "images": {
+    "thumbnail": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2Utc21hbGwuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=c339a7222b2fb534436ed8e35a89d9b4fb28635ee456cef725f95f495eb34320",
+    "medium": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2UtbWVkaXVtLmpwZyIsInZlcnNpb24iOjJ9.jpg?s=24372bebce0586b0d04ea6df6dfc65ad47808a7618bfedc72cfa22f800fc9dec",
+    "large": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2UtbGFyZ2UuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=53cd2a66b9cbe20a424d9a28758f8d0c4a36f2f95d19b04ccbfb45b7e86d7484",
+    "product": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2UtcHJvZHVjdC5qcGciLCJ2ZXJzaW9uIjoyfQ==.jpg?s=71e15cf51769a37726b45b983fa304fa034102c747a7dc72d0ab24b838389c7b"
+  },
+  "manufacturer_logo": "https://cdn-dyn.finditparts.com/assets/taxons/1257/medium/Haldex_Logo.jpg",
+  "categories": [
+    "Manufacturer",
+    "HALDEX"
+  ],
+  "variants": [
+    {
+      "id": 56953563,
+      "variant_id": 56953563,
+      "product_id": 15337111,
+      "price": "500.49",
+      "amount": "500.49",
+      "quantity": 994,
+      "pack_quantity": 1,
+      "minimum": 1,
+      "core_price": "0.0",
+      "verified": true,
+      "location": "CA",
+      "timezone": "America/Los_Angeles",
+      "cutoff": "2025-09-08T11:00:00-07:00",
+      "past_cutoff": true,
+      "estimated_business_days_to_ship": 1,
+      "estimated_ship_date": "2025-09-09T23:59:59-07:00",
+      "estimated_days_to_deliver": 3,
+      "estimated_delivery_date_ground": "2025-09-11T23:59:59-07:00",
+      "distance_miles": null,
+      "account_price": "500.49"
+    }
+  ],
+  "shipping_notes": [
+    "<span class=\"glyphicon glyphicon-refresh shipping_message_icon\"></span><span><b>New!</b> No hassle Return Policy <a class=\"small details-link\" onclick=\"window.dataLayer &amp;&amp; dataLayer.push({&#39;event&#39;: &#39;pdp_no_hassle_returns&#39;}); return false;\" data-remote=\"true\" href=\"https://www-build.finditparts.com/no_hassle_returns\">details</a></span>",
+    "<span class=\"glyphicon glyphicon-ok shipping_message_icon--ok\"></span> <span><b>Free Economy shipping</b> on orders over $499 <a class=\"small details-link\" data-remote=\"true\" href=\"https://www-build.finditparts.com/free_shipping_eligibility_rules\">details</a></span>",
+    "<span class=\"glyphicon glyphicon-flash shipping_message_icon\"></span> <span>Orders placed before <em> 2pm EST</em> will ship <strong>same day</strong></span>",
+    "<span class=\"glyphicon glyphicon-calendar shipping_message_icon\"></span><span><span>Get it by </span><strong class=\"green text-[#007600]\">Thursday, Sep 11</strong></span><span class=\"glyphicon glyphicon-info-sign\" style=\"margin-left: 4px; top: 0px;\" data-toggle=\"tooltip\" data-placement=\"left\" ttitle=\"This estimate applies only to expedited shipping methods, Next Day Air or Second Day Air.\"></span>"
+  ],
+  "specifications": [
+    {
+      "name": "California Proposition 65 Warning",
+      "value": "This product can expose you to chemical which is known to the State of California to cause cancer and birth defects or other reproductive harm. For more information, go to www.P65Warnings.ca.gov."
+    }
+  ],
+  "part_interchanges": []
+}

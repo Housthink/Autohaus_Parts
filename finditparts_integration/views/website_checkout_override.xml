@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Hardcoded pickup UI + hide default edit messages -->
+    <template id="finditparts_checkout_address_presets" inherit_id="website_sale.address">
+
+        <!-- Hide default "Edit address" title and warning alert -->
+        <xpath expr="//h4[contains(@class,'mb-3')]" position="attributes">
+            <attribute name="style">display:none!important;</attribute>
+        </xpath>
+        <xpath expr="//div[contains(@class,'alert-warning')]" position="attributes">
+            <attribute name="style">display:none!important;</attribute>
+        </xpath>
+
+        <!-- Insert selector before the native form -->
+        <xpath expr="//form[contains(@action,'/shop/address')]|//form[@id='address_form']" position="before">
+            <t t-set="sale_order" t-value="request.session.get('sale_order_id') and request.env['sale.order'].sudo().browse(request.session.get('sale_order_id')) or False"/>
+            <t t-set="fip_config" t-value="request.env['finditparts.config'].sudo().search([('active','=',True)], limit=1)"/>
+            <t t-set="fip_addr_usa" t-value="fip_config and fip_config.shipping_address_usa or 'Address example #123'"/>
+            <t t-set="fip_addr_pa" t-value="fip_config and fip_config.shipping_address_panama or 'Address example #123'"/>
+
+            <div class="o_wsale_preset_addresses mb-4">
+                <h4 class="mb-3">Choose your pickup point</h4>
+                <p class="text-muted mb-3">
+                    Select the warehouse where we will route your order.
+                </p>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-2 border-secondary-subtle" data-warehouse-card="usa">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="fs-3 me-2">🇺🇸</span>
+                                    <h5 class="mb-0">USA Warehouse</h5>
+                                </div>
+                                <p class="text-muted small mb-3">Pickup/ship via our USA hub.</p>
+                                <div class="small text-body mb-3" t-esc="fip_addr_usa"/>
+                                <button type="button" class="btn btn-outline-secondary w-100 btn-warehouse" data-warehouse="usa">Pickup in USA</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 border-2 border-secondary-subtle" data-warehouse-card="panama">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="fs-3 me-2">🇵🇦</span>
+                                    <h5 class="mb-0">Panama Warehouse</h5>
+                                </div>
+                                <p class="text-muted small mb-3">Pickup/ship via our Panama hub.</p>
+                                <div class="small text-body mb-3" t-esc="fip_addr_pa"/>
+                                <button type="button" class="btn btn-outline-secondary w-100 btn-warehouse" data-warehouse="panama">Pickup in Panama</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info small mb-3">
+                    We currently don't ship to home addresses. If you want to share your address, contact us to check if we can arrange it.
+                </div>
+            </div>
+        </xpath>
+
+        <!-- Hidden field to send the selected warehouse -->
+        <xpath expr="//form[contains(@action,'/shop/address')]|//form[@id='address_form']" position="inside">
+            <t t-set="sale_order" t-value="sale_order or (request.session.get('sale_order_id') and request.env['sale.order'].sudo().browse(request.session.get('sale_order_id')) or False)"/>
+            <input type="hidden" name="warehouse_selection" t-att-value="sale_order and sale_order.pickup_warehouse or ''"/>
+        </xpath>
+
+        <!-- Small style + JS to toggle selection and set the hidden field -->
+        <xpath expr="//form[contains(@action,'/shop/address')]|//form[@id='address_form']" position="after">
+            <style>
+                .o_wsale_preset_addresses .card.is-selected {
+                    border-color: #198754 !important;
+                    box-shadow: 0 0 0 2px rgba(25,135,84,0.12);
+                }
+                .o_wsale_preset_addresses .btn-warehouse.btn-outline-secondary {
+                    background: #f7f2ec;
+                    border-color: #e6e1da;
+                    color: #3c3c3c;
+                }
+                .o_wsale_preset_addresses .btn-warehouse.btn-success {
+                    color: #fff;
+                }
+            </style>
+            <script>
+                (function() {
+                    const form = document.querySelector('form[action*="/shop/address"], #address_form');
+                    if (!form) return;
+                    let hidden = form.querySelector('input[name="warehouse_selection"]');
+                    if (!hidden) {
+                        hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = 'warehouse_selection';
+                        form.appendChild(hidden);
+                    }
+
+                    const cards = document.querySelectorAll('.o_wsale_preset_addresses [data-warehouse-card]');
+                    const buttons = document.querySelectorAll('.o_wsale_preset_addresses button[data-warehouse]');
+
+                    const selectWarehouse = (code) => {
+                        hidden.value = code;
+                        // persist immediately so it survives confirm without form re-save
+                        try {
+                            fetch('/shop/pickup/set', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({ warehouse: code }),
+                            }).catch(() => {});
+                        } catch (e) {}
+                        const nameInput = form.querySelector('input[name="name"]');
+                        const warehouseName = code === 'usa' ? 'USA Warehouse' : 'Panama Warehouse';
+                        if (nameInput) {
+                            const currentName = (nameInput.value || '').trim();
+                            if (!currentName || currentName === 'USA Warehouse' || currentName === 'Panama Warehouse' || currentName === 'Warehouse Pickup' || currentName === 'Public user') {
+                                nameInput.value = warehouseName;
+                            }
+                        }
+                        cards.forEach(card => {
+                            card.classList.toggle('is-selected', card.dataset.warehouseCard === code);
+                        });
+                        buttons.forEach(btn => {
+                            if (btn.dataset.warehouse === code) {
+                                btn.classList.remove('btn-outline-secondary');
+                                btn.classList.add('btn-success');
+                            } else {
+                                btn.classList.add('btn-outline-secondary');
+                                btn.classList.remove('btn-success');
+                            }
+                        });
+                    };
+
+                    buttons.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            selectWarehouse(btn.dataset.warehouse);
+                        });
+                    });
+                    // Preselect if value exists (from sale order), default to USA
+                    const initial = hidden.value || 'usa';
+                    selectWarehouse(initial);
+                })();
+            </script>
+        </xpath>
+
+    </template>
+
+    <!-- Checkout step: hide delivery method + billing address, add note before delivery address -->
+    <template id="finditparts_checkout_hide_delivery_billing" inherit_id="website_sale.checkout">
+        <xpath expr="//div[@id='shop_checkout']" position="after">
+            <t t-set="sale_order" t-value="request.session.get('sale_order_id') and request.env['sale.order'].sudo().browse(request.session.get('sale_order_id')) or False"/>
+            <div id="pickup_meta" t-att-data-pickup="sale_order and sale_order.pickup_warehouse or ''" style="display:none;"></div>
+            <style>
+                #o_delivery_form { display: none !important; }
+                #billing_address_list { display: none !important; }
+                .o_note_warehouse { display: none !important; }
+                .pickup-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 4px 10px;
+                    border-radius: 999px;
+                    background: #e0f3e6;
+                    border: 1px solid #0f5132;
+                    color: #0f5132;
+                    font-size: 0.92rem;
+                    font-weight: 700;
+                }
+            </style>
+            <script>
+                <![CDATA[
+                (function() {
+                    const pickupMeta = document.getElementById('pickup_meta');
+                    const pickupCode = pickupMeta ? pickupMeta.dataset.pickup : '';
+                    const pickupLabel = pickupCode === 'panama'
+                        ? 'Panama Warehouse'
+                        : pickupCode === 'usa'
+                            ? 'USA Warehouse'
+                            : '';
+                    if (!pickupLabel) return;
+
+                    // Remove any previous note if present
+                    document.querySelectorAll('.o_note_warehouse').forEach(el => el.remove());
+
+                    // Inject badge inside each delivery address card
+                    const cards = document.querySelectorAll('#delivery_address_list [name="address_card"] .card-body');
+                    const flag = pickupCode === 'panama' ? '🇵🇦' : '🇺🇸';
+                    cards.forEach(body => {
+                        if (body.querySelector('.pickup-badge')) return;
+                        const badge = document.createElement('div');
+                        badge.className = 'pickup-badge mb-1';
+                        badge.innerHTML = `<span>${flag}</span><span>${pickupLabel}</span>`;
+                        body.insertBefore(badge, body.firstChild);
+                    });
+                })();
+                ]]>
+            </script>
+        </xpath>
+    </template>
+</odoo>

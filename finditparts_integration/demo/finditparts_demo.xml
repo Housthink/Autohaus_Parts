@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo data for FinditParts integration -->
+        
+        <!-- Demo FinditParts Configuration -->
+        <record id="demo_finditparts_config" model="finditparts.config">
+            <field name="name">Demo FinditParts Configuration</field>
+            <field name="api_base_url">https://api.finditparts.com/v1</field>
+            <field name="jwt_issuer">demo_issuer</field>
+            <field name="jwt_secret">demo_secret_key_for_testing_only</field>
+            <field name="jwt_audience">demo_audience</field>
+            <field name="auto_create_products">True</field>
+            <field name="default_warehouse_id" ref="stock.warehouse0"/>
+            <field name="active">False</field>
+        </record>
+        
+        <!-- Demo FinditParts Products -->
+        <record id="demo_finditparts_product_oil_filter" model="finditparts.product">
+            <field name="name">Demo Oil Filter - LF3970</field>
+            <field name="finditparts_id">demo_12345</field>
+            <field name="part_number">LF3970</field>
+            <field name="brand">Demo Brand</field>
+            <field name="category">Filters</field>
+            <field name="subcategory">Oil Filters</field>
+            <field name="description">Demo Oil Filter for diesel engines</field>
+            <field name="specifications">Demo specifications for oil filter</field>
+            <field name="compatibility_info">Compatible with demo engines</field>
+            <field name="api_price">25.99</field>
+            <field name="api_stock_quantity">50</field>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="active">True</field>
+        </record>
+        
+        <record id="demo_finditparts_product_air_filter" model="finditparts.product">
+            <field name="name">Demo Air Filter - AF25454</field>
+            <field name="finditparts_id">demo_12346</field>
+            <field name="part_number">AF25454</field>
+            <field name="brand">Demo Brand</field>
+            <field name="category">Filters</field>
+            <field name="subcategory">Air Filters</field>
+            <field name="description">Demo Air Filter for diesel engines</field>
+            <field name="specifications">Demo specifications for air filter</field>
+            <field name="compatibility_info">Compatible with demo engines</field>
+            <field name="api_price">32.50</field>
+            <field name="api_stock_quantity">25</field>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="active">True</field>
+        </record>
+        
+        <!-- Demo Customer -->
+        <record id="demo_customer_finditparts" model="res.partner">
+            <field name="name">Demo FinditParts Customer</field>
+            <field name="is_company">False</field>
+            <field name="customer_rank">1</field>
+            <field name="email">demo@finditparts.com</field>
+            <field name="phone">+1-555-0123</field>
+            <field name="street">123 Demo Street</field>
+            <field name="city">Demo City</field>
+            <field name="zip">12345</field>
+            <field name="country_id" ref="base.us"/>
+        </record>
+        
+        <!-- Demo Order -->
+        <record id="demo_finditparts_order" model="finditparts.order">
+            <field name="reference">DEMO-FP-001</field>
+            <field name="finditparts_order_id">demo_order_12345</field>
+            <field name="customer_id" ref="demo_customer_finditparts"/>
+            <field name="state">delivered</field>
+            <field name="total_amount">58.49</field>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="tracking_number">DEMO123456789</field>
+        </record>
+        
+    </data>
+</odoo>

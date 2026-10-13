@@ -1,0 +1,9 @@
+{
+    "api_base_url": "https://www-build.finditparts.com",
+    "jwt_issuer": "autohaus-build",
+    "jwt_secret": "222b6c16-b54a-4ad6-a2c7-e43ba7c23060",
+    "jwt_audience": "https://api.finditparts.com",
+    "jwt_expiry_hours": 1,
+    "test_mode": false,
+    "timeout": 30
+}

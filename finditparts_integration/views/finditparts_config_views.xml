@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Configuration Form View -->
+        <record id="view_finditparts_config_form" model="ir.ui.view">
+            <field name="name">finditparts.config.form</field>
+            <field name="model">finditparts.config</field>
+            <field name="arch" type="xml">
+                <form string="FindinPart Configuration">
+                    <header>
+                        <button name="test_api_connection" string="Test Connection" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Configuration Name"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="API Configuration">
+                                <field name="api_base_url"/>
+                            </group>
+                            <group string="JWT Authentication">
+                                <field name="jwt_issuer"/>
+                                <field name="jwt_secret" password="True"/>
+                                <field name="jwt_audience"/>
+                                <field name="jwt_expiry_hours"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Sync Configuration">
+                                <field name="sync_interval_hours"/>
+                                <field name="last_sync_date"/>
+                                <field name="next_sync_date"/>
+                            </group>
+                            <group string="Product Configuration">
+                                <field name="default_category_id"/>
+                                <field name="default_warehouse_id"/>
+                                <field name="auto_create_products"/>
+                                <field name="auto_update_prices"/>
+                                <field name="auto_update_stock"/>
+                                <field name="auto_publish_website"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Contact Information">
+                                <field name="contact_email"/>
+                            </group>
+                            <group string="Pricing">
+                                <field name="price_margin_percent"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Shipping Addresses">
+                                <field name="shipping_address_usa" widget="text"/>
+                                <field name="shipping_address_panama" widget="text"/>
+                            </group>
+                            <group string="Order Configuration">
+                                <field name="auto_confirm_orders"/>
+                                <field name="default_payment_term_id"/>
+                            </group>
+                            <group string="Logging">
+                                <field name="enable_debug_logging"/>
+                                <field name="max_log_entries"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Configuration Tree View -->
+        <record id="view_finditparts_config_tree" model="ir.ui.view">
+            <field name="name">finditparts.config.tree</field>
+            <field name="model">finditparts.config</field>
+            <field name="arch" type="xml">
+                <list string="FindinPart Configurations">
+                    <field name="name"/>
+                    <field name="api_base_url"/>
+                    <field name="sync_interval_hours"/>
+                    <field name="last_sync_date"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- Configuration Action -->
+        <record id="action_finditparts_config" model="ir.actions.act_window">
+            <field name="name">FindinPart Configuration</field>
+            <field name="res_model">finditparts.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first FindinPart configuration!
+                </p>
+                <p>
+                    Configure your API credentials and settings to start integrating with FindinPart.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

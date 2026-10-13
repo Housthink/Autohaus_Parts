@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Mostrar mensaje y formulario de contacto cuando no hay stock -->
+    <template id="finditparts_product_stock_control" inherit_id="website_sale.product">
+        <!-- Mensaje y formulario cuando no hay stock -->
+        <xpath expr="//div[@id='product_details']" position="inside">
+            
+            <div t-if="not product.finditparts_has_stock" class="alert alert-warning mt-3 mb-3">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                <strong>Out of stock.</strong>
+                
+                <p class="mb-3 mt-2">This product is currently unavailable. Please leave your contact information and we'll get back to you:</p>
+                
+                <!-- Formulario de contacto -->
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Or leave your contact information:</h6>
+                        <form id="product_request_form" class="finditparts_request_form">
+                            <input type="hidden" name="product_id" t-att-value="product.id"/>
+                            
+                            <div class="mb-2">
+                                <input type="email" 
+                                       name="email" 
+                                       class="form-control" 
+                                       placeholder="Your email *" 
+                                       required="required"/>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <textarea name="message" 
+                                          class="form-control" 
+                                          rows="3" 
+                                          placeholder="Your message (optional)"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fa fa-paper-plane me-1"></i> Send Request
+                            </button>
+                            
+                            <div class="alert alert-success mt-2 d-none" id="request_success">
+                                <i class="fa fa-check me-1"></i> Thank you! We'll contact you soon.
+                            </div>
+                            
+                            <div class="alert alert-danger mt-2 d-none" id="request_error">
+                                <i class="fa fa-exclamation-circle me-1"></i> <span id="error_message">Error sending request.</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- JavaScript para manejar el formulario -->
+            <script t-if="not product.finditparts_has_stock">
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.getElementById('product_request_form');
+                    if (!form) return;
+                    
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const submitBtn = form.querySelector('button[type="submit"]');
+                        const successMsg = document.getElementById('request_success');
+                        const errorMsg = document.getElementById('request_error');
+                        const errorText = document.getElementById('error_message');
+                        
+                        // Hide previous messages
+                        successMsg.classList.add('d-none');
+                        errorMsg.classList.add('d-none');
+                        
+                        // Disable button
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Sending...';
+                        
+                        // Get form data
+                        const formData = new FormData(form);
+                        const data = {
+                            product_id: formData.get('product_id'),
+                            email: formData.get('email'),
+                            message: formData.get('message') || ''
+                        };
+                        
+                        // Send request
+                        fetch('/shop/product/request_availability', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                jsonrpc: '2.0',
+                                method: 'call',
+                                params: data
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.result &amp;&amp; result.result.success) {
+                                successMsg.classList.remove('d-none');
+                                form.reset();
+                            } else {
+                                errorText.textContent = result.result?.error || 'Error sending request.';
+                                errorMsg.classList.remove('d-none');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            errorText.textContent = 'Network error. Please try again.';
+                            errorMsg.classList.remove('d-none');
+                        })
+                        .finally(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Send Request';
+                        });
+                    });
+                });
+            </script>
+            
+            <!-- CSS para ocultar toda la sección de compra cuando no hay stock -->
+            <style t-if="not product.finditparts_has_stock">
+                /* Ocultar toda la sección de CTA (botón, cantidad, términos) */
+                .o_wsale_product_details_content_section_cta {
+                    display: none !important;
+                }
+                /* Ocultar el precio del producto */
+                .product_price, .o_wsale_price, [itemprop="price"], [itemprop="offers"] {
+                    display: none !important;
+                }
+            </style>
+        </xpath>
+    </template>
+</odoo>

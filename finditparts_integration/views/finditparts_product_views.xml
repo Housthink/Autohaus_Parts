@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- FinditParts Product Form View -->
+        <record id="finditparts_product_form" model="ir.ui.view">
+            <field name="name">finditparts.product.form</field>
+            <field name="model">finditparts.product</field>
+            <field name="arch" type="xml">
+                <form string="FinditParts Product">
+                    <sheet>
+                        <group>
+                            <group string="Product Information">
+                                <field name="sku"/>
+                                <field name="finditparts_id"/>
+                                <field name="name"/>
+                                <field name="brand"/>
+                                <field name="manufacturer"/>
+                                <field name="part_number"/>
+                            </group>
+                            <group string="Pricing">
+                                <field name="list_price"/>
+                                <field name="cost_price"/>
+                                <field name="api_price"/>
+                                <field name="api_cost"/>
+                                <field name="msrp_price"/>
+                                <field name="currency_id"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Stock Information">
+                                <field name="stock_quantity"/>
+                                <field name="stock_status"/>
+                                <field name="min_stock_level"/>
+                                <field name="max_stock_level"/>
+                            </group>
+                            <group string="Sync Information">
+                                <field name="sync_status"/>
+                                <field name="last_sync_date"/>
+                                <field name="next_sync_date"/>
+                                <field name="sync_errors"/>
+                                <field name="active"/>
+                                <field name="sellable"/>
+                                <field name="availability_message"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Description" name="description">
+                                <field name="description"/>
+                                <field name="long_description" widget="html"/>
+                            </page>
+                            
+                            <page string="Specifications" name="specifications">
+                                <field name="specifications"/>
+                                <group>
+                                    <group string="Dimensions">
+                                        <field name="weight"/>
+                                        <field name="length"/>
+                                        <field name="width"/>
+                                        <field name="height"/>
+                                    </group>
+                                    <group string="Media">
+                                        <field name="image_url"/>
+                                        <field name="datasheet_url"/>
+                                        <field name="video_url"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Compatibility" name="compatibility">
+                                <group>
+                                    <field name="compatible_models"/>
+                                    <field name="compatible_years"/>
+                                    <field name="compatible_makes"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- FinditParts Product List View -->
+        <record id="finditparts_product_list" model="ir.ui.view">
+            <field name="name">finditparts.product.list</field>
+            <field name="model">finditparts.product</field>
+            <field name="arch" type="xml">
+                <list string="FinditParts Products">
+                    <field name="sku"/>
+                    <field name="name"/>
+                    <field name="brand"/>
+                    <field name="part_number"/>
+                    <field name="list_price"/>
+                    <field name="sale_price_with_margin"/>
+                    <field name="stock_quantity"/>
+                    <field name="sellable"/>
+                    <field name="sync_status"/>
+                    <field name="last_sync_date"/>
+                    <field name="sync_errors"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- FinditParts Product Search View -->
+        <record id="finditparts_product_search" model="ir.ui.view">
+            <field name="name">finditparts.product.search</field>
+            <field name="model">finditparts.product</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="sku"/>
+                    <field name="name"/>
+                    <field name="brand"/>
+                    <field name="part_number"/>
+                    <field name="manufacturer"/>
+                    
+                    <filter string="In Stock" name="in_stock" domain="[('stock_status', '=', 'in_stock')]"/>
+                    <filter string="Low Stock" name="low_stock" domain="[('stock_status', '=', 'low_stock')]"/>
+                    <filter string="Out of Stock" name="out_of_stock" domain="[('stock_status', '=', 'out_of_stock')]"/>
+                    
+                    <separator/>
+                    <filter string="Synced" name="synced" domain="[('sync_status', '=', 'synced')]"/>
+                    <filter string="Pending Sync" name="pending" domain="[('sync_status', '=', 'pending')]"/>
+                    <filter string="Failed Sync" name="failed" domain="[('sync_status', '=', 'failed')]"/>
+                    
+                    <group>
+                        <filter string="Brand" name="group_by_brand" context="{'group_by': 'brand'}"/>
+                        <filter string="Stock Status" name="group_by_stock_status" context="{'group_by': 'stock_status'}"/>
+                        <filter string="Sync Status" name="group_by_sync_status" context="{'group_by': 'sync_status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- FinditParts Product Action -->
+        <record id="action_finditparts_product" model="ir.actions.act_window">
+            <field name="name">FinditParts Products</field>
+            <field name="res_model">finditparts.product</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No FinditParts products found!
+                </p>
+                <p>
+                    Products from FinditParts API will appear here once synchronized.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

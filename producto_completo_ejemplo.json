@@ -1,0 +1,639 @@
+{
+  "errno": 0,
+  "product": {
+    "id": 1062657,
+    "part_number": "LF3970",
+    "manufacturer": "FLEETGUARD",
+    "short_description": "Oil Filter - for Cummins ISB6.7 Engine, Spin-On",
+    "long_description": "Technical specifications Overall Height 176.78 mm (6.96 in) Largest Outside Diameter 93.47 mm (3.68 in) Seam Outside Diameter 93.22 mm (3.67 in) Gasket Outside Diameter 71.88 mm (2.83 in) Gasket Inside Diameter 62.48 mm (2.46 in) Thread Size 1 1/8-16 UN-2B Standpipe NO ADBV null BPV Setting 0 kPa (0 PSI) 30 Micron Efficiency, TWA 98.7 % (98.7 %) . Advanced filter media removes microscopic dirt particles that cause the most engine damage. Reduces engine wear by up to 60% in some applications. Removes up to three times the contaminants compared to full synthetic filters from other brands. Creates a low-pressure zone for oil to flow through the pleated media for increased efficiency. Spin-on configuration allows for easy removal and installation. Lube, Full-Flow Spin-On. Filter Media Material: StrataPore, Height: 6.96 in. (176.78 mm), Micron Rating: 98.7 percent at 30 Microns, Gasket Inside Diameter: 2.46 in. (62.48 mm), Gasket Outside Diameter: 2.83 in. (71.88 mm), Notes: Full-Flow Spin-On, Outside Diameter (Largest): 3.68 in. (93.47 mm), Seam Outside Diameter: 3.67 in. (93.22 mm), Standpipe: NO, Thread Size: 1 1/8-16 UN-2B, Largest Od: 93.47 mm, Overall Height: 6.96 in. Warranty Distance: 100000, Warranty Distance UOM: DH, Warranty Time: 1, Warranty Time UOM: YR, UPC: 00638217116841.",
+    "product_url": "https://www-build.finditparts.com/products/1062657/fleetguard-lf3970",
+    "product_images": [
+      {
+        "large": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDUvbGFyZ2UvMGVlZDY5Nzk3N2Y5MjM1NTdlYTg3ZWY4ODE2OGMyZmYuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=2fcc0248a487eb7e6011da5e0422b2351f9d9075991c13feedb07ae8b218306d",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjA1L2xhcmdlLzBlZWQ2OTc5NzdmOTIzNTU3ZWE4N2VmODgxNjhjMmZmLmpwZyIsInZlcnNpb24iOjJ9.webp?s=ac6ad3a302ea1e58434ae1c97f3611847ad4a39a2876975964a5e01a4e325de1"
+        },
+        "product": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDUvcHJvZHVjdC8wZWVkNjk3OTc3ZjkyMzU1N2VhODdlZjg4MTY4YzJmZi5qcGciLCJ2ZXJzaW9uIjoyfQ==.jpg?s=1f2452e566a7454f8307bc0550209888c11b01def692308465fdc28c8d6197b5",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjA1L3Byb2R1Y3QvMGVlZDY5Nzk3N2Y5MjM1NTdlYTg3ZWY4ODE2OGMyZmYuanBnIiwidmVyc2lvbiI6Mn0=.webp?s=a8907bab64f837269beb433f4ad97f64978793eec5baa70248be29b4c33f7d37"
+        },
+        "medium": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDUvbWVkaXVtLzBlZWQ2OTc5NzdmOTIzNTU3ZWE4N2VmODgxNjhjMmZmLmpwZyIsInZlcnNpb24iOjJ9.jpg?s=0719b3a3c1a69c9d3b59ef1704b853fcce77958af8909f6b220f90a14d76a8ae",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjA1L21lZGl1bS8wZWVkNjk3OTc3ZjkyMzU1N2VhODdlZjg4MTY4YzJmZi5qcGciLCJ2ZXJzaW9uIjoyfQ==.webp?s=9cd592d159567e0274a902c21bd4e6c882520d910b29e1e34fdbcb71f32d6e58"
+        },
+        "small": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDUvc21hbGwvMGVlZDY5Nzk3N2Y5MjM1NTdlYTg3ZWY4ODE2OGMyZmYuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=204e2aa7633cfa1ecf11bd2e6fe54f082707ecb1e4403ea83895023f15ecf805",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjA1L3NtYWxsLzBlZWQ2OTc5NzdmOTIzNTU3ZWE4N2VmODgxNjhjMmZmLmpwZyIsInZlcnNpb24iOjJ9.webp?s=9ea8968f578c80d117725e476e9ba31e94e3deb1adb1ba7320b1fe781f2e5f9a"
+        }
+      },
+      {
+        "large": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4MzkvbGFyZ2UvM2FlMDM4ODgxNmI2NjE3YjJlNDE5Yjg3ZTZmOTI4YjYuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=48dffb069328d18330e26a31cad780b8993a8b16fe730ead7e69c9953e527277",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODM5L2xhcmdlLzNhZTAzODg4MTZiNjYxN2IyZTQxOWI4N2U2ZjkyOGI2LmpwZyIsInZlcnNpb24iOjJ9.webp?s=d6ef87d832339189d58f0e152cea00688f6da38407a1e901b6365d6e3e4f7d7e"
+        },
+        "product": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4MzkvcHJvZHVjdC8zYWUwMzg4ODE2YjY2MTdiMmU0MTliODdlNmY5MjhiNi5qcGciLCJ2ZXJzaW9uIjoyfQ==.jpg?s=6b3820490c7e96e4f6e84830826d237f86ba7440ee6e919a2fe1fdc18137eb44",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODM5L3Byb2R1Y3QvM2FlMDM4ODgxNmI2NjE3YjJlNDE5Yjg3ZTZmOTI4YjYuanBnIiwidmVyc2lvbiI6Mn0=.webp?s=b26ce0a22564334eaa0db94322a26cc48dd1ce8471dc70e97cce354b9141ac7f"
+        },
+        "medium": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4MzkvbWVkaXVtLzNhZTAzODg4MTZiNjYxN2IyZTQxOWI4N2U2ZjkyOGI2LmpwZyIsInZlcnNpb24iOjJ9.jpg?s=4c7ecd4634bd33ff16e97aaa23d8e10aa59d6c5e311f93e2eca00fcc39a8cf51",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODM5L21lZGl1bS8zYWUwMzg4ODE2YjY2MTdiMmU0MTliODdlNmY5MjhiNi5qcGciLCJ2ZXJzaW9uIjoyfQ==.webp?s=79623da592b84323a4aaffeabc81f85c9b60bd6de28454756d5f0e36e0df2b70"
+        },
+        "small": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4Mzkvc21hbGwvM2FlMDM4ODgxNmI2NjE3YjJlNDE5Yjg3ZTZmOTI4YjYuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=57b94c1c00d1b0a2e79cfc9b11e20dac47673529800ad44bf24a21590b5fa319",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODM5L3NtYWxsLzNhZTAzODg4MTZiNjYxN2IyZTQxOWI4N2U2ZjkyOGI2LmpwZyIsInZlcnNpb24iOjJ9.webp?s=e6d7a24227b0c577828f99681ef57c3819b1c668e3a66cf1e310b2fdc562bccc"
+        }
+      },
+      {
+        "large": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4NDAvbGFyZ2UvZmI5NDYxMTM2MjNkM2Y0NTk4OTQzMTcwNDkzYjg1NmIuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=51ccdb56a7f8daa58483d701754dc5d2bbaffdfb456463edb000303ff17b8a93",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODQwL2xhcmdlL2ZiOTQ2MTEzNjIzZDNmNDU5ODk0MzE3MDQ5M2I4NTZiLmpwZyIsInZlcnNpb24iOjJ9.webp?s=26dd0f4c648677841a05fce79514bd5a89af5c587064922c6979fca2a5c43a99"
+        },
+        "product": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4NDAvcHJvZHVjdC9mYjk0NjExMzYyM2QzZjQ1OTg5NDMxNzA0OTNiODU2Yi5qcGciLCJ2ZXJzaW9uIjoyfQ==.jpg?s=f434a7a0b3245b4b5a785c8076195c2d4794991e9ef07e619512e231a6b0d592",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODQwL3Byb2R1Y3QvZmI5NDYxMTM2MjNkM2Y0NTk4OTQzMTcwNDkzYjg1NmIuanBnIiwidmVyc2lvbiI6Mn0=.webp?s=ec40bf6c866791b7dafca4fdb027a3e5b0bc20c4ff15829ea0ff979b15e2481a"
+        },
+        "medium": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4NDAvbWVkaXVtL2ZiOTQ2MTEzNjIzZDNmNDU5ODk0MzE3MDQ5M2I4NTZiLmpwZyIsInZlcnNpb24iOjJ9.jpg?s=504b0eef7e0fb292b51d386e11203412e1d13ddcca17f7e0a167bf3beaa39e5f",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODQwL21lZGl1bS9mYjk0NjExMzYyM2QzZjQ1OTg5NDMxNzA0OTNiODU2Yi5qcGciLCJ2ZXJzaW9uIjoyfQ==.webp?s=2857aafebf9374b5bd2ff49ba24cc1ab69198aaa5cfee22f14a3e2fa0ecd1cd2"
+        },
+        "small": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzc0NDk4NDAvc21hbGwvZmI5NDYxMTM2MjNkM2Y0NTk4OTQzMTcwNDkzYjg1NmIuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=e5299fe30e42f0456d1d8c815c8112ed3212bc9abae1ad92a20d42a3efc62efa",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy83NDQ5ODQwL3NtYWxsL2ZiOTQ2MTEzNjIzZDNmNDU5ODk0MzE3MDQ5M2I4NTZiLmpwZyIsInZlcnNpb24iOjJ9.webp?s=f4aca707dcbcdadb3ed0872993b3ad32f9bdc7366bc0b163989e9f647a848561"
+        }
+      },
+      {
+        "large": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDMvbGFyZ2UvY2U5OTYyOTU1ZDA4ZDYyOWFlYzk4ZTc5OGY4ODg1MGIuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=75de9bd796f85b4299258f822331e74c3b98d734114f70aed6397d00bdf57d71",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjAzL2xhcmdlL2NlOTk2Mjk1NWQwOGQ2MjlhZWM5OGU3OThmODg4NTBiLmpwZyIsInZlcnNpb24iOjJ9.webp?s=8a698a9987e507f30b0b7b83def003986c6d23c078997d5522c8b678e89ec66d"
+        },
+        "product": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDMvcHJvZHVjdC9jZTk5NjI5NTVkMDhkNjI5YWVjOThlNzk4Zjg4ODUwYi5qcGciLCJ2ZXJzaW9uIjoyfQ==.jpg?s=2af95451c8098d65a9da6a73af5b77fe7321a998b28b6aff594d819376f70af0",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjAzL3Byb2R1Y3QvY2U5OTYyOTU1ZDA4ZDYyOWFlYzk4ZTc5OGY4ODg1MGIuanBnIiwidmVyc2lvbiI6Mn0=.webp?s=60463b16f30916bfa8faa4fb4c075b5782283183bf45a5bab0d487c1d29b2396"
+        },
+        "medium": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDMvbWVkaXVtL2NlOTk2Mjk1NWQwOGQ2MjlhZWM5OGU3OThmODg4NTBiLmpwZyIsInZlcnNpb24iOjJ9.jpg?s=5dfeda192840f15e658b7d88cfc16e2d5badc9e199209a65600c82ad3a42e81a",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjAzL21lZGl1bS9jZTk5NjI5NTVkMDhkNjI5YWVjOThlNzk4Zjg4ODUwYi5qcGciLCJ2ZXJzaW9uIjoyfQ==.webp?s=32cc50edacac740652fbefa6da37efa4aae84f00bfbaf3d012940b0416822105"
+        },
+        "small": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvaW1hZ2VzLzIxNjIyMDMvc21hbGwvY2U5OTYyOTU1ZDA4ZDYyOWFlYzk4ZTc5OGY4ODg1MGIuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=ac1d33c4bd283b5d0f5022e6d8f9e921f23d27abead2a6e710d184398b3e3eb6",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL2ltYWdlcy8yMTYyMjAzL3NtYWxsL2NlOTk2Mjk1NWQwOGQ2MjlhZWM5OGU3OThmODg4NTBiLmpwZyIsInZlcnNpb24iOjJ9.webp?s=5ca891050a56ef264870115bfc9a385fefb05cf74db819d31a025f216b4203ff"
+        }
+      }
+    ],
+    "manufacturer_image": "https://cdn-dyn.finditparts.com/assets/taxons/237/medium/logo_fleetguard_small.jpg",
+    "purchase_notes": [
+      {
+        "type": "RETURNS",
+        "html_message": "<span class=\"glyphicon glyphicon-refresh shipping_message_icon\"></span><span><b>New!</b> No hassle Return Policy <a class=\"small details-link\" onclick=\"window.dataLayer &amp;&amp; dataLayer.push({&#39;event&#39;: &#39;pdp_no_hassle_returns&#39;}); return false;\" data-remote=\"true\" href=\"https://www-build.finditparts.com/no_hassle_returns\">details</a></span>"
+      },
+      {
+        "type": "SHIPPING_MESSAGE",
+        "html_message": "<span class=\"glyphicon glyphicon-ok shipping_message_icon--ok\"></span> <span><b>Free Economy shipping</b> on orders over $499 <a class=\"small details-link\" data-remote=\"true\" href=\"https://www-build.finditparts.com/free_shipping_eligibility_rules\">details</a></span>"
+      },
+      {
+        "type": "SHIPPING_CUTOFF",
+        "html_message": "<span class=\"glyphicon glyphicon-flash shipping_message_icon\"></span> <span>Orders placed before <em> 2pm EST</em> will ship <strong>same day</strong></span>"
+      },
+      {
+        "type": "SHIPPING_PROMISE",
+        "html_message": "<span class=\"glyphicon glyphicon-calendar shipping_message_icon\"></span><span><span>Get it by </span><strong class=\"green text-[#007600]\">Monday, Sep 15</strong></span><span class=\"glyphicon glyphicon-info-sign\" style=\"margin-left: 4px; top: 0px;\" data-toggle=\"tooltip\" data-placement=\"left\" ttitle=\"This estimate applies only to expedited shipping methods, Next Day Air or Second Day Air.\"></span>"
+      }
+    ],
+    "condition": "new",
+    "sellable": true,
+    "msrp": 29.17,
+    "breadcrumbs_ancestors": [
+      {
+        "id": 1,
+        "name": "Categories",
+        "is_hidden": false,
+        "permalink": "categories/"
+      },
+      {
+        "id": 18600,
+        "name": "Heavy Duty Truck",
+        "is_hidden": false,
+        "permalink": "categories/heavy-duty-truck/"
+      },
+      {
+        "id": 15,
+        "name": "Filters",
+        "is_hidden": false,
+        "permalink": "categories/heavy-duty-truck/filters/"
+      },
+      {
+        "id": 138,
+        "name": "Lube Filters",
+        "is_hidden": false,
+        "permalink": "categories/heavy-duty-truck/filters/lube-filters/"
+      }
+    ],
+    "current_variant": {
+      "id": 24036436,
+      "variant_id": 24036436,
+      "product_id": 1062657,
+      "price": "18.99",
+      "amount": "18.99",
+      "quantity": 349,
+      "pack_quantity": 1,
+      "minimum": 1,
+      "core_price": "0.0",
+      "verified": true,
+      "location": "CA",
+      "timezone": "America/Los_Angeles",
+      "cutoff": "2025-09-08T11:00:00-07:00",
+      "past_cutoff": true,
+      "estimated_business_days_to_ship": 1,
+      "estimated_ship_date": "2025-09-09T23:59:59-07:00",
+      "estimated_days_to_deliver": 5,
+      "estimated_delivery_date_ground": "2025-09-15T23:59:59-07:00",
+      "distance_miles": null,
+      "account_price": "18.99",
+      "on_hand": 349,
+      "verified_at": "2026-04-03T11:07:41-07:00",
+      "cost": "11.69",
+      "core_cost": "0.0",
+      "vendor_id": 443,
+      "vendor_name": "Velocity Truck Centers",
+      "lead_time": 0,
+      "lister_id": 411,
+      "lister_name": "Velocity Truck Centers",
+      "lister_zipcode": "90060"
+    },
+    "preferred_variant_id": 24036436,
+    "variants": [
+      {
+        "id": 24036436,
+        "variant_id": 24036436,
+        "product_id": 1062657,
+        "price": "18.99",
+        "amount": "18.99",
+        "quantity": 349,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "0.0",
+        "verified": true,
+        "location": "CA",
+        "timezone": "America/Los_Angeles",
+        "cutoff": "2025-09-08T11:00:00-07:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-07:00",
+        "estimated_days_to_deliver": 5,
+        "estimated_delivery_date_ground": "2025-09-15T23:59:59-07:00",
+        "distance_miles": null,
+        "account_price": "18.99"
+      },
+      {
+        "id": 56966364,
+        "variant_id": 56966364,
+        "product_id": 1062657,
+        "price": "26.49",
+        "amount": "26.49",
+        "quantity": 157,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "0.0",
+        "verified": false,
+        "location": "TX",
+        "timezone": "America/Chicago",
+        "cutoff": "2025-09-08T13:00:00-05:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-05:00",
+        "estimated_days_to_deliver": 3,
+        "estimated_delivery_date_ground": "2025-09-11T23:59:59-05:00",
+        "distance_miles": null,
+        "account_price": "26.49"
+      },
+      {
+        "id": 56959472,
+        "variant_id": 56959472,
+        "product_id": 1062657,
+        "price": "26.49",
+        "amount": "26.49",
+        "quantity": 101,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "0.0",
+        "verified": false,
+        "location": "TX",
+        "timezone": "America/Chicago",
+        "cutoff": "2025-09-08T13:00:00-05:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-05:00",
+        "estimated_days_to_deliver": 3,
+        "estimated_delivery_date_ground": "2025-09-11T23:59:59-05:00",
+        "distance_miles": null,
+        "account_price": "26.49"
+      },
+      {
+        "id": 56963431,
+        "variant_id": 56963431,
+        "product_id": 1062657,
+        "price": "26.49",
+        "amount": "26.49",
+        "quantity": 77,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "0.0",
+        "verified": false,
+        "location": "TX",
+        "timezone": "America/Chicago",
+        "cutoff": "2025-09-08T13:00:00-05:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-05:00",
+        "estimated_days_to_deliver": 3,
+        "estimated_delivery_date_ground": "2025-09-11T23:59:59-05:00",
+        "distance_miles": null,
+        "account_price": "26.49"
+      },
+      {
+        "id": 150047963,
+        "variant_id": 150047963,
+        "product_id": 1062657,
+        "price": "30.49",
+        "amount": "30.49",
+        "quantity": 492,
+        "pack_quantity": 1,
+        "minimum": 12,
+        "core_price": "0.0",
+        "verified": false,
+        "location": "TN",
+        "timezone": "America/Chicago",
+        "cutoff": "2025-09-08T13:00:00-05:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-05:00",
+        "estimated_days_to_deliver": 3,
+        "estimated_delivery_date_ground": "2025-09-11T23:59:59-05:00",
+        "distance_miles": null,
+        "account_price": "30.49"
+      }
+    ],
+    "weight": "1.29",
+    "recommendations_url": "https://48drxsgfff.execute-api.us-east-1.amazonaws.com/dev/product_recommendations?payload=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOm51bGwsInNlc3Npb25JZCI6IjAxSzRORlNGN1BQODY4MDlLUzVaVzdCWTNDIiwiZXZlbnRUeXBlIjoidmlldyIsImV4cCI6MTc1NzM2NDYzMCwicHJvZHVjdElkIjoxMDYyNjU3LCJudW1SZXN1bHRzIjo4LCJyZWNvbW1lbmRhdGlvblR5cGUiOiJSRUxBVEVEX0lURU1TIn0.TbDgLRYuwOsPAGQpFeyR-zmJt1OQXHg28uHQVnDzo30",
+    "product_review_count": null,
+    "product_review_rating": null,
+    "product_reviews": [],
+    "pies_data": {
+      "descriptions": [
+        {
+          "title": "Product Description",
+          "description_code": "DES",
+          "language_code": "EN",
+          "value": "Lube, Full-Flow Spin-On",
+          "sequence": null
+        },
+        {
+          "title": "Product Description - Extended",
+          "description_code": "EXT",
+          "language_code": "EN",
+          "value": "Engine Oil Filter - 6.96 in. Height, 3.68 in. (Largest OD), Cummins 3937736",
+          "sequence": null
+        }
+      ],
+      "product_attributes": [
+        {
+          "name": "Filter Media Material",
+          "value": "StrataPore"
+        },
+        {
+          "name": "Height",
+          "value": "6.96 in. (176.78 mm)"
+        },
+        {
+          "name": "Micron Rating",
+          "value": "98.7 percent at 30 Microns"
+        },
+        {
+          "name": "Gasket Inside Diameter",
+          "value": "2.46 in. (62.48 mm)"
+        },
+        {
+          "name": "Gasket Outside Diameter",
+          "value": "2.83 in. (71.88 mm)"
+        },
+        {
+          "name": "Notes",
+          "value": "Full-Flow Spin-On"
+        },
+        {
+          "name": "Outside Diameter (Largest)",
+          "value": "3.68 in. (93.47 mm)"
+        },
+        {
+          "name": "Seam Outside Diameter",
+          "value": "3.67 in. (93.22 mm)"
+        },
+        {
+          "name": "Standpipe",
+          "value": "false"
+        },
+        {
+          "name": "Thread Size",
+          "value": "1 1/8-16 UN-2B"
+        },
+        {
+          "name": "Largest Od",
+          "value": "93.47 mm"
+        },
+        {
+          "name": "Overall Height",
+          "value": "6.96 in"
+        }
+      ],
+      "extended_product_informations": [
+        {
+          "description": "Warranty Distance",
+          "value": "100000",
+          "expi_code": "WD1",
+          "language_code": "EN"
+        },
+        {
+          "description": "Warranty Distance UOM",
+          "value": "DH",
+          "expi_code": "WD2",
+          "language_code": "EN"
+        },
+        {
+          "description": "Warranty Time",
+          "value": "1",
+          "expi_code": "WT1",
+          "language_code": "EN"
+        },
+        {
+          "description": "Warranty Time UOM",
+          "value": "YR",
+          "expi_code": "WT2",
+          "language_code": "EN"
+        }
+      ],
+      "part_interchanges": [
+        {
+          "brand_aaiaid": "BFDG",
+          "brand_label": "Baldwin",
+          "part_number": "B7177"
+        },
+        {
+          "brand_aaiaid": "CBXQ",
+          "brand_label": "Cummins",
+          "part_number": "3937736"
+        },
+        {
+          "brand_aaiaid": "CBXQ",
+          "brand_label": "Cummins",
+          "part_number": "5404947"
+        },
+        {
+          "brand_aaiaid": "CPCF",
+          "brand_label": "Volvo",
+          "part_number": "14406393"
+        },
+        {
+          "brand_aaiaid": "BBNQ",
+          "brand_label": "Donaldson",
+          "part_number": "P550428"
+        },
+        {
+          "brand_aaiaid": "BBNQ",
+          "brand_label": "Donaldson",
+          "part_number": "P551019"
+        },
+        {
+          "brand_aaiaid": "BBTS",
+          "brand_label": "Hastings",
+          "part_number": "LF551"
+        },
+        {
+          "brand_aaiaid": "BCWZ",
+          "brand_label": "FRAM",
+          "part_number": "PH8942"
+        },
+        {
+          "brand_aaiaid": "BCXQ",
+          "brand_label": "Kralinator",
+          "part_number": "L349"
+        },
+        {
+          "brand_aaiaid": "BDCS",
+          "brand_label": "Wix",
+          "part_number": "57028"
+        },
+        {
+          "brand_aaiaid": "BDCS",
+          "brand_label": "Wix",
+          "part_number": "57182"
+        },
+        {
+          "brand_aaiaid": "BDLB",
+          "brand_label": "Big A",
+          "part_number": "91028"
+        },
+        {
+          "brand_aaiaid": "BFDG",
+          "brand_label": "Baldwin",
+          "part_number": "BK6031"
+        },
+        {
+          "brand_aaiaid": "BFKC",
+          "brand_label": "LUBER-FINER",
+          "part_number": "LFP3729"
+        },
+        {
+          "brand_aaiaid": "BFKC",
+          "brand_label": "LUBER-FINER",
+          "part_number": "LFP3970"
+        },
+        {
+          "brand_aaiaid": "BFVT",
+          "brand_label": "CARQUEST",
+          "part_number": "84028"
+        },
+        {
+          "brand_aaiaid": "BFVT",
+          "brand_label": "CARQUEST",
+          "part_number": "84182"
+        },
+        {
+          "brand_aaiaid": "BKNC",
+          "brand_label": "Mann-Filter",
+          "part_number": "W951"
+        },
+        {
+          "brand_aaiaid": "BMJT",
+          "brand_label": "AGCO",
+          "part_number": "509249D1"
+        },
+        {
+          "brand_aaiaid": "BMJT",
+          "brand_label": "AGCO",
+          "part_number": "702619A1"
+        },
+        {
+          "brand_aaiaid": "BSKS",
+          "brand_label": "Blount",
+          "part_number": "30010252"
+        },
+        {
+          "brand_aaiaid": "BVSC",
+          "brand_label": "Case",
+          "part_number": "71101552"
+        },
+        {
+          "brand_aaiaid": "BVSC",
+          "brand_label": "Case",
+          "part_number": "J937736"
+        },
+        {
+          "brand_aaiaid": "BVSC",
+          "brand_label": "Case",
+          "part_number": "J942365"
+        },
+        {
+          "brand_aaiaid": "CBBX",
+          "brand_label": "Consolidated Diesel",
+          "part_number": "3942365"
+        },
+        {
+          "brand_aaiaid": "CBXQ",
+          "brand_label": "Cummins",
+          "part_number": "3937144"
+        },
+        {
+          "brand_aaiaid": "CBXQ",
+          "brand_label": "Cummins",
+          "part_number": "3942365"
+        },
+        {
+          "brand_aaiaid": "CBXQ",
+          "brand_label": "Cummins",
+          "part_number": "5296733"
+        },
+        {
+          "brand_aaiaid": "CBXQ",
+          "brand_label": "Cummins",
+          "part_number": "A041C694"
+        },
+        {
+          "brand_aaiaid": "CPBP",
+          "brand_label": "Hyundai",
+          "part_number": "11N870110"
+        },
+        {
+          "brand_aaiaid": "CPBP",
+          "brand_label": "Hyundai",
+          "part_number": "11N870110PB"
+        },
+        {
+          "brand_aaiaid": "CPCF",
+          "brand_label": "Volvo",
+          "part_number": "43919927"
+        },
+        {
+          "brand_aaiaid": "CPGQ",
+          "brand_label": "Hyster",
+          "part_number": "1524551"
+        },
+        {
+          "brand_aaiaid": "DFFN",
+          "brand_label": "Hagie",
+          "part_number": "316372"
+        },
+        {
+          "brand_aaiaid": "DFSB",
+          "brand_label": "JC Bamford",
+          "part_number": "32925413"
+        },
+        {
+          "brand_aaiaid": "DFVG",
+          "brand_label": "Kalmar",
+          "part_number": "9238290620"
+        },
+        {
+          "brand_aaiaid": "DGBC",
+          "brand_label": "Komatsu",
+          "part_number": "21U6011320"
+        },
+        {
+          "brand_aaiaid": "DGBC",
+          "brand_label": "Komatsu",
+          "part_number": "21U6011330"
+        },
+        {
+          "brand_aaiaid": "DGFF",
+          "brand_label": "Liebherr",
+          "part_number": "11691297"
+        },
+        {
+          "brand_aaiaid": "DGJN",
+          "brand_label": "Manitowoc",
+          "part_number": "9414101679"
+        },
+        {
+          "brand_aaiaid": "DHWG",
+          "brand_label": "Sakura",
+          "part_number": "C5708"
+        },
+        {
+          "brand_aaiaid": "DHXK",
+          "brand_label": "Schaeff",
+          "part_number": "5106030089"
+        },
+        {
+          "brand_aaiaid": "DJNN",
+          "brand_label": "Tec-Fil",
+          "part_number": "PSL284"
+        },
+        {
+          "brand_aaiaid": "DJPJ",
+          "brand_label": "Terex",
+          "part_number": "218667"
+        },
+        {
+          "brand_aaiaid": "DJPJ",
+          "brand_label": "Terex",
+          "part_number": "704970120"
+        },
+        {
+          "brand_aaiaid": "FNWX",
+          "brand_label": "Case IH",
+          "part_number": "84476755"
+        },
+        {
+          "brand_aaiaid": "FPBQ",
+          "brand_label": "Grove",
+          "part_number": "9414101679"
+        },
+        {
+          "brand_aaiaid": "FPJN",
+          "brand_label": "NAPA",
+          "part_number": "7028"
+        },
+        {
+          "brand_aaiaid": "FPJN",
+          "brand_label": "NAPA",
+          "part_number": "7182"
+        },
+        {
+          "brand_aaiaid": "HNYK",
+          "brand_label": "Doosan",
+          "part_number": "K1047673"
+        },
+        {
+          "brand_aaiaid": "JCYS",
+          "brand_label": "AMMANN",
+          "part_number": "ND116140"
+        },
+        {
+          "brand_aaiaid": "JCYZ",
+          "brand_label": "SENNEBOGEN",
+          "part_number": "106924"
+        }
+      ]
+    }
+  }
+}

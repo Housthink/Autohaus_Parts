@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default configuration data for FinditParts integration -->
+        
+        <!-- Default product categories for FinditParts -->
+        <record id="product_category_finditparts_parts" model="product.category">
+            <field name="name">FinditParts - Engine Parts</field>
+            <!-- No parent_id - will be a root category -->
+        </record>
+        
+        <record id="product_category_finditparts_filters" model="product.category">
+            <field name="name">FinditParts - Filters</field>
+            <field name="parent_id" ref="finditparts_integration.product_category_finditparts_parts"/>
+        </record>
+        
+        <record id="product_category_finditparts_gaskets" model="product.category">
+            <field name="name">FinditParts - Gaskets</field>
+            <field name="parent_id" ref="finditparts_integration.product_category_finditparts_parts"/>
+        </record>
+        
+        <!-- Default UOM for FinditParts products - removed as 'Each' already exists in Odoo -->
+        <!-- <record id="uom_finditparts_each" model="uom.uom">
+            <field name="name">Each</field>
+            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="factor">1.0</field>
+            <field name="uom_type">reference</field>
+        </record> -->
+        
+        <!-- Default supplier info -->
+        <record id="supplier_finditparts" model="res.partner">
+            <field name="name">FinditParts API</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+            <field name="customer_rank">0</field>
+            <field name="website">https://finditparts.com</field>
+            <field name="email">support@finditparts.com</field>
+        </record>
+        
+    </data>
+</odoo>

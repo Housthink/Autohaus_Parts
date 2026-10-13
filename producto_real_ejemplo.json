@@ -1,0 +1,327 @@
+{
+  "errno": 0,
+  "product": {
+    "id": 984906,
+    "part_number": "3824515",
+    "manufacturer": "CUMMINS",
+    "short_description": "PAINT",
+    "long_description": "PAINT. Import Me!. XML DES Description Code. XML ASM Description Code. Import Me!. XML FAB Description Code. XML ASC Description Code. key.",
+    "product_url": "https://www-build.finditparts.com/products/984906/cummins-3824515",
+    "product_images": [
+      {
+        "large": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2UtbGFyZ2UuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=53cd2a66b9cbe20a424d9a28758f8d0c4a36f2f95d19b04ccbfb45b7e86d7484",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6ODAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL25vLWltYWdlLWxhcmdlLmpwZyIsInZlcnNpb24iOjJ9.webp?s=d40db02e47a34dbe9e75927cb7476fbfe791e9528aef3c69eb6c19efc1f3b922"
+        },
+        "product": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2UtcHJvZHVjdC5qcGciLCJ2ZXJzaW9uIjoyfQ==.jpg?s=71e15cf51769a37726b45b983fa304fa034102c747a7dc72d0ab24b838389c7b",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6NDM1LCJoZWlnaHQiOjQzNSwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL25vLWltYWdlLXByb2R1Y3QuanBnIiwidmVyc2lvbiI6Mn0=.webp?s=686e9d8cc44cd99ce2f010c1bc846bce195221b890faca99440582589298617b"
+        },
+        "medium": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2UtbWVkaXVtLmpwZyIsInZlcnNpb24iOjJ9.jpg?s=24372bebce0586b0d04ea6df6dfc65ad47808a7618bfedc72cfa22f800fc9dec",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MzAwLCJoZWlnaHQiOjMwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL25vLWltYWdlLW1lZGl1bS5qcGciLCJ2ZXJzaW9uIjoyfQ==.webp?s=0cd83420af0d45388984fc9136bde42e4437b16c50840f13b76d4ca75c570ed7"
+        },
+        "small": {
+          "jpeg": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJrZXkiOiJhc3NldHMvbm8taW1hZ2Utc21hbGwuanBnIiwidmVyc2lvbiI6Mn0=.jpg?s=c339a7222b2fb534436ed8e35a89d9b4fb28635ee456cef725f95f495eb34320",
+          "webp": "https://cdn-dyn.finditparts.com/eyJ3aWR0aCI6MTAwLCJoZWlnaHQiOjEwMCwiZml0IjoiY29udGFpbiIsIndhdGVybWFya2VkIjpmYWxzZSwibm9faW1hZ2VfcHJlZml4IjpudWxsLCJmb3JtYXQiOiJ3ZWJwIiwia2V5IjoiYXNzZXRzL25vLWltYWdlLXNtYWxsLmpwZyIsInZlcnNpb24iOjJ9.webp?s=5fa155dcc4ffd84aa6afacc12ce269474a68138b2ecfab9022feab1dbb98a2bc"
+        }
+      }
+    ],
+    "manufacturer_image": "https://cdn-dyn.finditparts.com/assets/taxons/210/medium/cummins_white_on_red_0.png",
+    "purchase_notes": [
+      {
+        "type": "RETURNS",
+        "html_message": "<span class=\"glyphicon glyphicon-refresh shipping_message_icon\"></span><span><b>New!</b> No hassle Return Policy <a class=\"small details-link\" onclick=\"window.dataLayer &amp;&amp; dataLayer.push({&#39;event&#39;: &#39;pdp_no_hassle_returns&#39;}); return false;\" data-remote=\"true\" href=\"https://www-build.finditparts.com/no_hassle_returns\">details</a></span>"
+      },
+      {
+        "type": "SHIPPING_MESSAGE",
+        "html_message": "<span class=\"glyphicon glyphicon-ok shipping_message_icon--ok\"></span> <span><b>Free Economy shipping</b> on orders over $499 <a class=\"small details-link\" data-remote=\"true\" href=\"https://www-build.finditparts.com/free_shipping_eligibility_rules\">details</a></span>"
+      },
+      {
+        "type": "SHIPPING_CUTOFF",
+        "html_message": "<span class=\"glyphicon glyphicon-flash shipping_message_icon\"></span> <span>Orders placed before <em> 2pm EST</em> will ship <strong>same day</strong></span>"
+      },
+      {
+        "type": "SHIPPING_PROMISE",
+        "html_message": "<span class=\"glyphicon glyphicon-calendar shipping_message_icon\"></span><span><span>Get it by </span><strong class=\"green text-[#007600]\">Monday, Sep 15</strong></span><span class=\"glyphicon glyphicon-info-sign\" style=\"margin-left: 4px; top: 0px;\" data-toggle=\"tooltip\" data-placement=\"left\" ttitle=\"This estimate applies only to expedited shipping methods, Next Day Air or Second Day Air.\"></span>"
+      }
+    ],
+    "condition": "new",
+    "sellable": true,
+    "msrp": 30.72,
+    "breadcrumbs_ancestors": [
+      {
+        "id": 2,
+        "name": "Manufacturer",
+        "is_hidden": false,
+        "permalink": "manufacturer/"
+      },
+      {
+        "id": 210,
+        "name": "CUMMINS",
+        "is_hidden": false,
+        "permalink": "manufacturer/cummins/"
+      }
+    ],
+    "current_variant": {
+      "id": 24911985,
+      "variant_id": 24911985,
+      "product_id": 984906,
+      "price": "17.49",
+      "amount": "17.49",
+      "quantity": 58,
+      "pack_quantity": 1,
+      "minimum": 1,
+      "core_price": "222.165",
+      "verified": true,
+      "location": "CA",
+      "timezone": "America/Los_Angeles",
+      "cutoff": "2025-09-08T11:00:00-07:00",
+      "past_cutoff": true,
+      "estimated_business_days_to_ship": 1,
+      "estimated_ship_date": "2025-09-09T23:59:59-07:00",
+      "estimated_days_to_deliver": 5,
+      "estimated_delivery_date_ground": "2025-09-15T23:59:59-07:00",
+      "distance_miles": null,
+      "account_price": "17.49",
+      "on_hand": 58,
+      "verified_at": "2026-04-03T11:08:21-07:00",
+      "cost": "10.58",
+      "core_cost": "168.125",
+      "vendor_id": 443,
+      "vendor_name": "Velocity Truck Centers",
+      "lead_time": 0,
+      "lister_id": 411,
+      "lister_name": "Velocity Truck Centers",
+      "lister_zipcode": "90060"
+    },
+    "preferred_variant_id": 24911985,
+    "variants": [
+      {
+        "id": 24911985,
+        "variant_id": 24911985,
+        "product_id": 984906,
+        "price": "17.49",
+        "amount": "17.49",
+        "quantity": 58,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "222.165",
+        "verified": true,
+        "location": "CA",
+        "timezone": "America/Los_Angeles",
+        "cutoff": "2025-09-08T11:00:00-07:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-07:00",
+        "estimated_days_to_deliver": 5,
+        "estimated_delivery_date_ground": "2025-09-15T23:59:59-07:00",
+        "distance_miles": null,
+        "account_price": "17.49"
+      },
+      {
+        "id": 49227903,
+        "variant_id": 49227903,
+        "product_id": 984906,
+        "price": "22.99",
+        "amount": "22.99",
+        "quantity": 5,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "248.123",
+        "verified": true,
+        "location": "MN",
+        "timezone": "America/Chicago",
+        "cutoff": "2025-09-08T13:00:00-05:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-05:00",
+        "estimated_days_to_deliver": 3,
+        "estimated_delivery_date_ground": "2025-09-11T23:59:59-05:00",
+        "distance_miles": null,
+        "account_price": "22.99"
+      },
+      {
+        "id": 56090614,
+        "variant_id": 56090614,
+        "product_id": 984906,
+        "price": "26.99",
+        "amount": "26.99",
+        "quantity": 2,
+        "pack_quantity": 1,
+        "minimum": 1,
+        "core_price": "400.123",
+        "verified": true,
+        "location": "MN",
+        "timezone": "America/Chicago",
+        "cutoff": "2025-09-08T13:00:00-05:00",
+        "past_cutoff": true,
+        "estimated_business_days_to_ship": 1,
+        "estimated_ship_date": "2025-09-09T23:59:59-05:00",
+        "estimated_days_to_deliver": 3,
+        "estimated_delivery_date_ground": "2025-09-11T23:59:59-05:00",
+        "distance_miles": null,
+        "account_price": "26.99"
+      }
+    ],
+    "weight": "7.42",
+    "recommendations_url": "https://48drxsgfff.execute-api.us-east-1.amazonaws.com/dev/product_recommendations?payload=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOm51bGwsInNlc3Npb25JZCI6IjAxSzRORzNNNzlTRk45V1dXUTJER1c5Sk5GIiwiZXZlbnRUeXBlIjoidmlldyIsImV4cCI6MTc1NzM2NDk2MywicHJvZHVjdElkIjo5ODQ5MDYsIm51bVJlc3VsdHMiOjgsInJlY29tbWVuZGF0aW9uVHlwZSI6IlJFTEFURURfSVRFTVMifQ.BGM-FFX2Xz4fpa5c7bhxXLq5VT7S48MhyZK6PPqFCok",
+    "product_review_count": null,
+    "product_review_rating": null,
+    "product_reviews": [],
+    "pies_data": {
+      "descriptions": [
+        {
+          "title": "AAIA Part Type Description",
+          "description_code": "DEF",
+          "language_code": "EN",
+          "value": "Paint",
+          "sequence": null
+        },
+        {
+          "title": "Product Description - Short",
+          "description_code": "SHO",
+          "language_code": "EN",
+          "value": "PAINT",
+          "sequence": null
+        },
+        {
+          "title": "Key Search Words",
+          "description_code": "KEY",
+          "language_code": "EN",
+          "value": "key",
+          "sequence": null
+        },
+        {
+          "title": "Features and Benefits",
+          "description_code": "FAB",
+          "language_code": "EN",
+          "value": "Import Me!",
+          "sequence": null
+        },
+        {
+          "title": "Product Description - Abbreviated",
+          "description_code": "ABR",
+          "language_code": "EN",
+          "value": "XML ABR Description Code",
+          "sequence": 1
+        },
+        {
+          "title": "Product Description",
+          "description_code": "DES",
+          "language_code": "EN",
+          "value": "XML DES Description Code",
+          "sequence": 2
+        },
+        {
+          "title": "Product Description - Invoice",
+          "description_code": "INV",
+          "language_code": "EN",
+          "value": "XML INV Description Code",
+          "sequence": 3
+        },
+        {
+          "title": "Label Description",
+          "description_code": "LAB",
+          "language_code": "EN",
+          "value": "XML LAB Description Code",
+          "sequence": 4
+        },
+        {
+          "title": "Marketing Description",
+          "description_code": "MKT",
+          "language_code": "EN",
+          "value": "XML MKT Description Code",
+          "sequence": 9
+        },
+        {
+          "title": "Features and Benefits",
+          "description_code": "ASC",
+          "language_code": "EN",
+          "value": "XML ASC Description Code",
+          "sequence": 10
+        },
+        {
+          "title": "Application Summary",
+          "description_code": "ASM",
+          "language_code": "EN",
+          "value": "XML ASM Description Code",
+          "sequence": 11
+        },
+        {
+          "title": "Caption",
+          "description_code": "CAP",
+          "language_code": "EN",
+          "value": "XML CAP Description Code",
+          "sequence": 12
+        },
+        {
+          "title": "Slang Description",
+          "description_code": "SLA",
+          "language_code": "EN",
+          "value": "XML SLA Description Code",
+          "sequence": 13
+        },
+        {
+          "title": "Transcription",
+          "description_code": "TRA",
+          "language_code": "EN",
+          "value": "XML TRA Description Code",
+          "sequence": 14
+        },
+        {
+          "title": "Title Description",
+          "description_code": "TLE",
+          "language_code": "EN",
+          "value": "XML TLE Description Code",
+          "sequence": 15
+        },
+        {
+          "title": "UN/SPSC Description",
+          "description_code": "UNS",
+          "language_code": "EN",
+          "value": "XML UNS Description Code",
+          "sequence": 16
+        },
+        {
+          "title": "VMRS Description",
+          "description_code": "VMR",
+          "language_code": "EN",
+          "value": "XML VMR Description Code",
+          "sequence": 17
+        },
+        {
+          "title": "Features and Benefits",
+          "description_code": "FAB",
+          "language_code": "EN",
+          "value": "XML FAB Description Code",
+          "sequence": 18
+        },
+        {
+          "title": "Shipping Restrictions",
+          "description_code": "SHP",
+          "language_code": "EN",
+          "value": "XML SHP Description Code",
+          "sequence": 19
+        },
+        {
+          "title": "Market Type",
+          "description_code": "MTP",
+          "language_code": "EN",
+          "value": "XML MTP Description Code",
+          "sequence": 20
+        },
+        {
+          "title": "Product Description - Extended",
+          "description_code": "EXT",
+          "language_code": "EN",
+          "value": "XML EXT Description Code",
+          "sequence": 7
+        }
+      ],
+      "product_attributes": [],
+      "extended_product_informations": [],
+      "part_interchanges": []
+    }
+  }
+}

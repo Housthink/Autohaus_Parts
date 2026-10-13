@@ -1,0 +1,1070 @@
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
+from odoo.tools import html_escape
+import logging
+import re
+import os
+import base64
+import json
+from urllib.parse import urlsplit
+
+DEFAULT_IMAGE_URL = '/finditparts_integration/static/img/default_product.png'
+
+_logger = logging.getLogger(__name__)
+
+
+class FindinPartProduct(models.Model):
+    _name = 'finditparts.product'
+    _description = 'FindinPart Product'
+    _rec_name = 'sku'
+    _order = 'last_sync_date desc'
+
+    sku = fields.Char('SKU', required=True, index=True)
+    finditparts_id = fields.Char('FindinPart ID', index=True)
+    brand = fields.Char('Brand')
+    manufacturer = fields.Char('Manufacturer')
+    part_number = fields.Char('Part Number')
+    
+    name = fields.Char('Product Name', required=True)
+    description = fields.Text('Description')
+    long_description = fields.Html('Long Description')
+    specifications = fields.Text('Technical Specifications')
+    
+    category_id = fields.Many2one('product.category', 'Category')
+    subcategory_id = fields.Many2one('product.category', 'Subcategory')
+    tags = fields.Many2many('product.tag', string='Tags')
+    
+    list_price = fields.Float('List Price', digits=(10, 2))
+    cost_price = fields.Float('Cost Price', digits=(10, 2))
+    api_price = fields.Float('API Price', digits=(10, 2))
+    api_cost = fields.Float('API Cost', digits=(10, 2))
+    msrp_price = fields.Float('MSRP Price', digits=(10, 2))
+    currency_id = fields.Many2one('res.currency', 'Currency', default=lambda self: self.env.company.currency_id)
+    
+    stock_quantity = fields.Float('Stock Quantity', default=0)
+    min_stock_level = fields.Float('Minimum Stock Level', default=0)
+    max_stock_level = fields.Float('Maximum Stock Level')
+    stock_status = fields.Selection([
+        ('in_stock', 'In Stock'),
+        ('low_stock', 'Low Stock'),
+        ('out_of_stock', 'Out of Stock'),
+        ('discontinued', 'Discontinued'),
+        ('pre_order', 'Pre-Order'),
+    ], string='Stock Status', default='out_of_stock')
+    
+    image_url = fields.Char('Image URL')
+    image_ids = fields.Many2many('ir.attachment', string='Product Images')
+    datasheet_url = fields.Char('Datasheet URL')
+    video_url = fields.Char('Video URL')
+    
+    weight = fields.Float('Weight (kg)')
+    length = fields.Float('Length (cm)')
+    width = fields.Float('Width (cm)')
+    height = fields.Float('Height (cm)')
+    
+    # Computed field for price with margin
+    sale_price_with_margin = fields.Float('Sale Price (with margin)', compute='_compute_sale_price_with_margin', store=True,
+                                         help='List price plus configured margin percentage')
+    
+    compatible_models = fields.Text('Compatible Models')
+    compatible_years = fields.Char('Compatible Years')
+    compatible_makes = fields.Char('Compatible Makes')
+    sellable = fields.Boolean('Sellable', default=True)
+    availability_message = fields.Text('Availability Message')
+    seo_keywords = fields.Text('SEO Keywords')
+    
+    odoo_product_id = fields.Many2one('product.template', 'Odoo Product', ondelete='set null')
+    sync_status = fields.Selection([
+        ('pending', 'Pending'),
+        ('synced', 'Synced'),
+        ('failed', 'Failed'),
+        ('outdated', 'Outdated'),
+    ], string='Sync Status', default='pending')
+    last_sync_date = fields.Datetime('Last Sync Date')
+    next_sync_date = fields.Datetime('Next Sync Date')
+    sync_errors = fields.Text('Sync Errors')
+    
+    active = fields.Boolean('Active', default=True)
+    create_date = fields.Datetime('Created Date', readonly=True)
+    write_date = fields.Datetime('Last Updated', readonly=True)
+    
+    # SQL constraints removed for Odoo 19 compatibility
+    # Uniqueness will be enforced through database indexes and validation methods
+    
+    @api.constrains('sku')
+    def _check_unique_sku(self):
+        for record in self:
+            if record.sku:
+                existing = self.search([('sku', '=', record.sku), ('id', '!=', record.id)])
+                if existing:
+                    raise ValidationError(_('SKU must be unique! SKU "%s" already exists.') % record.sku)
+    
+    @api.depends('list_price')
+    def _compute_sale_price_with_margin(self):
+        """Calculate sale price with configured margin percentage"""
+        for record in self:
+            # Get active configuration
+            config = self.env['finditparts.config'].search([('active', '=', True)], limit=1)
+            margin_percent = config.price_margin_percent if config else 10.0
+            
+            # Calculate price with margin
+            if record.list_price:
+                record.sale_price_with_margin = record.list_price * (1 + margin_percent / 100.0)
+            else:
+                record.sale_price_with_margin = 0.0
+
+    @staticmethod
+    def _is_placeholder_image_url(url):
+        """Detect FinditParts placeholder/default images so they are not stored"""
+        if not url:
+            return False
+        if url == DEFAULT_IMAGE_URL:
+            return False
+        lowered = url.lower()
+        placeholder_markers = [
+            'no-image-small',
+            'no-image-large',
+            'no-image-product',
+            'noimage',
+            'placeholder',
+            '/assets/no-image',
+            '/assets/default',
+            'default_product.png',
+        ]
+        if any(marker in lowered for marker in placeholder_markers):
+            return True
+
+        # Some CDN URLs embed metadata in a base64 segment; decode to inspect the "key"
+        try:
+            # Extract last path segment without querystring or extension
+            path = urlsplit(url).path or ''
+            filename = path.rsplit('/', 1)[-1]
+            token = filename.split('?', 1)[0].split('.', 1)[0]
+            if token:
+                padded = token + '=' * (-len(token) % 4)
+                decoded = base64.urlsafe_b64decode(padded).decode('utf-8', errors='ignore')
+                try:
+                    payload = json.loads(decoded)
+                    if isinstance(payload, dict):
+                        key_val = str(payload.get('key', '')).lower()
+                        if any(marker in key_val for marker in placeholder_markers):
+                            return True
+                    else:
+                        decoded_lower = decoded.lower()
+                        if any(marker in decoded_lower for marker in placeholder_markers):
+                            return True
+                except Exception:
+                    decoded_lower = decoded.lower()
+                    if any(marker in decoded_lower for marker in placeholder_markers):
+                        return True
+        except Exception:
+            # If decoding fails, fall back to non-placeholder
+            return False
+
+        return False
+    
+
+    @api.constrains('finditparts_id')
+    def _check_unique_finditparts_id(self):
+        for record in self:
+            if record.finditparts_id:
+                existing = self.search([('finditparts_id', '=', record.finditparts_id), ('id', '!=', record.id)])
+                if existing:
+                    raise ValidationError(_('FindinPart ID must be unique! ID "%s" already exists.') % record.finditparts_id)
+    
+    @api.constrains('stock_quantity', 'min_stock_level')
+    def _check_stock_levels(self):
+        for record in self:
+            if record.stock_quantity < 0:
+                raise ValidationError(_('Stock quantity cannot be negative'))
+            if record.min_stock_level < 0:
+                raise ValidationError(_('Minimum stock level cannot be negative'))
+    
+    def update_stock_status(self):
+        """Update stock status based on current stock levels"""
+        for record in self:
+            if record.stock_quantity <= 0:
+                record.stock_status = 'out_of_stock'
+            elif record.stock_quantity <= record.min_stock_level:
+                record.stock_status = 'low_stock'
+            else:
+                record.stock_status = 'in_stock'
+    
+    def sync_to_odoo(self):
+        """Sync this product to Odoo product catalog"""
+        self.ensure_one()
+        try:
+            config = self.env['finditparts.config'].get_active_config()
+            product_vals = {}
+            
+            # SIEMPRE permitir venta en Odoo para que aparezca en la web
+            # El control de si se puede comprar o no se hace mediante el mensaje en el website
+            sale_allowed = True
+            
+            # TEMPORAL: Forzar stock=0 para el primer producto (para testing del mensaje)
+            # Contar cuántos productos ya existen en Odoo
+            existing_count = self.env['product.template'].search_count([])
+            
+            # Si es el primer producto, forzar stock=0 (pero mantener sale_ok=True)
+            if existing_count == 0:
+                original_stock = self.stock_quantity
+                self.stock_quantity = 0
+                _logger.info(f"🔴 TESTING MODE: Forzando stock=0 para el primer producto: {self.sku}")
+                _logger.info(f"   Stock original: {original_stock} → Forzado a: 0")
+                _logger.info(f"   sale_ok: {sale_allowed} (siempre True para aparecer en web)")
+            
+            website_description = self._get_website_description_html()
+            sale_description = self._get_sale_description_text()
+            # Use price with margin instead of base price
+            list_price_value = self.sale_price_with_margin or self._get_odoo_sale_price()
+            cost_price_value = self._get_odoo_cost_price()
+            
+            if not self.odoo_product_id:
+                # Create new Odoo product
+                product_vals = {
+                    'name': self.name,
+                    'description': self.description or '',
+                    'description_sale': sale_description,
+                    'website_description': website_description or False,
+                    'list_price': list_price_value,
+                    # standard_price write can be restricted; do it with sudo and ignore errors
+                    'categ_id': self.category_id.id if self.category_id else (config.default_category_id.id if config and config.default_category_id else False),
+                    'default_code': self.sku,
+                    'weight': self.weight or 0.0,
+                    'volume': (self.length or 0) * (self.width or 0) * (self.height or 0) / 1000000,  # m³
+                    'sale_ok': sale_allowed,
+                    'purchase_ok': True,
+                }
+                if self.seo_keywords and 'website_meta_keywords' in self.env['product.template']._fields:
+                    product_vals['website_meta_keywords'] = self.seo_keywords
+                
+                # Determine product type field depending on Odoo version/instance
+                try:
+                    pt = self.env['product.template']
+                    if 'detailed_type' in pt._fields:
+                        field = pt._fields['detailed_type']
+                        sel = field.selection(self.env) if callable(getattr(field, 'selection', None)) else getattr(field, 'selection', None)
+                        allowed = [k for k, _ in (sel or [])]
+                        val = 'product' if 'product' in allowed else ('consumable' if 'consumable' in allowed else (allowed[0] if allowed else 'product'))
+                        product_vals['detailed_type'] = val
+                    elif 'type' in pt._fields:
+                        field = pt._fields['type']
+                        sel = field.selection(self.env) if callable(getattr(field, 'selection', None)) else getattr(field, 'selection', None)
+                        allowed = [k for k, _ in (sel or [])]
+                        val = 'product' if 'product' in allowed else ('consu' if 'consu' in allowed else (allowed[0] if allowed else 'product'))
+                        product_vals['type'] = val
+                except Exception:
+                    # Fallbacks
+                    if 'type' in self.env['product.template']._fields:
+                        product_vals.setdefault('type', 'product')
+                
+                # Add website/eCommerce fields if enabled in config
+                if config and config.auto_publish_website:
+                    product_vals.update({
+                        'is_published': True,
+                        'website_published': True,
+                    })
+                
+                odoo_product = self.env['product.template'].sudo().create(product_vals)
+                # Try writing cost separately with sudo (ignore failure)
+                try:
+                    if self.cost_price is not None or self.api_cost is not None:
+                        odoo_product.sudo().write({'standard_price': cost_price_value})
+                except Exception as cost_err:
+                    _logger.warning(f"Could not set standard_price for {self.sku}: {cost_err}")
+                # Set SEO keywords if present and field exists
+                try:
+                    if self.seo_keywords and 'website_meta_keywords' in odoo_product._fields:
+                        odoo_product.sudo().write({'website_meta_keywords': self.seo_keywords})
+                except Exception as seo_err:
+                    _logger.warning(f"Could not set website_meta_keywords for {self.sku}: {seo_err}")
+                
+                self.odoo_product_id = odoo_product.id
+                
+                # Download and attach product image if available
+                if self.image_url:
+                    try:
+                        import requests
+                        image_data = False
+                        if self.image_url == DEFAULT_IMAGE_URL:
+                            image_data = self._get_default_image_data()
+                        elif not self._is_placeholder_image_url(self.image_url):
+                            response = requests.get(self.image_url, timeout=10)
+                            if response.status_code == 200:
+                                image_data = base64.b64encode(response.content)
+                        if image_data:
+                            odoo_product.sudo().write({'image_1920': image_data})
+                            _logger.info(f"Image set for product {self.sku}")
+                    except Exception as img_error:
+                        _logger.warning(f"Failed to download image for {self.sku}: {str(img_error)}")
+                
+                
+                # Initial stock - Odoo 19 compatible method
+                try:
+                    if config and config.default_warehouse_id and self.stock_quantity > 0 and (config.auto_update_stock or True):
+                        # En Odoo 19, usar el método oficial para actualizar stock
+                        location_id = config.default_warehouse_id.lot_stock_id
+                        product_variant = odoo_product.product_variant_id
+                        
+                        # Usar el método oficial de Odoo para actualizar cantidad disponible
+                        # Esto actualiza correctamente qty_available
+                        product_variant.sudo().with_context(inventory_mode=True)._update_available_quantity(
+                            location_id,
+                            self.stock_quantity
+                        )
+                        _logger.info(f"Stock set to {self.stock_quantity} for product {self.sku} using _update_available_quantity")
+                except Exception as inv_err:
+                    _logger.warning(f"Stock init skipped for {self.sku}: {inv_err}")
+            else:
+                # Update existing product
+                update_vals = {}
+                if config and config.auto_update_prices:
+                    update_vals.update({
+                        'list_price': list_price_value,
+                    })
+                
+                # Update basic info
+                update_vals.update({
+                    'name': self.name,
+                    'description': self.description or '',
+                    'description_sale': sale_description,
+                    'website_description': website_description or False,
+                    'weight': self.weight or 0.0,
+                    'sale_ok': sale_allowed,
+                })
+                if self.seo_keywords and 'website_meta_keywords' in self.env['product.template']._fields:
+                    update_vals['website_meta_keywords'] = self.seo_keywords
+                
+                if update_vals:
+                    self.odoo_product_id.sudo().write(update_vals)
+                
+                # Update cost separately (may be restricted)
+                try:
+                    if config and config.auto_update_prices and (self.cost_price is not None or self.api_cost is not None):
+                        self.odoo_product_id.sudo().write({'standard_price': cost_price_value})
+                except Exception as cost_err:
+                    _logger.warning(f"Could not update standard_price for {self.sku}: {cost_err}")
+                # Update SEO keywords if available
+                try:
+                    if self.seo_keywords and 'website_meta_keywords' in self.odoo_product_id._fields:
+                        self.odoo_product_id.sudo().write({'website_meta_keywords': self.seo_keywords})
+                except Exception as seo_err:
+                    _logger.warning(f"Could not update website_meta_keywords for {self.sku}: {seo_err}")
+
+                # Update or clear product image
+                try:
+                    if self.odoo_product_id:
+                        image_data = False
+                        if self.image_url == DEFAULT_IMAGE_URL:
+                            image_data = self._get_default_image_data()
+                        elif self.image_url and not self._is_placeholder_image_url(self.image_url):
+                            import requests
+                            response = requests.get(self.image_url, timeout=10)
+                            if response.status_code == 200:
+                                image_data = base64.b64encode(response.content)
+
+                        if image_data:
+                            self.odoo_product_id.sudo().write({'image_1920': image_data})
+                        else:
+                            # Clear existing image if now flagged as placeholder or missing
+                            self.odoo_product_id.sudo().write({'image_1920': False})
+                except Exception as img_err:
+                    _logger.warning(f"Image update skipped for {self.sku}: {img_err}")
+                
+                
+                # Update stock - Odoo 19 compatible method
+                try:
+                    if config and config.auto_update_stock and config.default_warehouse_id:
+                        location_id = config.default_warehouse_id.lot_stock_id
+                        product_variant = self.odoo_product_id.product_variant_id
+                        
+                        # Obtener la cantidad actual
+                        current_qty = product_variant.with_context(location=location_id.id).qty_available
+                        
+                        # Calcular la diferencia
+                        qty_diff = self.stock_quantity - current_qty
+                        
+                        if qty_diff != 0:
+                            # Usar el método oficial para actualizar la cantidad
+                            product_variant.sudo().with_context(inventory_mode=True)._update_available_quantity(
+                                location_id,
+                                qty_diff
+                            )
+                            _logger.info(f"Stock updated from {current_qty} to {self.stock_quantity} for product {self.sku}")
+                except Exception as inv_err:
+                    _logger.warning(f"Stock update skipped for {self.sku}: {inv_err}")
+            
+            self.sync_status = 'synced'
+            self.last_sync_date = fields.Datetime.now()
+            self.sync_errors = False
+            self.update_stock_status()
+            
+            return True
+            
+        except Exception as e:
+            _logger.error(f"Failed to sync product {self.sku}: {str(e)}")
+            self.sync_status = 'failed'
+            self.sync_errors = str(e)
+            return False
+    
+    def action_view_odoo_product(self):
+        """Open the related Odoo product"""
+        self.ensure_one()
+        if self.odoo_product_id:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.template',
+                'res_id': self.odoo_product_id.id,
+                'view_mode': 'form',
+                'target': 'current',
+            }
+        return False
+    
+    def action_sync_now(self):
+        """Manually trigger sync for this product"""
+        self.ensure_one()
+        result = self.sync_to_odoo()
+        if result:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Success'),
+                    'message': _('Product synced successfully'),
+                    'type': 'success',
+                }
+            }
+        else:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Error'),
+                    'message': _('Product sync failed'),
+                    'type': 'danger',
+                }
+            }
+    
+    def _extract_attribute_pairs(self, product_data):
+        """Return list of (label, value) attribute tuples from API data"""
+        attribute_pairs = []
+        attribute_map = product_data.get('attributes')
+        if isinstance(attribute_map, dict):
+            for key, value in attribute_map.items():
+                if value is None:
+                    continue
+                label = key.replace('_', ' ').title()
+                attribute_pairs.append((label, value))
+        pies_data = product_data.get('pies_data') or {}
+        pies_attributes = pies_data.get('product_attributes') or []
+        for attr in pies_attributes:
+            name = attr.get('name')
+            value = attr.get('value')
+            if name and value:
+                attribute_pairs.append((name, value))
+        return attribute_pairs
+    
+    def _build_html_description(self, product_data, attribute_pairs=None, related_parts=None):
+        """Generate an HTML description using textual content from the API.
+
+        The generated HTML is wrapped in a padded container and uses small
+        section headers and styled tables to look clean on the website.
+        """
+        attribute_pairs = attribute_pairs or []
+        related_parts = related_parts or {}
+        sections = []
+        feature_list = []
+        pies_titles = {
+            'ASM': _('Application Summary'),
+            'MKT': _('Marketing Description'),
+            'DES': _('Product Description'),
+            'DEF': _('Part Type Description'),
+            'EXT': _('Extended Description'),
+            'SHO': _('Short Description'),
+            'INV': _('Invoice Description'),
+        }
+        # Quick facts taken from the product payload to render above long text
+        quick_facts = []
+        category_label = None
+        
+        def format_text(value):
+            if value in (None, False):
+                return ''
+            text = str(value)
+            # Strip script/style blocks for safety
+            text = re.sub(r'<(script|style)[^>]*>.*?</\\1>', '', text, flags=re.IGNORECASE | re.DOTALL)
+            # If it already contains HTML tags, keep them (so titles/paragraphs render)
+            if re.search(r'<[^>]+>', text):
+                return text
+            return html_escape(text).replace('\n', '<br/>')
+        
+        def add_section(title, content):
+            if content:
+                sections.append(
+                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{html_escape(title)}</h4>"
+                    f"<p style='text-align:justify;margin:0 0 8px;'>{format_text(content)}</p>"
+                )
+        
+        # Determine category from breadcrumbs (last entry is usually the specific category)
+        breadcrumbs = product_data.get('breadcrumbs_ancestors') or []
+        if isinstance(breadcrumbs, list) and breadcrumbs:
+            last = breadcrumbs[-1] or {}
+            category_label = last.get('name')
+        
+        current_variant = product_data.get('current_variant') or {}
+        
+        # Build quick facts table (safe HTML)
+        core_description = (
+            product_data.get('short_description')
+            or product_data.get('description')
+            or product_data.get('long_description')
+        )
+        for label, value in [
+            (_('Part Number'), product_data.get('part_number') or product_data.get('sku')),
+            (_('Manufacturer'), product_data.get('manufacturer') or product_data.get('brand')),
+            (_('Description'), core_description),
+            (_('Category'), category_label),
+            (_('Condition'), product_data.get('condition')),
+            (_('Sellable'), _('Yes') if product_data.get('sellable') else _('No')),
+            (_('Stock'), current_variant.get('quantity')),
+            (_('Weight (lbs)'), product_data.get('weight')),
+        ]:
+            if value not in (None, '', []):
+                quick_facts.append((label, value))
+        
+        if quick_facts:
+            rows = ''.join(
+                "<tr>"
+                f"<th style='background-color:#f5f5f5;font-weight:600;padding:4px 8px;white-space:nowrap;'>{format_text(label)}</th>"
+                f"<td style='padding:4px 8px;'>{format_text(value)}</td>"
+                "</tr>"
+                for label, value in quick_facts
+            )
+            sections.append(
+                f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Quick Facts')}</h4>"
+                f"<table class='table table-striped table-sm' style='width:100%;border-collapse:collapse;'>{rows}</table>"
+            )
+
+                # NOTE: Gallery/Images section intentionally omitted for Odoo website
+        # to avoid duplicating product images in the long description.
+        
+        descriptions = product_data.get('descriptions') or {}
+        if isinstance(descriptions, dict):
+            for lang_code, desc_data in descriptions.items():
+                if not isinstance(desc_data, dict):
+                    continue
+                lang = lang_code.upper()
+                add_section(_('Product Description (%s)') % lang, desc_data.get('product'))
+                add_section(_('Marketing (%s)') % lang, desc_data.get('marketing'))
+                feature_list.extend(desc_data.get('features') or [])
+        
+        pies_data = product_data.get('pies_data') or {}
+        pies_descriptions = pies_data.get('descriptions') or []
+        seo_keywords = []
+        for desc in pies_descriptions:
+            value = desc.get('value')
+            if not value:
+                continue
+            code = desc.get('description_code')
+            if code == 'FAB':
+                feature_list.append(value)
+                continue
+            if code == 'KEY':
+                seo_keywords.append(value)
+                continue
+            title = desc.get('title') or pies_titles.get(code) or _('Additional Information')
+            add_section(title, value)
+        
+        if feature_list:
+            items = ''.join(f"<li>{format_text(feature)}</li>" for feature in feature_list if feature)
+            if items:
+                sections.append(f"<h4>{_('Features & Benefits')}</h4><ul>{items}</ul>")
+        
+        if attribute_pairs:
+            rows = ''.join(
+                "<tr>"
+                f"<th style='background-color:#f5f5f5;font-weight:600;padding:4px 8px;white-space:nowrap;'>{format_text(name)}</th>"
+                f"<td style='padding:4px 8px;'>{format_text(value)}</td>"
+                "</tr>"
+                for name, value in attribute_pairs if value
+            )
+            if rows:
+                sections.append(
+                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Product Attributes')}</h4>"
+                    f"<table class='table table-bordered table-sm' style='width:100%;border-collapse:collapse;'>{rows}</table>"
+                )
+        
+        extended_info = pies_data.get('extended_product_informations') or []
+        if extended_info:
+            ext_rows = ''.join(
+                "<tr>"
+                f"<th style='background-color:#f5f5f5;font-weight:600;padding:4px 8px;white-space:nowrap;'>{format_text(info.get('description') or info.get('expi_code'))}</th>"
+                f"<td style='padding:4px 8px;'>{format_text(info.get('value'))}</td>"
+                "</tr>"
+                for info in extended_info if info.get('value')
+            )
+            if ext_rows:
+                sections.append(
+                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Additional Information')}</h4>"
+                    f"<table class='table table-striped table-sm' style='width:100%;border-collapse:collapse;'>{ext_rows}</table>"
+                )
+        
+        interchanges = pies_data.get('part_interchanges') or []
+        related_interchanges = []
+        if interchanges:
+            related_interchanges.extend([
+                (i.get('brand_label') or i.get('brand_aaiaid') or _('Brand'), i.get('part_number'))
+                for i in interchanges if i.get('part_number')
+            ])
+        if isinstance(related_parts, dict):
+            for category, values in related_parts.items():
+                if isinstance(values, list):
+                    for part in values:
+                        brand_label = part.get('brand') or part.get('manufacturer') or category.title()
+                        part_number = part.get('part_number')
+                        if part_number:
+                            related_interchanges.append((brand_label, part_number))
+                elif isinstance(values, dict):
+                    brand_label = values.get('brand') or values.get('manufacturer') or category.title()
+                    part_number = values.get('part_number')
+                    if part_number:
+                        related_interchanges.append((brand_label, part_number))
+        if related_interchanges:
+            interchange_items = ''.join(
+                f"<li>{format_text(brand)} - {format_text(part)}</li>"
+                for brand, part in related_interchanges if part
+            )
+            if interchange_items:
+                sections.append(
+                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Part Interchanges')}</h4>"
+                    f"<ul style='margin:0 0 8px 20px;padding:0;'>{interchange_items}</ul>"
+                )
+        
+        # Fallback: if for some reason no sections were built, at least show a basic
+        # textual description so website_description is never empty.
+        if not sections:
+            fallback_lines = []
+            if product_data.get('part_number'):
+                fallback_lines.append(f"{_('Part Number')}: {product_data.get('part_number')}")
+            if product_data.get('manufacturer') or product_data.get('brand'):
+                fallback_lines.append(
+                    f"{_('Manufacturer')}: {product_data.get('manufacturer') or product_data.get('brand')}"
+                )
+            if core_description:
+                fallback_lines.append(f"{_('Description')}: {core_description}")
+            if fallback_lines:
+                sections.append(
+                    "<p style='text-align:justify;margin:0 0 8px;'>"
+                    + '<br/>'.join(format_text(line) for line in fallback_lines)
+                    + "</p>"
+                )
+        
+        body = '\n'.join(sections)
+        # Remove any legacy "Key Search Words" blocks if present
+        body = re.sub(
+            r'<h[1-6][^>]*>\\s*key\\s*search\\s*words\\s*</h[1-6]>\\s*(<[^>]+>.*?</[^>]+>)?',
+            '',
+            body,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        if not body:
+            return ''
+        # Wrap everything in a padded, centered container so it does not touch page borders
+        return (
+            "<div class='finditparts-long-description' "
+            "style='max-width:1100px;margin:0 auto;padding:24px 80px;font-size:14px;line-height:1.5;'>"
+            f"{body}</div>"
+        )
+    
+    def _build_availability_message(self, sellable, stock_qty=None):
+        """Return an availability message when the product cannot be purchased online."""
+        qty = stock_qty if stock_qty is not None else (self.stock_quantity or 0)
+        # If sellable and has stock, no message needed
+        if sellable and qty > 0:
+            return False
+        phone = "2304930"
+        if not sellable:
+            return _('This item is not available for online purchase. Please call %(phone)s for assistance.') % {'phone': phone}
+        # No stock but we still want to show the product and provide a CTA
+        return _('Out of stock. Call %(phone)s for availability or to order.') % {'phone': phone}
+    
+    def _get_odoo_sale_price(self):
+        for value in [self.msrp_price, self.list_price, self.api_price]:
+            if value not in (None, False):
+                return value
+        return 0.0
+    
+    def _get_odoo_cost_price(self):
+        for value in [self.api_cost, self.cost_price]:
+            if value not in (None, False):
+                return value
+        return 0.0
+    
+    def _get_website_description_html(self):
+        base = self.long_description or self.description or ''
+        if not isinstance(base, str):
+            base = ''
+        # Exclude availability/sellability messages and demo policy block from website description
+        parts = [base]
+        return ''.join([p for p in parts if p]) if any(parts) else ''
+
+    
+    def _strip_html_tags(self, value):
+        if not isinstance(value, str):
+            return ''
+        return re.sub(r'<[^>]*>', '', value)
+    
+    def _get_sale_description_text(self):
+        """Plain text for sale description (avoid HTML in SO/Invoices)"""
+        base = self.description or self._strip_html_tags(self.long_description or '')
+        message = ''
+        if not self.sellable:
+            message = self.availability_message or self._build_availability_message(False)
+        parts = [p.strip() for p in [base, message] if p]
+        return '\n'.join(parts)
+
+    def _get_default_image_data(self):
+        """Load default image from module static folder and return base64"""
+        try:
+            module_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            img_path = os.path.join(module_path, 'static', 'img', 'default_product.png')
+            with open(img_path, 'rb') as img_file:
+                return base64.b64encode(img_file.read())
+        except Exception as err:
+            _logger.warning(f"Default image not found or unreadable: {err}")
+            return False
+    
+    @api.model
+    def create_from_api_json(self, json_data):
+        """Create or update a finditparts.product record from API JSON data
+        Returns (record, created_bool)
+        """
+        try:
+            # Extract product data from JSON
+            match_candidates = []
+            
+            if 'product' in json_data:
+                product_data = json_data['product']
+            elif 'main_part' in json_data:
+                product_data = json_data['main_part']
+            else:
+                product_data = json_data
+            
+            if isinstance(json_data, dict):
+                match_candidates = json_data.get('part_number_matches') or []
+            
+            match_product = None
+            if match_candidates:
+                def _variant_qty(candidate):
+                    cv = candidate.get('current_variant') or {}
+                    return float(cv.get('quantity') or cv.get('on_hand') or 0)
+
+                # Prefer a candidate with stock, otherwise fall back to same part_number, else first
+                match_product = next(
+                    (c for c in match_candidates if _variant_qty(c) > 0),
+                    None
+                ) or next(
+                    (candidate for candidate in match_candidates
+                     if candidate.get('part_number') == product_data.get('part_number')),
+                    None
+                ) or match_candidates[0]
+            
+            if match_product:
+                for field in ['pies_data', 'descriptions', 'product_images', 'attributes']:
+                    if not product_data.get(field) and match_product.get(field):
+                        product_data[field] = match_product[field]
+                if not product_data.get('long_description') and match_product.get('long_description'):
+                    product_data['long_description'] = match_product['long_description']
+                if not product_data.get('short_description') and match_product.get('short_description'):
+                    product_data['short_description'] = match_product['short_description']
+                if not product_data.get('current_variant') and match_product.get('current_variant'):
+                    product_data['current_variant'] = match_product['current_variant']
+                if not product_data.get('msrp') and match_product.get('msrp'):
+                    product_data['msrp'] = match_product['msrp']
+                if not product_data.get('attributes') and match_product.get('attributes'):
+                    product_data['attributes'] = match_product['attributes']
+            
+            attribute_pairs = self._extract_attribute_pairs(product_data)
+            
+            # Build SEO-friendly name including manufacturer + part number + short description
+            manufacturer = product_data.get('manufacturer') or product_data.get('brand') or ''
+            part_number = product_data.get('part_number', '')
+            short_desc = product_data.get('short_description', '')
+            seo_parts = [p for p in [manufacturer, part_number, short_desc] if p]
+            seo_name = ' - '.join(seo_parts) if seo_parts else (part_number or short_desc)
+
+            # Map API fields to model fields
+            vals = {
+                'finditparts_id': str(product_data.get('id', '')),
+                'sku': part_number,
+                'part_number': part_number,
+                'name': seo_name or short_desc or part_number,
+                'description': short_desc or seo_name or part_number,
+                'long_description': product_data.get('long_description', ''),
+                'manufacturer': manufacturer,
+                'brand': manufacturer,
+            }
+            
+            # Handle pricing from current variant
+            current_variant = product_data.get('current_variant', {})
+            if current_variant:
+                variant_price = float(current_variant.get('price', 0) or 0)
+                variant_cost = float(current_variant.get('cost', 0) or 0)
+                vals.update({
+                    'api_price': variant_price,
+                    'api_cost': variant_cost,
+                    'list_price': variant_price,
+                    'cost_price': variant_cost,
+                    'stock_quantity': float(current_variant.get('quantity', 0) or 0),
+                })
+            
+            # Handle MSRP
+            if product_data.get('msrp'):
+                msrp_value = float(product_data['msrp'])
+                vals.update({
+                    'msrp_price': msrp_value,
+                    'list_price': msrp_value,
+                })
+            
+            # Handle weight
+            if product_data.get('weight'):
+                try:
+                    weight_lbs = float(product_data['weight'])
+                    vals['weight'] = weight_lbs * 0.453592
+                except (ValueError, TypeError):
+                    vals['weight'] = 0.0
+            
+            # Handle images
+            image_url = False
+            product_images = product_data.get('product_images', [])
+            if product_images and len(product_images) > 0:
+                # Use the first image's product size URL
+                first_image = product_images[0]
+                if 'product' in first_image and 'jpeg' in first_image['product']:
+                    image_url = first_image['product']['jpeg']
+            # Fallbacks: API often provides top-level image fields
+            if not image_url:
+                if product_data.get('image'):
+                    image_url = product_data.get('image')
+                elif product_data.get('image_thumbnail'):
+                    image_url = product_data.get('image_thumbnail')
+
+            # Replace placeholder/missing images with local default
+            if not image_url or self._is_placeholder_image_url(image_url):
+                image_url = DEFAULT_IMAGE_URL
+            vals['image_url'] = image_url
+            # Build rich HTML description and technical specs
+            if attribute_pairs:
+                specs_lines = [
+                    f"{name}: {value}"
+                    for name, value in attribute_pairs
+                    if name and value
+                ]
+                if specs_lines:
+                    vals['specifications'] = '\n'.join(specs_lines)
+            
+            related_parts = {}
+            if isinstance(json_data, dict) and json_data.get('related_parts'):
+                related_parts = json_data['related_parts']
+
+            # Collect SEO keywords (PIES descriptions code KEY)
+            seo_keywords = []
+            pies_data = product_data.get('pies_data') or {}
+            pies_descriptions = pies_data.get('descriptions') or []
+            for desc in pies_descriptions:
+                if desc.get('description_code') == 'KEY' and desc.get('value'):
+                    seo_keywords.append(desc.get('value'))
+            
+            html_description = self._build_html_description(product_data, attribute_pairs, related_parts)
+            if html_description:
+                vals['long_description'] = html_description
+            if seo_keywords:
+                vals['seo_keywords'] = ', '.join(seo_keywords)
+            
+            # Handle categories from breadcrumbs
+            breadcrumbs = product_data.get('breadcrumbs_ancestors', [])
+            if breadcrumbs and len(breadcrumbs) > 1:
+                category_name = breadcrumbs[-1].get('name', '')
+                if category_name:
+                    category = self.env['product.category'].search([('name', '=', category_name)], limit=1)
+                    if not category:
+                        category = self.env['product.category'].sudo().create({'name': category_name})
+                    vals['category_id'] = category.id
+            
+            stock_qty = vals.get('stock_quantity', 0)
+            if 'sellable' in product_data:
+                vals['sellable'] = bool(product_data['sellable'])
+            # Build availability message based on sellable flag and qty
+            availability_msg = self._build_availability_message(vals.get('sellable', True), stock_qty)
+            if availability_msg:
+                vals['availability_message'] = availability_msg
+            
+            # Set stock status based on quantity
+            vals['stock_status'] = 'in_stock' if stock_qty > 0 else 'out_of_stock'
+            
+            # Check if product already exists
+            existing_product = self.search([
+                '|',
+                ('finditparts_id', '=', vals.get('finditparts_id')),
+                ('sku', '=', vals.get('sku'))
+            ], limit=1)
+            
+            if existing_product:
+                existing_product.write(vals)
+                _logger.info(f"Updated existing product: {existing_product.sku}")
+                return existing_product, False
+            else:
+                new_product = self.create(vals)
+                _logger.info(f"Created new product: {new_product.sku}")
+                return new_product, True
+                
+        except Exception as e:
+            _logger.error(f"Failed to create product from JSON: {str(e)}")
+            raise
+    
+    def _fetch_detailed_product_data(self, client, product_data):
+        """Fetch a richer product payload (with pies_data/descriptions) when starting
+        from a basic /api/v1/products record.
+
+        This is used for search/list endpoints so that we end up with the same
+        level of detail as the lookup endpoint.
+        """
+        product_id = product_data.get('id') or product_data.get('product_id')
+        pn = product_data.get('part_number')
+        if not product_id and not pn:
+            return None
+        try:
+            detail = None
+            if product_id:
+                detail = client.get_product_with_pies_data(product_id, include_pies_data=True)
+            if not detail and pn:
+                detail = client.lookup_product_by_part_number(pn, include_pies_data=True)
+            if not detail or not isinstance(detail, dict):
+                return None
+            return detail
+        except Exception as e:
+            _logger.warning(f"Failed to enrich product data for {pn or product_id}: {e}")
+            return None
+
+    @api.model
+    def sync_products_from_api(self, search_query=None, part_number=None, limit=100, config=None):
+        """Sync products from FinditParts API and create them in Odoo"""
+        config = config or self.env['finditparts.config'].get_active_config()
+        if not config:
+            raise ValidationError(_('No active FinditParts configuration found'))
+        
+        from ..utils.api_client import FindinPartAPIClient
+        client = FindinPartAPIClient(config)
+        
+        try:
+            # Determine source label (for temporary debug marker)
+            if part_number:
+                source_label = 'lookup'
+            elif search_query:
+                source_label = 'search'
+            else:
+                source_label = 'list'
+
+            # Get products from API
+            if part_number:
+                response = client.lookup_product_by_part_number(part_number, include_pies_data=True)
+                products_batches = []
+                if response and response.get('errno', 0) == 0 and isinstance(response, dict):
+                    # /api/v1/products/lookup may return one of several shapes:
+                    # 1) {"errno": 0, "products": [ {"product": {...}, ...}, ...] }
+                    # 2) {"errno": 0, "main_part": {...}, "part_number_matches": [...], ...}
+                    # 3) {"errno": 0, "part_number_matches": [...], ...}
+                    products: list = []
+                    resp_products = response.get('products') or []
+                    if isinstance(resp_products, list) and resp_products:
+                        # Case 1: direct list of product containers
+                        products = resp_products
+                    elif response.get('main_part'):
+                        # Case 2: main_part + matches; let create_from_api_json
+                        # decide how to merge main_part and part_number_matches.
+                        products = [response]
+                    elif isinstance(response.get('part_number_matches'), list) and response.get('part_number_matches'):
+                        # Case 3: only matches, no main_part; treat each match as a product
+                        products = response['part_number_matches']
+                    elif response.get('product'):
+                        # Fallback in case the API ever returns a single "product" object
+                        products = [response]
+                    if products:
+                        products_batches = [products]
+            elif search_query:
+                products_batches = client.search_products_paginated(
+                    search_query,
+                    strict=False,
+                    total_limit=limit,
+                    batch_size=min(100, max(1, limit)),
+                )
+            else:
+                products_batches = client.get_products_paginated(
+                    total_limit=limit,
+                    batch_size=min(100, max(1, limit)),
+                )
+            
+            created_products = []
+            updated_products = []
+            errors = []
+            
+            for products in products_batches:
+                for product_data in products:
+                    print(product_data)
+                    try:
+                        effective_data = product_data
+                        # For search/list results, use a detailed call to fetch
+                        # full product information (pies_data, descriptions, etc.).
+                        if source_label in ('search', 'list'):
+                            enriched = self._fetch_detailed_product_data(client, product_data)
+                            if enriched:
+                                effective_data = enriched
+
+                        # Create or update product
+                        finditparts_product, was_created = self.create_from_api_json(effective_data)
+                        
+                        # Sync to Odoo if auto_create_products is enabled
+                        if config.auto_create_products:
+                            sync_result = finditparts_product.sync_to_odoo()
+                            if sync_result:
+                                if was_created:
+                                    if len(created_products) < 200:
+                                        created_products.append(finditparts_product)
+                                else:
+                                    if len(updated_products) < 200:
+                                        updated_products.append(finditparts_product)
+                            else:
+                                errors.append(f"Failed to sync {finditparts_product.sku} to Odoo")
+                        
+                    except Exception as e:
+                        error_msg = f"Failed to process product {product_data.get('part_number', 'Unknown')}: {str(e)}"
+                        errors.append(error_msg)
+                        _logger.error(error_msg)
+            
+            # Update config sync date
+            config.last_sync_date = fields.Datetime.now()
+            config.update_sync_schedule()
+            
+            return {
+                'created': len(created_products),
+                'updated': len(updated_products),
+                'errors': errors,
+                'created_products': created_products,
+                'updated_products': updated_products
+            }
+            
+        except Exception as e:
+            _logger.error(f"API sync failed: {str(e)}")
+            raise ValidationError(_(f"API sync failed: {str(e)}"))
+    
+    def action_sync_from_api(self):
+        """Manual action to sync products from API"""
+        wizard = self.env['finditparts.product.sync.wizard'].create({})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'finditparts.product.sync.wizard',
+            'res_id': wizard.id,
+            'view_mode': 'form',
+            'target': 'new',
+            'name': _('Sync Products from API')
+        }

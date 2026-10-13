@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- FinditParts Order Form View -->
+        <record id="finditparts_order_form" model="ir.ui.view">
+            <field name="name">finditparts.order.form</field>
+            <field name="model">finditparts.order</field>
+            <field name="arch" type="xml">
+                <form string="FinditParts Order">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,processing,shipped,delivered"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Order Information">
+                                <field name="reference"/>
+                                <field name="finditparts_order_id" readonly="1"/>
+                                <field name="customer_id"/>
+                                <field name="order_date"/>
+                                <field name="state"/>
+                            </group>
+                            <group string="Financial Information">
+                                <field name="currency_id"/>
+                                <field name="total_amount"/>
+                                <field name="sync_status"/>
+                                <field name="last_sync_date"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Shipping Information" name="shipping">
+                                <group>
+                                    <field name="shipping_address"/>
+                                    <field name="tracking_number"/>
+                                    <field name="estimated_delivery"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Additional Info" name="additional">
+                                <group>
+                                    <field name="notes" widget="text"/>
+                                    <field name="sync_errors" widget="text" readonly="1"/>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- FinditParts Order Tree View -->
+        <record id="finditparts_order_tree" model="ir.ui.view">
+            <field name="name">finditparts.order.tree</field>
+            <field name="model">finditparts.order</field>
+            <field name="arch" type="xml">
+                <list decoration-info="state=='draft'" decoration-success="state=='delivered'" decoration-warning="state=='processing'">
+                    <field name="reference"/>
+                    <field name="customer_id"/>
+                    <field name="order_date"/>
+                    <field name="total_amount"/>
+                    <field name="sync_status"/>
+                    <field name="state"/>
+                    <field name="tracking_number"/>
+                </list>
+            </field>
+        </record>
+        
+        <!-- FinditParts Order Search View -->
+        <record id="finditparts_order_search" model="ir.ui.view">
+            <field name="name">finditparts.order.search</field>
+            <field name="model">finditparts.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="reference"/>
+                    <field name="customer_id"/>
+                    <field name="finditparts_order_id"/>
+                    <field name="tracking_number"/>
+                    
+                    <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <filter string="Processing" name="processing" domain="[('state', '=', 'processing')]"/>
+                    <filter string="Shipped" name="shipped" domain="[('state', '=', 'shipped')]"/>
+                    <filter string="Delivered" name="delivered" domain="[('state', '=', 'delivered')]"/>
+                    
+                    <separator/>
+                    <filter string="Synced" name="synced" domain="[('sync_status', '=', 'synced')]"/>
+                    <filter string="Pending Sync" name="pending_sync" domain="[('sync_status', '=', 'pending')]"/>
+                    
+                    <group>
+                        <filter string="Customer" name="group_by_customer" context="{'group_by': 'customer_id'}"/>
+                        <filter string="State" name="group_by_state" context="{'group_by': 'state'}"/>
+                        <filter string="Sync Status" name="group_by_sync_status" context="{'group_by': 'sync_status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- FinditParts Order Action -->
+        <record id="action_finditparts_order" model="ir.actions.act_window">
+            <field name="name">FinditParts Orders</field>
+            <field name="res_model">finditparts.order</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No FinditParts orders found!
+                </p>
+                <p>
+                    Orders from FinditParts API will appear here once synchronized.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

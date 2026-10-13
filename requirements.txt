@@ -1,0 +1,20 @@
+# Python dependencies for FindinPart Integration Module
+# These packages should be installed in your Odoo environment
+
+# HTTP requests for API communication
+requests>=2.31.0
+
+# Image processing (for product images)
+Pillow>=10.0.0
+
+# Date/time handling
+python-dateutil>=2.8.2
+
+# JSON handling (usually included with Python)
+# json
+
+# Logging (included with Python)
+# logging
+
+# XML processing (included with Python)
+# xml.etree.ElementTree
