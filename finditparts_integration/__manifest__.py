@@ -42,6 +42,7 @@
     'assets': {
         'web.assets_frontend': [
             'finditparts_integration/static/src/css/autohaus_header.css',
+            'finditparts_integration/static/src/css/shop_products_chips.css',
         ],
     },
     'demo': [],
