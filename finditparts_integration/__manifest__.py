@@ -39,11 +39,13 @@
         'views/website_checkout_override.xml',
         'views/website_header_override.xml',
         'views/website_footer_override.xml',
+        'views/website_shop_hero.xml',
     ],
     'assets': {
         'web.assets_frontend': [
             'finditparts_integration/static/src/css/autohaus_header.css',
             'finditparts_integration/static/src/css/autohaus_footer.css',
+            'finditparts_integration/static/src/css/autohaus_shop_hero.css',
             'finditparts_integration/static/src/css/shop_products_chips.css',
         ],
     },

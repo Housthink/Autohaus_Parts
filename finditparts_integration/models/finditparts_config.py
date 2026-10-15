@@ -61,6 +61,12 @@ class FindinPartConfig(models.Model):
     
     enable_debug_logging = fields.Boolean('Enable Debug Logging', default=False)
     max_log_entries = fields.Integer('Max Log Entries', default=1000)
+
+    # Website - imagen del banner superior de la tienda
+    shop_hero_image = fields.Binary(
+        'Shop Hero Image',
+        help='Imagen del banner de la tienda (/shop). Si se vacia, el bloque '
+             'se muestra sin imagen.')
     
     @api.constrains('api_base_url')
     def _check_api_url(self):

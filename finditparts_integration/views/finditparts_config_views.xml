@@ -54,6 +54,12 @@
                                 <field name="price_margin_percent"/>
                             </group>
                         </group>
+
+                        <group>
+                            <group string="Website">
+                                <field name="shop_hero_image" widget="image" class="oe_avatar"/>
+                            </group>
+                        </group>
                         
                         <group>
                             <group string="Shipping Addresses">
