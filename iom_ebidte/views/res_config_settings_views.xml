@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_iom" model="ir.ui.view">
+        <field name="name">res.config.settings.form.iom</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//block[@id='invoicing_settings']" position="after">
+                <block title="Facturacion IOM / EBI" id="iom_ebidte_settings"
+                       groups="account.group_account_invoice">
+                    <setting string="URL del middleware"
+                             help="Debe ser accesible desde el servidor de Odoo.">
+                        <field name="iom_url"/>
+                    </setting>
+                    <setting string="API key del cliente">
+                        <field name="iom_api_key" password="True"/>
+                    </setting>
+                    <setting string="Sucursal">
+                        <field name="iom_sucursal"/>
+                    </setting>
+                    <setting string="Punto de facturacion fiscal">
+                        <field name="iom_punto_fiscal"/>
+                    </setting>
+                    <setting string="Tipo de documento">
+                        <field name="iom_tipo_documento"/>
+                    </setting>
+                    <setting string="Tipo de contribuyente">
+                        <field name="iom_tipo_contribuyente"/>
+                    </setting>
+                    <setting string="Tipo de cliente FE">
+                        <div class="text-muted" style="margin-bottom: 4px;">
+                            Vacio = se deduce del RUC del contacto (con RUC: contribuyente,
+                            sin RUC: consumidor final).
+                        </div>
+                        <field name="iom_tipo_cliente"/>
+                    </setting>
+                    <setting string="Unidad de medida por defecto"
+                             help="Codigo de la Tabla 3 de EBI-PAC. En el producto se puede definir uno por linea.">
+                        <field name="iom_unidad_medida_defecto"/>
+                    </setting>
+                    <setting string="Codigo de ubicacion"
+                             help="Provincia-distrito-corregimiento segun DGI.">
+                        <field name="iom_codigo_ubicacion"/>
+                    </setting>
+                    <setting string="Corregimiento"
+                             help="Si se deja vacio se usa el distrito del contacto.">
+                        <field name="iom_corregimiento"/>
+                    </setting>
+                    <setting string="Offset horario">
+                        <field name="iom_timezone_offset"/>
+                    </setting>
+                    <setting string="Timeout HTTP">
+                        <field name="iom_timeout"/>
+                    </setting>
+                </block>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Disparadoras de la emision. Se dejan definidas aca para no depender de
+        que alguien las cree a mano en la base del cliente, que es justamente
+        donde se pierde tiempo.
+    -->
+
+    <!-- Accion individual: usable desde el formulario y desde la lista. -->
+    <record id="action_iom_emitir_servidor" model="ir.actions.server">
+        <field name="name">IOM: Emitir a EBI (factura actual)</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="code"># `records` solo viene poblado si el contexto trae
+# active_model. Se resuelve a mano para que la accion tambien funcione
+# cuando la dispara otra accion o una regla de automatizacion.
+records = records or model.browse(env.context.get('active_ids', []))
+if records:
+    records.action_iom_emitir()</field>
+        <field name="state">code</field>
+    </record>
+
+    <!--
+        Accion en lote: aísla los errores. Pensada para marcar varias facturas
+        y emitirlas de una, sin que un dato incompleto frene al resto.
+    -->
+    <record id="action_iom_emitir_lote" model="ir.actions.server">
+        <field name="name">IOM: Emitir a EBI (lote)</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="code">records = records or model.browse(env.context.get('active_ids', []))
+action = records.action_iom_emitir_lote() if records else None</field>
+        <field name="state">code</field>
+        <field name="usage">ir_actions_server</field>
+    </record>
+
+    <!--
+        Cron: emite solo las facturas que nunca salieron, para que un corte de
+        red o del middleware no deje documentos sin enviar. Se deja inactivo
+        por defecto: hay que activarlo a proposito.
+
+        No reintenta las 'rechazadas'. Una factura rechazada por datos
+        invalidas va a seguir fallando, y reintentarla cada 5 minutos solo
+        genera ruido en EBI. Esas se relanzan a mano desde la accion en lote.
+    -->
+    <record id="ir_cron_iom_emitir_pendientes" model="ir.cron">
+        <field name="name">IOM: Emitir a EBI las pendientes</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">model = env['account.move']
+facturas = model.search([
+    ('iom_estado_dte', '=', 'borrador'),
+    ('state', '=', 'posted'),
+    ('move_type', '=', 'out_invoice'),
+])
+if facturas:
+    facturas.action_iom_emitir_lote()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="False"/>
+    </record>
+
+</odoo>

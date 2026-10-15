@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts header
+         Injects the branded header markup inside <header> (stable hook) and
+         hides Odoo's default navbar via CSS (.o_autohaus_default_nav).
+         Layout: [logo] [big search bar] [Soporte] [Mis cotizaciones] [cart]
+         ================================================================== -->
+    <template id="autohaus_header"
+              inherit_id="portal.frontend_layout"
+              name="Autohaus Parts Header"
+              priority="40">
+
+        <xpath expr="//header" position="inside">
+            <nav class="o_autohaus_header d-none d-lg-block" aria-label="Autohaus header">
+                <div class="o_autohaus_header_inner">
+
+                    <!-- Brand -->
+                    <a class="o_autohaus_brand" href="/">
+                        <img t-if="website.logo"
+                             t-att-src="website.image_url(website, 'logo')"
+                             alt="AutoHaus Parts"
+                             class="o_autohaus_brand_logo"/>
+                        <span t-if="not website.logo" class="o_autohaus_brand_text">
+                            <span class="o_autohaus_brand_name">Autohaus</span>
+                            <span class="o_autohaus_brand_sub">Parts</span>
+                        </span>
+                    </a>
+
+                    <!-- Search -->
+                    <form class="o_autohaus_search" role="search" action="/shop" method="get">
+                        <input type="text"
+                               name="search"
+                               class="o_autohaus_search_input"
+                               autocomplete="off"
+                               placeholder="Buscar por palabra clave, número de parte, categoría..."/>
+                        <button type="submit" class="o_autohaus_search_btn" title="Buscar" aria-label="Buscar">
+                            <i class="oi oi-search"/>
+                        </button>
+                    </form>
+
+                    <!-- Right actions -->
+                    <div class="o_autohaus_actions">
+                        <a class="o_autohaus_action" href="/contactus">
+                            <i class="fa fa-life-ring o_autohaus_action_icon"/>
+                            <span>Soporte</span>
+                        </a>
+                        <a class="o_autohaus_action" href="#">
+                            <i class="fa fa-file-text-o o_autohaus_action_icon"/>
+                            <span>Mis cotizaciones</span>
+                        </a>
+                        <a class="o_autohaus_cart" href="/shop/cart" title="Carrito" aria-label="Carrito">
+                            <i class="fa fa-shopping-cart"/>
+                        </a>
+                    </div>
+
+                </div>
+            </nav>
+
+            <!-- ============================================================
+                 Secondary navigation bar (below the header)
+                 ============================================================ -->
+            <div class="o_autohaus_navbar2 d-none d-lg-block">
+                <div class="o_autohaus_navbar2_inner">
+                    <a class="o_autohaus_navlink" href="/shop">Tienda</a>
+                    <a class="o_autohaus_navlink" href="#">Sobre Nosotros</a>
+                    <a class="o_autohaus_navlink" href="/contactus">Contáctanos</a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

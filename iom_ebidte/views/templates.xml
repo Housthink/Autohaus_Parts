@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="emit_result" name="Resultado de emision IOM">
+        <t t-call="web.html_container">
+            <t t-foreach="[0]" t-as="dummy">
+                <t t-call="web.internal_layout">
+                    <div class="alert alert-info" role="alert">
+                        <h4 t-if="error">Error al emitir</h4>
+                        <h4 t-else=""><t t-out="message"/></h4>
+                        <p t-if="error"><t t-out="message"/></p>
+                        <p t-if="cufe"><strong>CUFE:</strong> <code t-out="cufe"/></p>
+                    </div>
+                    <div class="text-center">
+                        <a href="/odoo" class="btn btn-primary">Volver a Odoo</a>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
