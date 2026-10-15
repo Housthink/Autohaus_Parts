@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts footer
+         Dark navy contact bar: logo, phone, email, website, address.
+         ================================================================== -->
+    <template id="autohaus_footer"
+              inherit_id="portal.frontend_layout"
+              name="Autohaus Parts Footer"
+              priority="40">
+
+        <xpath expr="//footer" position="after">
+            <div class="o_autohaus_footer">
+                <div class="o_autohaus_footer_inner">
+
+                    <!-- Logo -->
+                    <div class="o_autohaus_footer_brand">
+                        <a href="/" aria-label="AutoHaus Parts">
+                            <img t-if="website.logo"
+                                 t-att-src="website.image_url(website, 'logo')"
+                                 alt="AutoHaus Parts"
+                                 class="o_autohaus_footer_logo"/>
+                        </a>
+                    </div>
+
+                    <!-- Phone -->
+                    <a class="o_autohaus_footer_item" href="tel:+50761003446">
+                        <i class="fa fa-phone o_autohaus_footer_icon"/>
+                        <span>+507 6 100-3446</span>
+                    </a>
+
+                    <!-- Email -->
+                    <a class="o_autohaus_footer_item" href="mailto:ventas@autohauspart.com">
+                        <i class="fa fa-envelope-o o_autohaus_footer_icon"/>
+                        <span>ventas@autohauspart.com</span>
+                    </a>
+
+                    <!-- Website -->
+                    <a class="o_autohaus_footer_item" href="https://www.autohauspart.com" target="_blank" rel="noopener">
+                        <i class="fa fa-globe o_autohaus_footer_icon"/>
+                        <span>www.autohauspart.com</span>
+                    </a>
+
+                    <!-- Address -->
+                    <div class="o_autohaus_footer_address">
+                        <i class="fa fa-map-marker o_autohaus_footer_icon"/>
+                        <span>
+                            Avenida 17C Norte &amp; C. 74 Oeste,<br/>
+                            El Dorado, Bethania, Panamá
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
