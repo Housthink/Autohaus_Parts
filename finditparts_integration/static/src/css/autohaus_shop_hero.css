@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Autohaus Parts - Hero banner de la tienda (/shop)
+   Texto a la izquierda, espacio para la imagen a la derecha.
+   La imagen se carga manualmente desde el editor de website.
+   ========================================================================== */
+.o_autohaus_hero {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.o_autohaus_hero_inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.25rem 1rem;
+}
+
+/* --- Texto ------------------------------------------------------------- */
+.o_autohaus_hero_text {
+    flex: 0 0 52%;
+    max-width: 52%;
+    min-width: 0;
+}
+
+.o_autohaus_hero_title {
+    margin: 0 0 0.75rem;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.o_autohaus_hero_title_top {
+    display: block;
+    color: #123a5f;
+}
+
+.o_autohaus_hero_title_bottom {
+    display: block;
+    color: #ee5a24;
+}
+
+.o_autohaus_hero_subtitle {
+    margin: 0 0 1.5rem;
+    max-width: 46ch;
+    color: #4a4a4a;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* --- Distintivos -------------------------------------------------------- */
+.o_autohaus_hero_badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.o_autohaus_hero_badges li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #123a5f;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.o_autohaus_hero_badges i.fa {
+    color: #123a5f;
+    font-size: 1.05rem;
+}
+
+/* --- Fondo del banner --------------------------------------------------- */
+.o_autohaus_hero {
+    position: relative;
+}
+
+.o_autohaus_hero_bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+
+/* --- Responsive -------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .o_autohaus_hero_inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .o_autohaus_hero_title {
+        font-size: 2rem;
+    }
+
+    .o_autohaus_hero_text {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .o_autohaus_hero_badges {
+        gap: 1rem;
+    }
+}
