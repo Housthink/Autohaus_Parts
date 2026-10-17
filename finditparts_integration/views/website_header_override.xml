@@ -52,6 +52,18 @@
                         <a class="o_autohaus_cart" href="/shop/cart" title="Carrito" aria-label="Carrito">
                             <i class="fa fa-shopping-cart"/>
                         </a>
+                        <t t-if="request.env.user._is_public()">
+                            <a class="o_autohaus_action" href="/web/login">
+                                <i class="fa fa-user o_autohaus_action_icon"/>
+                                <span>Iniciar sesión</span>
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <a class="o_autohaus_action" href="/my">
+                                <i class="fa fa-user-circle-o o_autohaus_action_icon"/>
+                                <span t-esc="request.env.user.name"/>
+                            </a>
+                        </t>
                     </div>
 
                 </div>
