@@ -18,11 +18,10 @@
             <t t-set="fip_cfg" t-value="request.env['finditparts.config'].sudo().search([('active','=',True)], limit=1)"/>
             <section t-if="autohaus_shop_path == '/shop' or autohaus_shop_path.startswith('/shop/category')"
                      class="o_autohaus_hero">
-                <!-- Fondo del banner, tomado de la configuracion
-                         (FindinPart > Configuracion > Shop Hero Image) -->
-                <img t-if="fip_cfg and fip_cfg.shop_hero_image"
-                     class="o_autohaus_hero_bg"
-                     t-att-src="image_data_uri(fip_cfg.shop_hero_image)"
+                <!-- Fondo del banner. La imagen viaja con el modulo (no depende de la BD),
+                         asi funciona igual en local, Odoo.sh o cualquier entorno. -->
+                <img class="o_autohaus_hero_bg"
+                     src="/finditparts_integration/static/img/hero.jpg"
                      alt="Camiones y motores"/>
 
                 <div class="o_autohaus_hero_inner">
