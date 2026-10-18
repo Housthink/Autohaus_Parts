@@ -465,60 +465,62 @@ class FindinPartProduct(models.Model):
         return attribute_pairs
     
     def _build_html_description(self, product_data, attribute_pairs=None, related_parts=None):
-        """Generate an HTML description using textual content from the API.
+        """Genera la descripcion del producto en la web.
 
-        The generated HTML is wrapped in a padded container and uses small
-        section headers and styled tables to look clean on the website.
+        Solo se muestran dos bloques, con el diseno de dos tarjetas:
+          - Quick Facts        (datos clave del producto)
+          - Product Attributes (atributos PIES)
+
+        El estilo vive en el CSS del modulo (autohaus_product_facts.css);
+        aqui solo se genera el HTML semantico.
         """
         attribute_pairs = attribute_pairs or []
-        related_parts = related_parts or {}
         sections = []
-        feature_list = []
-        pies_titles = {
-            'ASM': _('Application Summary'),
-            'MKT': _('Marketing Description'),
-            'DES': _('Product Description'),
-            'DEF': _('Part Type Description'),
-            'EXT': _('Extended Description'),
-            'SHO': _('Short Description'),
-            'INV': _('Invoice Description'),
-        }
-        # Quick facts taken from the product payload to render above long text
-        quick_facts = []
-        category_label = None
-        
+
         def format_text(value):
             if value in (None, False):
                 return ''
             text = str(value)
-            # Strip script/style blocks for safety
-            text = re.sub(r'<(script|style)[^>]*>.*?</\\1>', '', text, flags=re.IGNORECASE | re.DOTALL)
-            # If it already contains HTML tags, keep them (so titles/paragraphs render)
+            text = re.sub(r'<(script|style)[^>]*>.*?</\\1>', '', text,
+                          flags=re.IGNORECASE | re.DOTALL)
             if re.search(r'<[^>]+>', text):
                 return text
             return html_escape(text).replace('\n', '<br/>')
-        
-        def add_section(title, content):
-            if content:
-                sections.append(
-                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{html_escape(title)}</h4>"
-                    f"<p style='text-align:justify;margin:0 0 8px;'>{format_text(content)}</p>"
-                )
-        
-        # Determine category from breadcrumbs (last entry is usually the specific category)
+
+        def build_card(title, rows):
+            """Tarjeta con titulo y tabla etiqueta/valor."""
+            if not rows:
+                return ''
+            body = ''.join(
+                f"<div class='o_autohaus_facts_row'>"
+                f"<span class='o_autohaus_facts_label'>{format_text(label)}</span>"
+                f"<span class='o_autohaus_facts_value'>{format_text(value)}</span>"
+                f"</div>"
+                for label, value in rows if value not in (None, '', [])
+            )
+            if not body:
+                return ''
+            return (
+                f"<div class='o_autohaus_facts_card'>"
+                f"<h3 class='o_autohaus_facts_title'>{format_text(title)}</h3>"
+                f"<div class='o_autohaus_facts_table'>{body}</div>"
+                f"</div>"
+            )
+
+        # --- Quick Facts ---------------------------------------------------
         breadcrumbs = product_data.get('breadcrumbs_ancestors') or []
+        category_label = None
         if isinstance(breadcrumbs, list) and breadcrumbs:
-            last = breadcrumbs[-1] or {}
-            category_label = last.get('name')
-        
+            category_label = (breadcrumbs[-1] or {}).get('name')
+
         current_variant = product_data.get('current_variant') or {}
-        
-        # Build quick facts table (safe HTML)
         core_description = (
             product_data.get('short_description')
             or product_data.get('description')
             or product_data.get('long_description')
         )
+
+        quick_facts = []
         for label, value in [
             (_('Part Number'), product_data.get('part_number') or product_data.get('sku')),
             (_('Manufacturer'), product_data.get('manufacturer') or product_data.get('brand')),
@@ -531,151 +533,32 @@ class FindinPartProduct(models.Model):
         ]:
             if value not in (None, '', []):
                 quick_facts.append((label, value))
-        
-        if quick_facts:
-            rows = ''.join(
-                "<tr>"
-                f"<th style='background-color:#f5f5f5;font-weight:600;padding:4px 8px;white-space:nowrap;'>{format_text(label)}</th>"
-                f"<td style='padding:4px 8px;'>{format_text(value)}</td>"
-                "</tr>"
-                for label, value in quick_facts
-            )
-            sections.append(
-                f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Quick Facts')}</h4>"
-                f"<table class='table table-striped table-sm' style='width:100%;border-collapse:collapse;'>{rows}</table>"
-            )
 
-                # NOTE: Gallery/Images section intentionally omitted for Odoo website
-        # to avoid duplicating product images in the long description.
-        
-        descriptions = product_data.get('descriptions') or {}
-        if isinstance(descriptions, dict):
-            for lang_code, desc_data in descriptions.items():
-                if not isinstance(desc_data, dict):
-                    continue
-                lang = lang_code.upper()
-                add_section(_('Product Description (%s)') % lang, desc_data.get('product'))
-                add_section(_('Marketing (%s)') % lang, desc_data.get('marketing'))
-                feature_list.extend(desc_data.get('features') or [])
-        
-        pies_data = product_data.get('pies_data') or {}
-        pies_descriptions = pies_data.get('descriptions') or []
-        seo_keywords = []
-        for desc in pies_descriptions:
-            value = desc.get('value')
-            if not value:
-                continue
-            code = desc.get('description_code')
-            if code == 'FAB':
-                feature_list.append(value)
-                continue
-            if code == 'KEY':
-                seo_keywords.append(value)
-                continue
-            title = desc.get('title') or pies_titles.get(code) or _('Additional Information')
-            add_section(title, value)
-        
-        if feature_list:
-            items = ''.join(f"<li>{format_text(feature)}</li>" for feature in feature_list if feature)
-            if items:
-                sections.append(f"<h4>{_('Features & Benefits')}</h4><ul>{items}</ul>")
-        
-        if attribute_pairs:
-            rows = ''.join(
-                "<tr>"
-                f"<th style='background-color:#f5f5f5;font-weight:600;padding:4px 8px;white-space:nowrap;'>{format_text(name)}</th>"
-                f"<td style='padding:4px 8px;'>{format_text(value)}</td>"
-                "</tr>"
-                for name, value in attribute_pairs if value
-            )
-            if rows:
-                sections.append(
-                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Product Attributes')}</h4>"
-                    f"<table class='table table-bordered table-sm' style='width:100%;border-collapse:collapse;'>{rows}</table>"
-                )
-        
-        extended_info = pies_data.get('extended_product_informations') or []
-        if extended_info:
-            ext_rows = ''.join(
-                "<tr>"
-                f"<th style='background-color:#f5f5f5;font-weight:600;padding:4px 8px;white-space:nowrap;'>{format_text(info.get('description') or info.get('expi_code'))}</th>"
-                f"<td style='padding:4px 8px;'>{format_text(info.get('value'))}</td>"
-                "</tr>"
-                for info in extended_info if info.get('value')
-            )
-            if ext_rows:
-                sections.append(
-                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Additional Information')}</h4>"
-                    f"<table class='table table-striped table-sm' style='width:100%;border-collapse:collapse;'>{ext_rows}</table>"
-                )
-        
-        interchanges = pies_data.get('part_interchanges') or []
-        related_interchanges = []
-        if interchanges:
-            related_interchanges.extend([
-                (i.get('brand_label') or i.get('brand_aaiaid') or _('Brand'), i.get('part_number'))
-                for i in interchanges if i.get('part_number')
-            ])
-        if isinstance(related_parts, dict):
-            for category, values in related_parts.items():
-                if isinstance(values, list):
-                    for part in values:
-                        brand_label = part.get('brand') or part.get('manufacturer') or category.title()
-                        part_number = part.get('part_number')
-                        if part_number:
-                            related_interchanges.append((brand_label, part_number))
-                elif isinstance(values, dict):
-                    brand_label = values.get('brand') or values.get('manufacturer') or category.title()
-                    part_number = values.get('part_number')
-                    if part_number:
-                        related_interchanges.append((brand_label, part_number))
-        if related_interchanges:
-            interchange_items = ''.join(
-                f"<li>{format_text(brand)} - {format_text(part)}</li>"
-                for brand, part in related_interchanges if part
-            )
-            if interchange_items:
-                sections.append(
-                    f"<h4 style='margin:16px 0 8px;font-size:16px;font-weight:600;'>{_('Part Interchanges')}</h4>"
-                    f"<ul style='margin:0 0 8px 20px;padding:0;'>{interchange_items}</ul>"
-                )
-        
-        # Fallback: if for some reason no sections were built, at least show a basic
-        # textual description so website_description is never empty.
+        card = build_card(_('Quick Facts'), quick_facts)
+        if card:
+            sections.append(card)
+
+        # --- Product Attributes -------------------------------------------
+        card = build_card(_('Product Attributes'), list(attribute_pairs))
+        if card:
+            sections.append(card)
+
         if not sections:
-            fallback_lines = []
-            if product_data.get('part_number'):
-                fallback_lines.append(f"{_('Part Number')}: {product_data.get('part_number')}")
-            if product_data.get('manufacturer') or product_data.get('brand'):
-                fallback_lines.append(
-                    f"{_('Manufacturer')}: {product_data.get('manufacturer') or product_data.get('brand')}"
-                )
-            if core_description:
-                fallback_lines.append(f"{_('Description')}: {core_description}")
-            if fallback_lines:
-                sections.append(
-                    "<p style='text-align:justify;margin:0 0 8px;'>"
-                    + '<br/>'.join(format_text(line) for line in fallback_lines)
-                    + "</p>"
-                )
-        
-        body = '\n'.join(sections)
-        # Remove any legacy "Key Search Words" blocks if present
-        body = re.sub(
-            r'<h[1-6][^>]*>\\s*key\\s*search\\s*words\\s*</h[1-6]>\\s*(<[^>]+>.*?</[^>]+>)?',
-            '',
-            body,
-            flags=re.IGNORECASE | re.DOTALL,
-        )
-        if not body:
             return ''
-        # Wrap everything in a padded, centered container so it does not touch page borders
+
+        body = ''.join(sections)
+        # 'container' de Odoo/Bootstrap: mismo ancho y padding que la fila
+        # del producto (imagen + detalles), para que queden alineados.
+        # Las tarjetas van dentro de un flex para que queden siempre una al
+        # lado de la otra (y se apilen solas si no cabe el espacio).
         return (
-            "<div class='finditparts-long-description' "
-            "style='max-width:1100px;margin:0 auto;padding:24px 80px;font-size:14px;line-height:1.5;'>"
-            f"{body}</div>"
+            "<div class='o_autohaus_facts container'>"
+            "<div class='o_autohaus_facts_inner'>"
+            f"{body}"
+            "</div>"
+            "</div>"
         )
-    
+
     def _build_availability_message(self, sellable, stock_qty=None):
         """Return an availability message when the product cannot be purchased online."""
         qty = stock_qty if stock_qty is not None else (self.stock_quantity or 0)

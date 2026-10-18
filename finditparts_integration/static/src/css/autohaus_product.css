@@ -1,0 +1,339 @@
+/* ==========================================================================
+   Autohaus Parts - Barra superior de utilidades
+   ========================================================================== */
+.o_autohaus_topbar {
+    background: #123a5f;
+    color: #ffffff;
+    font-size: 0.82rem;
+}
+
+.o_autohaus_topbar_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.35rem 1rem;
+}
+
+.o_autohaus_topbar_msgs {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.o_autohaus_topbar_msgs li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.o_autohaus_topbar_msgs i.fa {
+    color: #ee5a24;
+}
+
+.o_autohaus_topbar_account {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.o_autohaus_topbar_account a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.o_autohaus_topbar_account a:hover {
+    color: #ee5a24;
+}
+
+.o_autohaus_topbar_sep {
+    opacity: 0.4;
+}
+
+.o_autohaus_topbar_cart {
+    margin-left: 0.75rem;
+    font-size: 1rem;
+    position: relative;
+}
+
+.o_autohaus_topbar_cart i.fa {
+    color: #ffffff;
+}
+
+@media (max-width: 991.98px) {
+    .o_autohaus_topbar_msgs li:nth-child(n + 2) {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Autohaus Parts - Ficha de producto
+   ========================================================================== */
+
+/* --- Datos bajo el titulo ---------------------------------------------- */
+.o_autohaus_prod_meta {
+    margin-bottom: 1rem;
+}
+
+.o_autohaus_prod_ident {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.5rem;
+    padding: 0;
+    list-style: none;
+}
+
+.o_autohaus_prod_ident li {
+    padding: 0.15rem 0.6rem;
+    border: 1px solid #d8dde3;
+    border-radius: 999px;
+    background: #f5f7f9;
+    color: #123a5f;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.o_autohaus_prod_ident li.o_autohaus_prod_ident_alt {
+    background: #eaf3fb;
+    border-color: #bcdcf5;
+    color: #0f6fb5;
+}
+
+.o_autohaus_prod_avail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+}
+
+.o_autohaus_prod_rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    color: #f0a30a;
+}
+
+.o_autohaus_prod_rating em {
+    margin-left: 0.35rem;
+    color: #6c757d;
+    font-style: normal;
+}
+
+.o_autohaus_star_on::before {
+    content: "\f005";
+}
+
+.o_autohaus_star_off {
+    color: #cfd6dd;
+}
+
+.o_autohaus_prod_stock {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #1c8a4a;
+    font-weight: 600;
+}
+
+.o_autohaus_prod_stock em {
+    font-weight: 400;
+    color: #6c757d;
+}
+
+.o_autohaus_prod_desc {
+    margin: 0.75rem 0 0;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+/* --- Boton de compatibilidad -------------------------------------------- */
+.o_autohaus_prod_actions {
+    margin-bottom: 1.1rem;
+}
+
+.o_autohaus_compat_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 2px solid #123a5f;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #123a5f;
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: background 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.o_autohaus_compat_btn:hover {
+    background: #123a5f;
+    color: #ffffff;
+}
+
+/* --- Fila de beneficios -------------------------------------------------- */
+.o_autohaus_prod_benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1rem;
+    margin: 0;
+    padding: 0.9rem 0 0;
+    border-top: 1px solid #eceff2;
+    list-style: none;
+}
+
+.o_autohaus_prod_benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: #123a5f;
+    font-size: 0.82rem;
+    line-height: 1.3;
+}
+
+.o_autohaus_prod_benefits i.fa {
+    flex: 0 0 auto;
+    margin-top: 0.1rem;
+    color: #123a5f;
+    font-size: 1.05rem;
+}
+
+.o_autohaus_prod_benefits span {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+}
+
+.o_autohaus_prod_benefits em {
+    font-weight: 400;
+    color: #6c757d;
+    font-style: normal;
+}
+
+/* --- CTA principal (Agregar a carrito / cotizacion) ---------------------- */
+#product_details .o_wsale_product_details_content_section_cta .btn-primary {
+    background: #ee5a24;
+    border-color: #ee5a24;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+}
+
+#product_details .o_wsale_product_details_content_section_cta .btn-primary:hover {
+    background: #d94d1a;
+    border-color: #d94d1a;
+}
+
+/* --- Titulo del producto -------------------------------------------------- */
+#product_details h1 {
+    color: #123a5f;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_prod_benefits {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+/* ==========================================================================
+   Productos alternos / relacionados
+   ========================================================================== */
+.o_wsale_alternative_products {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+}
+
+.o_autohaus_alt_title {
+    margin: 0 0 0.25rem;
+    color: #123a5f;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.o_autohaus_alt_sub {
+    margin: 0 0 0.75rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Tarjetas horizontales: imagen a la izquierda, datos a la derecha */
+.o_wsale_alternative_products .o_autohaus_alt_card,
+.o_wsale_alternative_products .o_carousel_product_card {
+    flex-direction: row;
+    align-items: stretch;
+    border: 1px solid #e3e6ea;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.o_wsale_alternative_products .o_carousel_product_card .oe_product_image {
+    flex: 0 0 34%;
+    width: 34%;
+    margin: 0;
+    padding: 0;
+}
+
+.o_wsale_alternative_products .o_carousel_product_card .oe_product_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.o_wsale_alternative_products .o_carousel_product_card .o_wsale_product_information {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.6rem 0.75rem;
+    justify-content: space-between;
+}
+
+.o_wsale_alternative_products .o_carousel_product_card .o_wsale_products_item_title {
+    font-size: 0.9rem;
+    line-height: 1.25;
+}
+
+.o_wsale_alternative_products .o_carousel_product_card .o_wsale_product_sub {
+    gap: 4px;
+    align-items: flex-start;
+}
+
+/* Boton naranja de agregar */
+.o_wsale_alternative_products .o_carousel_product_card .o_wsale_product_btn_primary {
+    background: #ee5a24 !important;
+    border-color: #ee5a24 !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.78rem;
+}
+
+.o_wsale_alternative_products .o_carousel_product_card .o_wsale_product_btn_primary:hover {
+    background: #d94d1a !important;
+}
+
+@media (max-width: 767.98px) {
+    .o_wsale_alternative_products .o_carousel_product_card {
+        flex-direction: column;
+    }
+
+    .o_wsale_alternative_products .o_carousel_product_card .oe_product_image {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}

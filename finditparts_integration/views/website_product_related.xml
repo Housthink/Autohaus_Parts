@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts - Productos alternos (relacionados)
+         Solo se muestra si el producto tiene alternative_product_ids,
+         que es el comportamiento nativo de Odoo.
+         ================================================================== -->
+    <template id="autohaus_alternative_products"
+              inherit_id="website_sale.product"
+              name="Autohaus Alternative Products"
+              priority="45">
+
+        <!-- Titulo en espanol + diseno de la imagen -->
+        <xpath expr="//section[hasclass('o_wsale_alternative_products')]//h4"
+              position="replace">
+            <h4 class="o_autohaus_alt_title">Productos relacionados</h4>
+        </xpath>
+
+        <xpath expr="//section[hasclass('o_wsale_alternative_products')]//p[@class='lead']"
+              position="replace">
+            <p class="o_autohaus_alt_sub o_not_editable">
+                Estos productos tambien pueden interesarte
+            </p>
+        </xpath>
+    </template>
+
+    <!-- Tarjetas: el snippet dinamico vive en un archivo de datos aparte -->
+    <template id="autohaus_alternative_card"
+              inherit_id="website_sale.dynamic_filter_template_product_product_products_item"
+              name="Autohaus Alternative Product Card"
+              priority="45">
+
+        <xpath expr="//div[hasclass('oe_product_cart')]" position="attributes">
+            <attribute name="class" add="o_autohaus_alt_card" separator=" "/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts - Barra superior de utilidades
+         Envio a todo Panama | Soluciones para flota y taller | Cotizaciones
+         Lado derecho: Iniciar sesion, Crear cuenta y carrito.
+         ================================================================== -->
+    <template id="autohaus_topbar"
+              inherit_id="portal.frontend_layout"
+              name="Autohaus Top Bar"
+              priority="44">
+
+        <xpath expr="//header" position="inside">
+            <div class="o_autohaus_topbar">
+                <div class="o_autohaus_topbar_inner">
+
+                    <!-- Izq: mensajes -->
+                    <ul class="o_autohaus_topbar_msgs">
+                        <li>
+                            <i class="fa fa-truck"/>
+                            <span>Envío a todo Panamá</span>
+                        </li>
+                        <li>
+                            <i class="fa fa-cogs"/>
+                            <span>Soluciones para flota y taller</span>
+                        </li>
+                        <li>
+                            <i class="fa fa-file-text-o"/>
+                            <span>Cotizaciones empresarial</span>
+                        </li>
+                    </ul>
+
+                    <!-- Der: cuenta -->
+                    <div class="o_autohaus_topbar_account">
+                        <t t-if="request.env.user._is_public()">
+                            <a href="/web/login">Iniciar sesión</a>
+                            <span class="o_autohaus_topbar_sep">|</span>
+                            <a href="/web/signup">Crear cuenta</a>
+                        </t>
+                        <t t-else="">
+                            <a href="/my" t-esc="request.env.user.name"/>
+                        </t>
+                        <a class="o_autohaus_topbar_cart" href="/shop/cart" title="Carrito">
+                            <i class="fa fa-shopping-cart"/>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
