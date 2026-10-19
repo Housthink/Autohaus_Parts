@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Autohaus Parts - Quick Facts / Product Attributes (ficha de producto)
+   Diseno de dos tarjetas con filas etiqueta / valor.
+   ========================================================================== */
+/* El wrapper lleva la clase 'container' de Bootstrap/Odoo, por lo que hereda
+   el mismo max-width y padding que la fila del producto (imagen + detalles)
+   y queda automaticamente alineado en todos los breakpoints.
+
+   Selector con doble clase para ganar siempre a .container en display/grid. */
+.o_autohaus_facts {
+    margin-top: 1.5rem;
+}
+
+/* Fila flex: las tarjetas quedan una al lado de la otra */
+.o_autohaus_facts_inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.o_autohaus_facts_inner > .o_autohaus_facts_card {
+    flex: 1 1 0%;
+    min-width: 320px;
+}
+
+.o_autohaus_facts_card {
+    border: 1px solid #e3e6ea;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.o_autohaus_facts_title {
+    margin: 0;
+    padding: 0.7rem 1rem;
+    background: #f5f7f9;
+    border-bottom: 1px solid #e3e6ea;
+    color: #123a5f;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.o_autohaus_facts_row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.55rem 1rem;
+}
+
+.o_autohaus_facts_row + .o_autohaus_facts_row {
+    border-top: 1px solid #f0f2f4;
+}
+
+.o_autohaus_facts_label {
+    flex: 0 0 42%;
+    max-width: 42%;
+    color: #123a5f;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.o_autohaus_facts_value {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: #4a4a4a;
+    text-align: right;
+    word-break: break-word;
+}
+
+/* --- Responsive: se apilan en pantallas estrechas ----------------------- */
+@media (max-width: 767.98px) {
+    .o_autohaus_facts.o_autohaus_facts {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .o_autohaus_facts_label {
+        flex: 0 0 45%;
+        max-width: 45%;
+    }
+}@media (max-width: 767.98px) {
+    .o_autohaus_facts_inner > .o_autohaus_facts_card {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .o_autohaus_facts_label {
+        flex: 0 0 45%;
+        max-width: 45%;
+    }
+}

@@ -20,3 +20,4 @@ access_finditparts_sync_cron_all,finditparts.sync.cron.all,model_finditparts_syn
 #access_finditparts_product_sync_wizard_all,finditparts.product.sync.wizard.all,model_finditparts_product_sync_wizard,base.group_user,1,0,0,0
 #access_finditparts_product_sync_wizard_user,finditparts.product.sync.wizard.user,model_finditparts_product_sync_wizard,group_finditparts_user,1,1,1,1
 #access_finditparts_product_sync_wizard_manager,finditparts.product.sync.wizard.manager,model_finditparts_product_sync_wizard,group_finditparts_manager,1,1,1,1
+access_finditparts_product_public,finditparts.product.public,model_finditparts_product,base.group_public,1,0,0,0

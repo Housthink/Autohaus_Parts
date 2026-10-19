@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts - Ficha de producto: datos bajo el titulo
+         (OEM / SKU, valoracion, disponibilidad y descripcion).
+         ================================================================== -->
+    <template id="autohaus_product_meta"
+              inherit_id="website_sale.product_title"
+              name="Autohaus Product Meta"
+              priority="44">
+
+        <xpath expr="//h1" position="after">
+            <div class="o_autohaus_prod_meta">
+                <ul class="o_autohaus_prod_ident">
+                    <li><span>OEM</span></li>
+                    <li class="o_autohaus_prod_ident_alt"><span>Aftermarket</span></li>
+                    <li><span>SKU: <t t-esc="product.default_code or ''"/></span></li>
+                </ul>
+
+                <div class="o_autohaus_prod_avail">
+                    <span class="o_autohaus_prod_rating">
+                        <i class="fa fa-star"/>
+                        <i class="fa fa-star"/>
+                        <i class="fa fa-star"/>
+                        <i class="fa fa-star"/>
+                        <i class="fa fa-star o_autohaus_star_off"/>
+                        <em>(12 reseñas)</em>
+                    </span>
+                    <span class="o_autohaus_prod_stock">
+                        <i class="fa fa-check-circle"/>
+                        <t t-if="product.finditparts_has_stock">Disponible</t>
+                        <t t-else="">Sin stock</t>
+                        <em t-if="product.finditparts_has_stock and product.finditparts_stock &gt; 10">
+                            · Más de 10 unidades en stock
+                        </em>
+                    </span>
+                </div>
+
+                <p t-if="product.description_sale" class="o_autohaus_prod_desc"
+                   t-esc="product.description_sale"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ==================================================================
+         Autohaus Parts - Ficha de producto: Consultar compatibilidad
+         y fila de beneficios (debajo del boton de compra).
+         La seccion de Compatibilidad no se agrega.
+         ================================================================== -->
+    <template id="autohaus_product_benefits"
+              inherit_id="website_sale.product"
+              name="Autohaus Product Benefits"
+              priority="44">
+
+        <xpath expr="//div[hasclass('o_wsale_product_details_content_section_cta')]"
+              position="after">
+            <div class="o_autohaus_prod_actions">
+                <a class="o_autohaus_compat_btn" href="/contactus">
+                    <i class="fa fa-cogs"/>
+                    <span>Consultar compatibilidad</span>
+                </a>
+            </div>
+
+            <ul class="o_autohaus_prod_benefits">
+                <li>
+                    <i class="fa fa-truck"/>
+                    <span>Envío en 2-3 días<em>a todo Panamá</em></span>
+                </li>
+                <li>
+                    <i class="fa fa-shield"/>
+                    <span>Garantía de fábrica<em>y devoluciones</em></span>
+                </li>
+                <li>
+                    <i class="fa fa-tags"/>
+                    <span>Precio OEM<em>y compatible</em></span>
+                </li>
+                <li>
+                    <i class="fa fa-headphones"/>
+                    <span>Soporte<em>especializado</em></span>
+                </li>
+            </ul>
+        </xpath>
+    </template>
+</odoo>
