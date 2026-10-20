@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Mostrar el SKU en las tarjetas de producto (/shop, categorias, wishlist) -->
+    <!-- Tarjetas de producto (/shop, categorias, wishlist) con el diseno Autohaus -->
     <template id="autohaus_products_item_sku"
               inherit_id="website_sale.products_item"
-              name="Autohaus Product SKU">
-        <xpath expr="//h2[hasclass('o_wsale_products_item_title')]" position="after">
-            <div t-if="product.default_code" class="o_autohaus_products_item_sku">
-                <span class="o_autohaus_products_item_sku_label">SKU:</span>
-                <span t-out="product.default_code"/>
-            </div>
+              name="Autohaus Product Card">
+        <xpath expr="//form[hasclass('oe_product_cart') or contains(@t-attf-class, 'oe_product_cart')]" position="replace">
+            <t t-set="card_mode" t-value="'shop'"/>
+            <t t-set="display_name" t-value="product.name"/>
+            <t t-call="finditparts_integration.autohaus_product_card"/>
         </xpath>
     </template>
 
