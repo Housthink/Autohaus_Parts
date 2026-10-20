@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_autohaus_whatsapp" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.finditparts.whatsapp</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='website']" position="inside">
+                <block title="WhatsApp" id="autohaus_whatsapp_settings">
+                    <setting string="Botón flotante de WhatsApp"
+                             help="Enlace al que lleva el botón. Déjalo vacío para ocultarlo.">
+                        <field name="finditparts_whatsapp_url"
+                               placeholder="https://wa.link/1ru5s3"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

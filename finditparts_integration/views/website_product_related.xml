@@ -33,5 +33,12 @@
         <xpath expr="//div[hasclass('oe_product_cart')]" position="attributes">
             <attribute name="class" add="o_autohaus_alt_card" separator=" "/>
         </xpath>
+
+        <xpath expr="//h6[hasclass('o_wsale_products_item_title')]" position="after">
+            <div t-if="product.default_code" class="o_autohaus_products_item_sku">
+                <span class="o_autohaus_products_item_sku_label">SKU:</span>
+                <span t-out="product.default_code"/>
+            </div>
+        </xpath>
     </template>
 </odoo>

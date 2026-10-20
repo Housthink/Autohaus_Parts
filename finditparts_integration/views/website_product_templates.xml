@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Mostrar el SKU en las tarjetas de producto (/shop, categorias, wishlist) -->
+    <template id="autohaus_products_item_sku"
+              inherit_id="website_sale.products_item"
+              name="Autohaus Product SKU">
+        <xpath expr="//h2[hasclass('o_wsale_products_item_title')]" position="after">
+            <div t-if="product.default_code" class="o_autohaus_products_item_sku">
+                <span class="o_autohaus_products_item_sku_label">SKU:</span>
+                <span t-out="product.default_code"/>
+            </div>
+        </xpath>
+    </template>
+
     <!-- Mostrar mensaje y formulario de contacto cuando no hay stock -->
     <template id="finditparts_product_stock_control" inherit_id="website_sale.product">
         <!-- Mensaje y formulario cuando no hay stock -->
