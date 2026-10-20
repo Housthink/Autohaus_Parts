@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts - Tarjetas de categorias de la tienda
+         Imagen + nombre + chevron, en una fila de tarjetas blancas.
+         ================================================================== -->
+    <template id="autohaus_category_cards"
+              inherit_id="website_sale.filmstrip_categories"
+              name="Autohaus Category Cards"
+              priority="50">
+
+        <xpath expr="//div[@id='o_wsale_categories_filmstrip']" position="replace">
+            <div id="o_wsale_categories_filmstrip"
+                 class="o_autohaus_cats"
+                 role="navigation">
+                <div class="o_autohaus_cats_wrapper">
+                    <ul class="o_autohaus_cats_list" role="menu" aria-label="Categor&#237;as">
+                        <li t-foreach="entries" t-as="c"
+                            t-att-data-publish="c.has_published_products and 'on' or 'off'"
+                            role="presentation">
+                            <t t-set="preview_product" t-value="request.env['product.template'].sudo().search([('public_categ_ids', 'child_of', c.id), ('image_128', '!=', False)], limit=1)"/>
+                            <a t-att-href="keep('%s/category/%s' % (shop_path, slug(c)))"
+                               class="o_autohaus_cat_card"
+                               t-att-aria-label="c.name">
+                                <span class="o_autohaus_cat_media">
+                                    <img t-if="c.image_128"
+                                         t-attf-src="/web/image/product.public.category/{{ c.id }}/image_128"
+                                         t-att-alt="c.name"
+                                         loading="lazy"/>
+                                    <img t-elif="preview_product"
+                                         t-attf-src="/web/image/product.template/{{ preview_product.id }}/image_128"
+                                         t-att-alt="c.name"
+                                         loading="lazy"/>
+                                    <img t-else=""
+                                         src="/finditparts_integration/static/img/category_placeholder.png"
+                                         t-att-alt="c.name"
+                                         loading="lazy"/>
+                                </span>
+                                <span class="o_autohaus_cat_footer">
+                                    <span class="o_autohaus_cat_name" t-out="c.name"/>
+                                    <i class="fa fa-chevron-right o_autohaus_cat_chevron" aria-hidden="true"/>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
