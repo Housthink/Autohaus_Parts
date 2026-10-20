@@ -8,10 +8,11 @@
     <template id="autohaus_topbar"
               inherit_id="portal.frontend_layout"
               name="Autohaus Top Bar"
-              priority="44">
+              priority="44"
+              active="False">
 
         <xpath expr="//header" position="inside">
-            <div class="o_autohaus_topbar">
+            <div class="o_autohaus_topbar" t-if="False">
                 <div class="o_autohaus_topbar_inner">
 
                     <!-- Izq: mensajes -->
