@@ -151,6 +151,22 @@ class FindinPartAPIClient:
             _logger.error(f"Failed to get products: {str(e)}")
             return None
 
+    def get_best_sellers(self, limit=100, page=1):
+        """Get products ordered by best sellers.
+
+        The API exposes the ranking through the ``order`` parameter; there is
+        no dedicated endpoint nor sales figures in the payload.
+        """
+        try:
+            return self._make_request(
+                'GET',
+                '/api/v1/products',
+                params={'limit': limit, 'page': page, 'order': 'best_selling'},
+            )
+        except Exception as e:
+            _logger.error(f"Failed to get best sellers: {str(e)}")
+            return None
+
     def get_products_paginated(self, total_limit=50000, batch_size=100):
         """Generator: paginate basic product list until total_limit or last page"""
         fetched = 0

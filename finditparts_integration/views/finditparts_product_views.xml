@@ -16,6 +16,7 @@
                                 <field name="brand"/>
                                 <field name="manufacturer"/>
                                 <field name="part_number"/>
+                                <field name="best_seller"/>
                             </group>
                             <group string="Pricing">
                                 <field name="list_price"/>
@@ -95,6 +96,7 @@
                     <field name="sale_price_with_margin"/>
                     <field name="stock_quantity"/>
                     <field name="sellable"/>
+                    <field name="best_seller"/>
                     <field name="sync_status"/>
                     <field name="last_sync_date"/>
                     <field name="sync_errors"/>

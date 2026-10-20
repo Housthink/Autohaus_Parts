@@ -75,6 +75,7 @@
             <div class="o_autohaus_navbar2 d-none d-lg-block">
                 <div class="o_autohaus_navbar2_inner">
                     <a class="o_autohaus_navlink" href="/shop">Tienda</a>
+                    <a class="o_autohaus_navlink" href="/best-sellers">Best Sellers</a>
                     <a class="o_autohaus_navlink" href="#">Sobre Nosotros</a>
                     <a class="o_autohaus_navlink" href="/contactus">Contáctanos</a>
                 </div>

@@ -6,9 +6,12 @@ import re
 import os
 import base64
 import json
+from datetime import datetime
 from urllib.parse import urlsplit
 
 DEFAULT_IMAGE_URL = '/finditparts_integration/static/img/default_product.png'
+BEST_SELLER_LIMIT = 100
+BEST_SELLER_CACHE_TTL = 3600  # seconds
 
 _logger = logging.getLogger(__name__)
 
@@ -77,6 +80,7 @@ class FindinPartProduct(models.Model):
     compatible_years = fields.Char('Compatible Years')
     compatible_makes = fields.Char('Compatible Makes')
     sellable = fields.Boolean('Sellable', default=True)
+    best_seller = fields.Boolean('Best Seller', default=False)
     availability_message = fields.Text('Availability Message')
     seo_keywords = fields.Text('SEO Keywords')
     
@@ -203,6 +207,10 @@ class FindinPartProduct(models.Model):
         try:
             config = self.env['finditparts.config'].get_active_config()
             product_vals = {}
+
+            best_seller_skus = self._get_best_seller_skus()
+            if best_seller_skus is not None:
+                self.best_seller = (self.sku or '').strip() in best_seller_skus
             
             # SIEMPRE permitir venta en Odoo para que aparezca en la web
             # El control de si se puede comprar o no se hace mediante el mensaje en el website
@@ -242,6 +250,7 @@ class FindinPartProduct(models.Model):
                     'volume': (self.length or 0) * (self.width or 0) * (self.height or 0) / 1000000,  # m³
                     'sale_ok': sale_allowed,
                     'purchase_ok': True,
+                    'best_seller': self.best_seller,
                 }
                 if brand_tag:
                     product_vals['product_tag_ids'] = [(4, brand_tag.id)]
@@ -344,6 +353,7 @@ class FindinPartProduct(models.Model):
                     'website_description': website_description or False,
                     'weight': self.weight or 0.0,
                     'sale_ok': sale_allowed,
+                    'best_seller': self.best_seller,
                 })
                 if self.seo_keywords and 'website_meta_keywords' in self.env['product.template']._fields:
                     update_vals['website_meta_keywords'] = self.seo_keywords
@@ -743,6 +753,111 @@ class FindinPartProduct(models.Model):
         return vals
 
     @api.model
+    def _get_best_seller_skus(self, client=None, force=False):
+        """Return the part numbers currently ordered as best sellers.
+
+        The API only exposes the ordering (``order=best_selling``), not sales
+        figures. The result is cached for an hour to avoid an extra API call
+        on every product request. Returns ``None`` when the API call fails so
+        callers can keep the previous flags.
+        """
+        config = self.env['finditparts.config'].get_active_config()
+        if not config:
+            return None
+
+        params = self.env['ir.config_parameter'].sudo()
+        cache_key = 'finditparts_integration.best_sellers'
+        cache_ts_key = 'finditparts_integration.best_sellers_ts'
+        now = datetime.now()
+
+        if not force:
+            cached_value = params.get_param(cache_key)
+            cached_ts = params.get_param(cache_ts_key)
+            if cached_value and cached_ts:
+                try:
+                    age = (now - datetime.strptime(cached_ts, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                except ValueError:
+                    age = None
+                if age is not None and age < BEST_SELLER_CACHE_TTL:
+                    try:
+                        return set(json.loads(cached_value))
+                    except (TypeError, ValueError):
+                        pass
+
+        from ..utils.api_client import FindinPartAPIClient
+        client = client or FindinPartAPIClient(config)
+        skus = set()
+        page = 1
+        try:
+            while len(skus) < BEST_SELLER_LIMIT:
+                limit = min(100, BEST_SELLER_LIMIT - len(skus))
+                response = client.get_best_sellers(limit=limit, page=page)
+                if response is None:
+                    return None
+                products = (response or {}).get('products') or []
+                if not products:
+                    break
+                for product in products:
+                    part_number = (product.get('part_number') or '').strip()
+                    if part_number:
+                        skus.add(part_number)
+                pagination = (response or {}).get('pagination') or {}
+                total_pages = pagination.get('total_pages') or page
+                if page >= total_pages:
+                    break
+                page += 1
+        except Exception as err:
+            _logger.warning("Could not fetch best sellers from API: %s", err)
+            return None
+
+        params.set_param(cache_key, json.dumps(sorted(skus)))
+        params.set_param(cache_ts_key, now.strftime('%Y-%m-%d %H:%M:%S'))
+        return skus
+
+    @api.model
+    def _apply_best_seller_flags(self, skus):
+        """Mark matching products as best sellers and clear the previous ones."""
+        if skus is None:
+            return
+        skus = sorted({(sku or '').strip() for sku in skus if (sku or '').strip()})
+        if not skus:
+            _logger.info("Best seller list is empty; keeping existing flags")
+            return
+
+        FindinPartProduct = self.sudo()
+        marked = FindinPartProduct.search([
+            ('sku', 'in', skus),
+            ('best_seller', '=', False),
+        ])
+        if marked:
+            marked.write({'best_seller': True})
+        cleared = FindinPartProduct.search([
+            ('best_seller', '=', True),
+            ('sku', 'not in', skus),
+        ])
+        if cleared:
+            cleared.write({'best_seller': False})
+
+        Template = self.env['product.template'].sudo()
+        marked_templates = Template.search([
+            ('default_code', 'in', skus),
+            ('best_seller', '=', False),
+        ])
+        if marked_templates:
+            marked_templates.write({'best_seller': True})
+        cleared_templates = Template.search([
+            ('best_seller', '=', True),
+            ('default_code', 'not in', skus),
+        ])
+        if cleared_templates:
+            cleared_templates.write({'best_seller': False})
+
+        _logger.info(
+            "Best seller flags updated: %s products marked, %s cleared",
+            len(marked), len(cleared),
+        )
+
+    @api.model
     def create_from_api_json(self, json_data):
         """Create or update a finditparts.product record from API JSON data
         Returns (record, created_bool)
@@ -903,6 +1018,11 @@ class FindinPartProduct(models.Model):
             
             # Set stock status based on quantity
             vals['stock_status'] = 'in_stock' if stock_qty > 0 else 'out_of_stock'
+
+            # Flag the product as best seller when it appears in the API ranking
+            best_seller_skus = self._get_best_seller_skus()
+            if best_seller_skus is not None:
+                vals['best_seller'] = (vals.get('sku') or '').strip() in best_seller_skus
             
             # Check if product already exists
             existing_product = self.search([
@@ -926,6 +1046,7 @@ class FindinPartProduct(models.Model):
                         template_vals['categ_id'] = category_vals['category_id']
                     if 'public_categ_ids' in existing_product.odoo_product_id._fields:
                         template_vals['public_categ_ids'] = [(6, 0, website_cat_ids)]
+                    template_vals['best_seller'] = existing_product.best_seller
                     if template_vals:
                         existing_product.odoo_product_id.sudo().write(template_vals)
                 return existing_product, False
@@ -941,6 +1062,7 @@ class FindinPartProduct(models.Model):
                         template_vals['categ_id'] = category_vals['category_id']
                     if 'public_categ_ids' in new_product.odoo_product_id._fields:
                         template_vals['public_categ_ids'] = [(6, 0, website_cat_ids)]
+                    template_vals['best_seller'] = new_product.best_seller
                     if template_vals:
                         new_product.odoo_product_id.sudo().write(template_vals)
                 return new_product, True
@@ -984,6 +1106,12 @@ class FindinPartProduct(models.Model):
         client = FindinPartAPIClient(config)
         
         try:
+            # Refresh the API best-seller ranking once per request and flag
+            # every matching product already present in Odoo.
+            best_seller_skus = self._get_best_seller_skus(client=client, force=True)
+            if best_seller_skus is not None:
+                self._apply_best_seller_flags(best_seller_skus)
+
             # Determine source label (for temporary debug marker)
             if part_number:
                 source_label = 'lookup'

@@ -14,6 +14,12 @@ class ProductTemplate(models.Model):
         compute='_compute_finditparts_stock',
         help='True if product has stock in Odoo OR in FinditParts'
     )
+
+    best_seller = fields.Boolean(
+        string='Best Seller',
+        default=False,
+        help='Automatically flagged when the product appears in the FinditParts best-seller ranking.',
+    )
     
     @api.depends('default_code', 'qty_available')
     def _compute_finditparts_stock(self):
