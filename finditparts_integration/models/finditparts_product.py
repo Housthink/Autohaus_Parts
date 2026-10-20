@@ -32,6 +32,13 @@ class FindinPartProduct(models.Model):
     
     category_id = fields.Many2one('product.category', 'Category')
     subcategory_id = fields.Many2one('product.category', 'Subcategory')
+    public_categ_ids = fields.Many2many(
+        'product.public.category',
+        'finditparts_product_public_categ_rel',
+        'finditparts_product_id',
+        'public_categ_id',
+        string='Website Categories',
+    )
     tags = fields.Many2many('product.tag', string='Tags')
     
     list_price = fields.Float('List Price', digits=(10, 2))
@@ -218,6 +225,7 @@ class FindinPartProduct(models.Model):
             # Use price with margin instead of base price
             list_price_value = self.sale_price_with_margin or self._get_odoo_sale_price()
             cost_price_value = self._get_odoo_cost_price()
+            brand_tag = self._ensure_brand_tag()
             
             if not self.odoo_product_id:
                 # Create new Odoo product
@@ -235,6 +243,11 @@ class FindinPartProduct(models.Model):
                     'sale_ok': sale_allowed,
                     'purchase_ok': True,
                 }
+                if brand_tag:
+                    product_vals['product_tag_ids'] = [(4, brand_tag.id)]
+                if 'public_categ_ids' in self.env['product.template']._fields:
+                    # Always replace existing website categories with the new one
+                    product_vals['public_categ_ids'] = [(6, 0, self.public_categ_ids.ids)]
                 if self.seo_keywords and 'website_meta_keywords' in self.env['product.template']._fields:
                     product_vals['website_meta_keywords'] = self.seo_keywords
                 
@@ -334,6 +347,13 @@ class FindinPartProduct(models.Model):
                 })
                 if self.seo_keywords and 'website_meta_keywords' in self.env['product.template']._fields:
                     update_vals['website_meta_keywords'] = self.seo_keywords
+                if brand_tag:
+                    update_vals['product_tag_ids'] = [(4, brand_tag.id)]
+                if self.category_id:
+                    update_vals['categ_id'] = self.category_id.id
+                if 'public_categ_ids' in self.env['product.template']._fields:
+                    # Always replace existing website categories with the new one
+                    update_vals['public_categ_ids'] = [(6, 0, self.public_categ_ids.ids)]
                 
                 if update_vals:
                     self.odoo_product_id.sudo().write(update_vals)
@@ -617,6 +637,111 @@ class FindinPartProduct(models.Model):
             _logger.warning(f"Default image not found or unreadable: {err}")
             return False
     
+    def _ensure_brand_tag(self, brand_name=None):
+        """Find or create a product.tag record for the product brand.
+
+        Returns the tag recordset (empty if the product has no brand).
+        """
+        brand_name = (brand_name or self.manufacturer or self.brand or '').strip()
+        if not brand_name:
+            return self.env['product.tag']
+        Tag = self.env['product.tag'].sudo()
+        tag = Tag.search([('name', '=ilike', brand_name)], limit=1)
+        if not tag:
+            tag = Tag.create({'name': brand_name})
+            _logger.info(f"Created product.tag for brand: {brand_name}")
+        return tag
+
+    def _get_or_create_category_path(self, names, model):
+        """Ensure a category hierarchy exists and return its records in order."""
+        Category = self.env[model].sudo()
+        parent = Category.browse()
+        path = Category.browse()
+        for name in names:
+            name = (name or '').strip()
+            if not name:
+                continue
+            category = Category.search([
+                ('name', '=', name),
+                ('parent_id', '=', parent.id if parent else False),
+            ], limit=1)
+            if not category:
+                vals = {'name': name}
+                if parent:
+                    vals['parent_id'] = parent.id
+                category = Category.create(vals)
+                _logger.info(f"Created {model} category: {name}")
+            path |= category
+            parent = category
+        return path
+
+    def _ensure_categories(self, product_data):
+        """Build inventory and website categories from the API breadcrumbs.
+
+        Returns a vals dict with ``category_id`` (product.category) and
+        ``public_categ_ids`` (product.public.category) when available.
+        """
+        breadcrumbs = (
+            product_data.get('breadcrumbs_ancestors')
+            or product_data.get('breadcrumbs')
+            or []
+        )
+        names = []
+        for breadcrumb in breadcrumbs:
+            if isinstance(breadcrumb, dict):
+                name = breadcrumb.get('name') or ''
+            elif isinstance(breadcrumb, str):
+                name = breadcrumb
+            else:
+                name = ''
+            name = name.strip()
+            if not name:
+                continue
+            if name.lower() in (
+                'categories', 'all categories', 'home', 'shop',
+                'manufacturer', 'manufacturers', 'brand', 'brands',
+            ):
+                continue
+            names.append(name)
+
+        manufacturer = (
+            product_data.get('manufacturer')
+            or product_data.get('brand')
+            or ''
+        ).strip()
+        if manufacturer:
+            names = [n for n in names if n.lower() != manufacturer.lower()]
+
+        if not names:
+            # Fallback to PIES category/subcategory when breadcrumbs are absent
+            pies = product_data.get('pies_data') or {}
+            names = [
+                (pies.get('category') or '').strip(),
+                (pies.get('subcategory') or '').strip(),
+            ]
+            names = [n for n in names if n]
+
+        if not names:
+            # The API sometimes only exposes a manufacturer breadcrumb; use a
+            # bucket instead of turning the brand into a category.
+            names = ['Uncategorized']
+
+        vals = {}
+        if not names:
+            return vals
+
+        inventory_path = self._get_or_create_category_path(names, 'product.category')
+        if inventory_path:
+            vals['category_id'] = inventory_path[-1].id
+
+        if 'public_categ_ids' in self.env['product.template']._fields:
+            website_path = self._get_or_create_category_path(names, 'product.public.category')
+            if website_path:
+                # Replace any previous website categories with the new leaf only
+                vals['public_categ_ids'] = [(6, 0, [website_path[-1].id])]
+
+        return vals
+
     @api.model
     def create_from_api_json(self, json_data):
         """Create or update a finditparts.product record from API JSON data
@@ -764,15 +889,9 @@ class FindinPartProduct(models.Model):
             if seo_keywords:
                 vals['seo_keywords'] = ', '.join(seo_keywords)
             
-            # Handle categories from breadcrumbs
-            breadcrumbs = product_data.get('breadcrumbs_ancestors', [])
-            if breadcrumbs and len(breadcrumbs) > 1:
-                category_name = breadcrumbs[-1].get('name', '')
-                if category_name:
-                    category = self.env['product.category'].search([('name', '=', category_name)], limit=1)
-                    if not category:
-                        category = self.env['product.category'].sudo().create({'name': category_name})
-                    vals['category_id'] = category.id
+            # Handle inventory and website categories from the API breadcrumbs
+            category_vals = self._ensure_categories(product_data)
+            vals.update(category_vals)
             
             stock_qty = vals.get('stock_quantity', 0)
             if 'sellable' in product_data:
@@ -792,13 +911,38 @@ class FindinPartProduct(models.Model):
                 ('sku', '=', vals.get('sku'))
             ], limit=1)
             
+            # Website categories are replaced as a whole (many2many)
+            website_cat_ids = category_vals.get('public_categ_ids', [(6, 0, [])])[0][2]
+
             if existing_product:
                 existing_product.write(vals)
                 _logger.info(f"Updated existing product: {existing_product.sku}")
+                tag = existing_product._ensure_brand_tag(vals.get('manufacturer'))
+                if existing_product.odoo_product_id:
+                    template_vals = {}
+                    if tag:
+                        template_vals['product_tag_ids'] = [(4, tag.id)]
+                    if category_vals.get('category_id'):
+                        template_vals['categ_id'] = category_vals['category_id']
+                    if 'public_categ_ids' in existing_product.odoo_product_id._fields:
+                        template_vals['public_categ_ids'] = [(6, 0, website_cat_ids)]
+                    if template_vals:
+                        existing_product.odoo_product_id.sudo().write(template_vals)
                 return existing_product, False
             else:
                 new_product = self.create(vals)
                 _logger.info(f"Created new product: {new_product.sku}")
+                tag = new_product._ensure_brand_tag(vals.get('manufacturer'))
+                if new_product.odoo_product_id:
+                    template_vals = {}
+                    if tag:
+                        template_vals['product_tag_ids'] = [(4, tag.id)]
+                    if category_vals.get('category_id'):
+                        template_vals['categ_id'] = category_vals['category_id']
+                    if 'public_categ_ids' in new_product.odoo_product_id._fields:
+                        template_vals['public_categ_ids'] = [(6, 0, website_cat_ids)]
+                    if template_vals:
+                        new_product.odoo_product_id.sudo().write(template_vals)
                 return new_product, True
                 
         except Exception as e:
