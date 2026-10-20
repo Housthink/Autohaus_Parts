@@ -1,0 +1,43 @@
+.o_autohaus_whatsapp {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #123a5f;
+    color: #fff !important;
+    font-size: 28px;
+    line-height: 1;
+    text-decoration: none !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .28);
+    transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.o_autohaus_whatsapp:hover,
+.o_autohaus_whatsapp:focus {
+    background-color: #ee5a24;
+    color: #fff !important;
+    text-decoration: none !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .32);
+}
+
+.o_autohaus_whatsapp:focus-visible {
+    outline: 3px solid rgba(238, 90, 36, .5);
+    outline-offset: 3px;
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_whatsapp {
+        right: 16px;
+        bottom: 16px;
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+    }
+}
