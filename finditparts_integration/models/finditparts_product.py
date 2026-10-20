@@ -52,6 +52,11 @@ class FindinPartProduct(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', default=lambda self: self.env.company.currency_id)
     
     stock_quantity = fields.Float('Stock Quantity', default=0)
+    estimated_days_to_deliver = fields.Integer(
+        'Estimated Days to Deliver',
+        default=0,
+        help='Días estimados de entrega informados por la API de FinditParts.',
+    )
     min_stock_level = fields.Float('Minimum Stock Level', default=0)
     max_stock_level = fields.Float('Maximum Stock Level')
     stock_status = fields.Selection([
@@ -207,6 +212,7 @@ class FindinPartProduct(models.Model):
         try:
             config = self.env['finditparts.config'].get_active_config()
             product_vals = {}
+            sale_delay = (self.estimated_days_to_deliver or 0) + 2
 
             best_seller_skus = self._get_best_seller_skus()
             if best_seller_skus is not None:
@@ -252,6 +258,8 @@ class FindinPartProduct(models.Model):
                     'purchase_ok': True,
                     'best_seller': self.best_seller,
                 }
+                if 'sale_delay' in self.env['product.template']._fields:
+                    product_vals['sale_delay'] = sale_delay
                 if brand_tag:
                     product_vals['product_tag_ids'] = [(4, brand_tag.id)]
                 if 'public_categ_ids' in self.env['product.template']._fields:
@@ -355,6 +363,8 @@ class FindinPartProduct(models.Model):
                     'sale_ok': sale_allowed,
                     'best_seller': self.best_seller,
                 })
+                if 'sale_delay' in self.env['product.template']._fields:
+                    update_vals['sale_delay'] = sale_delay
                 if self.seo_keywords and 'website_meta_keywords' in self.env['product.template']._fields:
                     update_vals['website_meta_keywords'] = self.seo_keywords
                 if brand_tag:
@@ -941,6 +951,17 @@ class FindinPartProduct(models.Model):
                     'stock_quantity': float(current_variant.get('quantity', 0) or 0),
                 })
             
+            if isinstance(current_variant, dict):
+                estimated_days = current_variant.get('estimated_days_to_deliver')
+                if estimated_days not in (None, ''):
+                    try:
+                        vals['estimated_days_to_deliver'] = max(0, int(float(estimated_days)))
+                    except (TypeError, ValueError):
+                        _logger.warning(
+                            'Invalid estimated_days_to_deliver for %s: %r',
+                            vals.get('sku'), estimated_days,
+                        )
+
             # Handle MSRP
             if product_data.get('msrp'):
                 msrp_value = float(product_data['msrp'])
@@ -1047,6 +1068,8 @@ class FindinPartProduct(models.Model):
                     if 'public_categ_ids' in existing_product.odoo_product_id._fields:
                         template_vals['public_categ_ids'] = [(6, 0, website_cat_ids)]
                     template_vals['best_seller'] = existing_product.best_seller
+                    if 'sale_delay' in existing_product.odoo_product_id._fields:
+                        template_vals['sale_delay'] = (existing_product.estimated_days_to_deliver or 0) + 2
                     if template_vals:
                         existing_product.odoo_product_id.sudo().write(template_vals)
                 return existing_product, False

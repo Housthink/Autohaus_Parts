@@ -32,6 +32,7 @@
                             <group string="Stock Information">
                                 <field name="stock_quantity"/>
                                 <field name="stock_status"/>
+                                <field name="estimated_days_to_deliver"/>
                                 <field name="min_stock_level"/>
                                 <field name="max_stock_level"/>
                             </group>
