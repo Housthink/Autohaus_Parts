@@ -60,3 +60,17 @@
   font-size: 10.5px;
   margin-left: 2px;
 }
+/* SKU en las tarjetas de producto */
+.o_autohaus_products_item_sku {
+  margin: .1rem 0 .45rem;
+  color: #6b7280;
+  font-size: .78rem;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  overflow-wrap: anywhere;
+}
+.o_autohaus_products_item_sku_label {
+  margin-right: .2rem;
+  color: #123a5f;
+  font-weight: 600;
+}
