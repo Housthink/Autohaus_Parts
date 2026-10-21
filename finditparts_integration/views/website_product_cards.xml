@@ -33,8 +33,8 @@
                     <a t-att-href="product_href" t-out="display_name"/>
                 </h2>
 
-                <div t-if="product.default_code" class="o_autohaus_bs_sku">
-                    SKU: <span t-out="product.default_code"/>
+                <div t-if="product.finditparts_part_number" class="o_autohaus_bs_sku">
+                    N&#250;mero de parte: <span t-out="product.finditparts_part_number"/>
                 </div>
 
                 <div class="o_autohaus_bs_price">

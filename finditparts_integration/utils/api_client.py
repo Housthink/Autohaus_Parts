@@ -307,6 +307,27 @@ class FindinPartAPIClient:
             response = self._make_request('GET', '/api/v1/products/lookup', params=params)
             return response
         except Exception as e:
+            if include_pies_data:
+                _logger.warning(
+                    "Lookup with PIES data failed for part number '%s'; "
+                    "retrying without PIES data: %s",
+                    part_number,
+                    str(e),
+                )
+                try:
+                    response = self._make_request(
+                        'GET',
+                        '/api/v1/products/lookup',
+                        params={'part_number': part_number},
+                    )
+                    return response
+                except Exception as retry_error:
+                    _logger.error(
+                        "Failed to lookup product by part number '%s' without PIES data: %s",
+                        part_number,
+                        str(retry_error),
+                    )
+                    return None
             _logger.error(f"Failed to lookup product by part number '{part_number}': {str(e)}")
             return None
     

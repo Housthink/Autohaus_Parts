@@ -11,6 +11,16 @@
     }
 }
 
+/* Keep the header in the normal document flow (no sticky/fixed on scroll). */
+#wrapwrap > header.o_header_standard,
+#wrapwrap > header.o_header_standard.o_header_affixed,
+#wrapwrap > header.o_header_standard.o_header_is_scrolled {
+    position: static !important;
+    top: auto !important;
+    transform: none !important;
+    transition: none !important;
+}
+
 .o_autohaus_header {
     width: 100%;
     background: #ffffff;
