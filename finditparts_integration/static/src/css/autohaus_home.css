@@ -1,0 +1,296 @@
+/* ==========================================================================
+   Autohaus Parts - Home
+   Categorias, productos disponibles y franja de beneficios.
+   ========================================================================== */
+
+.o_autohaus_home {
+    width: 100%;
+    background: #f6f7f9;
+}
+
+.o_autohaus_home_container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+/* --- Categorias --------------------------------------------------------- */
+.o_autohaus_home_cats {
+    padding: 1.1rem 0 1.4rem;
+    background: #f6f7f9;
+}
+
+.o_autohaus_home_cats_list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.o_autohaus_home_cats_list > li {
+    display: flex;
+    min-width: 0;
+}
+
+.o_autohaus_home_cat_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 138px;
+    padding: 0.7rem 1rem 0.8rem;
+    background: #ffffff;
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(18, 58, 95, 0.04);
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.o_autohaus_home_cat_card:hover,
+.o_autohaus_home_cat_card:focus {
+    border-color: #c7ced6;
+    box-shadow: 0 6px 16px rgba(18, 58, 95, 0.10);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.o_autohaus_home_cat_media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 84px;
+    margin-bottom: 0.45rem;
+}
+
+.o_autohaus_home_cat_media img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 84px;
+    object-fit: contain;
+}
+
+.o_autohaus_home_cat_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.o_autohaus_home_cat_name {
+    overflow: hidden;
+    color: #123a5f;
+    font-size: 1.02rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.o_autohaus_home_cat_chevron {
+    flex: 0 0 auto;
+    color: #123a5f;
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+/* --- Productos disponibles --------------------------------------------- */
+.o_autohaus_home_products {
+    padding: 1.6rem 0 2rem;
+    background: #ffffff;
+}
+
+.o_autohaus_home_products_head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+}
+
+.o_autohaus_home_products_head h2 {
+    margin: 0;
+    color: #123a5f;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.o_autohaus_home_more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 0 0 auto;
+    color: #123a5f;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.o_autohaus_home_more:hover,
+.o_autohaus_home_more:focus {
+    color: #ee5a24;
+    text-decoration: none;
+}
+
+.o_autohaus_home_more i {
+    font-size: 0.85rem;
+}
+
+/* --- Beneficios --------------------------------------------------------- */
+.o_autohaus_home_benefits {
+    padding: 1rem 0;
+    background: #f6f7f9;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.o_autohaus_home_benefits_list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.o_autohaus_home_benefits_list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 0.35rem 1.1rem;
+    border-right: 1px solid #e3e6ea;
+}
+
+.o_autohaus_home_benefits_list li:first-child {
+    padding-left: 0;
+}
+
+.o_autohaus_home_benefits_list li:last-child {
+    padding-right: 0;
+    border-right: 0;
+}
+
+.o_autohaus_home_benefits_list i.fa {
+    flex: 0 0 auto;
+    margin-top: 0.1rem;
+    color: #123a5f;
+    font-size: 1.7rem;
+    line-height: 1;
+}
+
+.o_autohaus_home_benefits_list span {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.o_autohaus_home_benefits_list strong {
+    color: #123a5f;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.o_autohaus_home_benefits_list em {
+    margin-top: 0.15rem;
+    color: #6b7280;
+    font-size: 0.8rem;
+    font-style: normal;
+    line-height: 1.3;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 1199.98px) {
+    .o_autohaus_home_cats_list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 991.98px) {
+    .o_autohaus_home_products_head h2 {
+        font-size: 1.55rem;
+    }
+
+    .o_autohaus_home_benefits_list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 0.9rem;
+    }
+
+    .o_autohaus_home_benefits_list li:nth-child(2n) {
+        border-right: 0;
+    }
+
+    .o_autohaus_home_benefits_list li:nth-child(odd) {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_home_cats {
+        padding-top: 0.8rem;
+    }
+
+    .o_autohaus_home_cats_list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .o_autohaus_home_cat_card {
+        min-height: 112px;
+        padding: 0.6rem 0.75rem 0.7rem;
+    }
+
+    .o_autohaus_home_cat_media {
+        height: 62px;
+        margin-bottom: 0.35rem;
+    }
+
+    .o_autohaus_home_cat_media img {
+        max-height: 62px;
+    }
+
+    .o_autohaus_home_cat_name {
+        font-size: 0.9rem;
+    }
+
+    .o_autohaus_home_products {
+        padding-top: 1.2rem;
+    }
+
+    .o_autohaus_home_products_head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.35rem;
+        margin-bottom: 0.85rem;
+    }
+
+    .o_autohaus_home_products_head h2 {
+        font-size: 1.35rem;
+    }
+
+    .o_autohaus_home_benefits_list {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 0.8rem;
+    }
+
+    .o_autohaus_home_benefits_list li,
+    .o_autohaus_home_benefits_list li:nth-child(2n) {
+        padding: 0;
+        border-right: 0;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Odoo inyecta este aviso cuando el #wrap del home está vacío (editor).
+   El contenido del home vive en las secciones Autohaus, fuera del #wrap.
+   -------------------------------------------------------------------------- */
+#wrapwrap.homepage #wrap .o_homepage_editor_welcome_message {
+    display: none !important;
+}

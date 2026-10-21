@@ -1,22 +1,26 @@
 /* ==========================================================================
-   Autohaus Parts - Hero banner de la tienda (/shop)
-   Texto a la izquierda, espacio para la imagen a la derecha.
-   La imagen se carga manualmente desde el editor de website.
+   Autohaus Parts - Hero banner del home (/)
+   Texto a la izquierda sobre la imagen del camion.
+   La tienda (/shop) ya no muestra este hero.
    ========================================================================== */
 .o_autohaus_hero {
+    position: relative;
     width: 100%;
+    min-height: 340px;
+    overflow: hidden;
     background: #ffffff;
     border-bottom: 1px solid #e8e8e8;
 }
 
 .o_autohaus_hero_inner {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     align-items: center;
     gap: 2rem;
     width: 100%;
     max-width: 1400px;
+    min-height: 340px;
     margin: 0 auto;
     padding: 2.25rem 1rem;
 }
@@ -30,7 +34,7 @@
 
 .o_autohaus_hero_title {
     margin: 0 0 0.75rem;
-    font-size: 2.75rem;
+    font-size: 3.05rem;
     line-height: 1.05;
     font-weight: 800;
     letter-spacing: -0.01em;
@@ -47,11 +51,71 @@
 }
 
 .o_autohaus_hero_subtitle {
-    margin: 0 0 1.5rem;
+    margin: 0 0 1.4rem;
     max-width: 46ch;
     color: #4a4a4a;
     font-size: 1rem;
     line-height: 1.5;
+}
+
+/* --- CTA y sello de catalogo ------------------------------------------- */
+.o_autohaus_hero_actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 0 1.4rem;
+}
+
+.o_autohaus_hero_cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.8rem 1.15rem;
+    border-radius: 4px;
+    background: #ee5a24;
+    color: #ffffff;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(238, 90, 36, 0.22);
+    transition: background 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.o_autohaus_hero_cta:hover,
+.o_autohaus_hero_cta:focus {
+    background: #d94d1a;
+    color: #ffffff;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.o_autohaus_hero_cta .fa-arrow-right {
+    margin-left: 0.15rem;
+    font-size: 0.9rem;
+}
+
+.o_autohaus_hero_sync {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid #cdebd7;
+    border-radius: 999px;
+    background: #eaf7ee;
+    color: #1c7c3f;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.o_autohaus_hero_sync::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2fb344;
 }
 
 /* --- Distintivos -------------------------------------------------------- */
@@ -79,10 +143,6 @@
 }
 
 /* --- Fondo del banner --------------------------------------------------- */
-.o_autohaus_hero {
-    position: relative;
-}
-
 .o_autohaus_hero_bg {
     position: absolute;
     inset: 0;
@@ -93,20 +153,45 @@
     z-index: 0;
 }
 
-/* --- Responsive -------------------------------------------------------- */
-@media (max-width: 991.98px) {
-    /* Filtro blanco sobre la imagen para que el texto sea legible */
-    .o_autohaus_hero::before {
+.o_autohaus_hero_overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg,
+        #ffffff 0%,
+        #ffffff 38%,
+        rgba(255, 255, 255, 0.9) 48%,
+        rgba(255, 255, 255, 0.35) 62%,
+        rgba(255, 255, 255, 0) 76%);
+    pointer-events: none;
+}
+
+@media (min-width: 992px) {
+    .o_autohaus_hero_overlay::after {
         content: "";
         position: absolute;
-        inset: 0;
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.72);
-        pointer-events: none;
+        top: -12%;
+        left: 50%;
+        width: 24px;
+        height: 124%;
+        background: #ee5a24;
+        transform: skewX(-16deg);
+        opacity: 0.95;
+    }
+}
+
+/* --- Responsive -------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .o_autohaus_hero,
+    .o_autohaus_hero_inner {
+        min-height: 0;
+    }
+
+    .o_autohaus_hero_overlay {
+        background: rgba(255, 255, 255, 0.78);
     }
 
     .o_autohaus_hero_inner {
-        z-index: 2;
         flex-direction: column;
         align-items: stretch;
         gap: 1.5rem;
@@ -124,5 +209,18 @@
 
     .o_autohaus_hero_badges {
         gap: 1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_hero_actions {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .o_autohaus_hero_cta {
+        width: 100%;
+        justify-content: center;
     }
 }

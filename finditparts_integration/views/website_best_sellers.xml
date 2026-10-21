@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="best_sellers_page" name="Best Sellers">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_bs_wrap">
+                <div class="container py-4 py-lg-5">
+
+                    <nav class="o_autohaus_bs_breadcrumb" aria-label="breadcrumb">
+                        <a href="/">Inicio</a>
+                        <span class="o_autohaus_bs_sep">/</span>
+                        <span>Best Sellers</span>
+                    </nav>
+
+                    <header class="o_autohaus_bs_header">
+                        <h1>Best Sellers</h1>
+                        <p>Los repuestos que más piden nuestros clientes.</p>
+                    </header>
+
+                    <div t-if="products" class="row g-3 g-lg-4">
+                        <t t-foreach="products" t-as="product">
+                            <div class="col-6 col-md-4 col-lg-3">
+                                <t t-set="card_mode" t-value="'dynamic'"/>
+                                <t t-set="show_badge" t-value="True"/>
+                                <t t-set="is_best_seller" t-value="product.best_seller"/>
+                                <t t-set="display_name" t-value="product.name"/>
+                                <t t-set="product_href" t-value="product.website_url"/>
+                                <t t-set="product_variant" t-value="False"/>
+                                <t t-call="finditparts_integration.autohaus_product_card"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div t-else="" class="o_autohaus_bs_empty">
+                        <p>No hay productos marcados como Best Seller todavía.</p>
+                        <a href="/shop" class="btn btn-primary">Ir a la tienda</a>
+                    </div>
+
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

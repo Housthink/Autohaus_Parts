@@ -1,6 +1,6 @@
 {
     'name': 'FindinPart API Integration',
-    'version': '19.0.1.8.0',
+    'version': '19.0.1.14.0',
     'category': 'Inventory/Purchase',
     'summary': 'Integration with FindinPart API for diesel engine parts catalog and order management',
     'description': """
@@ -35,17 +35,21 @@
         'views/finditparts_sync_wizard_views.xml',
         'views/menu_views.xml',
         'views/finditparts_cron_views.xml',
+        'views/product_template_views.xml',
         'views/res_config_settings_views.xml',
+        'views/website_product_cards.xml',
         'views/website_product_templates.xml',
         'views/website_checkout_override.xml',
         'views/website_header_override.xml',
         'views/website_footer_override.xml',
         'views/website_shop_hero.xml',
+        'views/website_home.xml',
         'views/website_shop_categories.xml',
         'views/website_topbar.xml',
         'views/website_product_layout.xml',
         'views/website_product_related.xml',
         'views/website_whatsapp_button.xml',
+        'views/website_best_sellers.xml',
     ],
     'assets': {
         'web.assets_frontend': [
@@ -57,6 +61,8 @@
             'finditparts_integration/static/src/css/shop_products_chips.css',
             'finditparts_integration/static/src/css/autohaus_categories.css',
             'finditparts_integration/static/src/css/autohaus_whatsapp.css',
+            'finditparts_integration/static/src/css/autohaus_best_sellers.css',
+            'finditparts_integration/static/src/css/autohaus_home.css',
         ],
     },
     'demo': [],
