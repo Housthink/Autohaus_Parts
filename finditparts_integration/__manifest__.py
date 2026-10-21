@@ -1,6 +1,6 @@
 {
     'name': 'FindinPart API Integration',
-    'version': '19.0.1.13.0',
+    'version': '19.0.1.14.0',
     'category': 'Inventory/Purchase',
     'summary': 'Integration with FindinPart API for diesel engine parts catalog and order management',
     'description': """
@@ -43,6 +43,7 @@
         'views/website_header_override.xml',
         'views/website_footer_override.xml',
         'views/website_shop_hero.xml',
+        'views/website_home.xml',
         'views/website_shop_categories.xml',
         'views/website_topbar.xml',
         'views/website_product_layout.xml',
@@ -61,6 +62,7 @@
             'finditparts_integration/static/src/css/autohaus_categories.css',
             'finditparts_integration/static/src/css/autohaus_whatsapp.css',
             'finditparts_integration/static/src/css/autohaus_best_sellers.css',
+            'finditparts_integration/static/src/css/autohaus_home.css',
         ],
     },
     'demo': [],

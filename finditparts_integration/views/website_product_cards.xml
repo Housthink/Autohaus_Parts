@@ -72,9 +72,9 @@
                                 t-att-data-product-id="variant.id"
                                 t-att-data-product-template-id="product.id"
                                 t-att-data-product-type="product.type"
-                                title="Agregar al carrito">
+                                t-att-title="card_label or 'Agregar al carrito'">
                             <i class="fa fa-shopping-cart" role="presentation"/>
-                            <span>Agregar al carrito</span>
+                            <span t-out="card_label or 'Agregar al carrito'"/>
                         </button>
                     </t>
                     <a t-else="" t-att-href="product_href" class="btn o_autohaus_bs_cart o_autohaus_bs_options">

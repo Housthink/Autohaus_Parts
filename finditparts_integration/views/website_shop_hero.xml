@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- ==================================================================
-         Autohaus Parts - Hero banner de la tienda
-         Titulo + subtitulo + distintivos, con espacio reservado para la
-         imagen (se agrega manualmente desde el editor).
+         Autohaus Parts - Hero banner del home
+         Titulo + subtitulo + CTA + distintivos. Solo se muestra en "/".
          ================================================================== -->
     <template id="autohaus_shop_hero"
               inherit_id="portal.frontend_layout"
-              name="Autohaus Shop Hero"
+              name="Autohaus Home Hero"
               priority="45">
 
-        <!-- Arriba del contenido de la pagina (incluye categorias y listado) -->
+        <!-- Arriba del contenido de la pagina -->
         <xpath expr="//main" position="before">
-            <!-- Solo en la tienda (/shop y /shop/category/...),
-                 no en fichas de producto, carrito ni checkout -->
-            <t t-set="autohaus_shop_path" t-value="request.httprequest.path"/>
-            <t t-set="fip_cfg" t-value="request.env['finditparts.config'].sudo().search([('active','=',True)], limit=1)"/>
-            <section t-if="autohaus_shop_path == '/shop' or autohaus_shop_path.startswith('/shop/category')"
+            <!-- Solo en el home; la tienda (/shop) ya no lleva hero -->
+            <t t-set="autohaus_home_path" t-value="request.httprequest.path"/>
+            <section t-if="autohaus_home_path == '/'"
                      class="o_autohaus_hero">
                 <!-- Fondo del banner. La imagen viaja con el modulo (no depende de la BD),
                          asi funciona igual en local, Odoo.sh o cualquier entorno. -->
                 <img class="o_autohaus_hero_bg"
                      src="/finditparts_integration/static/img/hero.jpg"
-                     alt="Camiones y motores"/>
+                     alt="Camiones y motores"
+                     loading="eager"/>
+                <span class="o_autohaus_hero_overlay" aria-hidden="true"/>
 
                 <div class="o_autohaus_hero_inner">
 
@@ -37,6 +36,15 @@
                             Amplio cat&#225;logo de piezas para camiones de trabajo pesado,
                             equipo industrial y flotas comerciales.
                         </p>
+
+                        <div class="o_autohaus_hero_actions">
+                            <a href="/shop" class="o_autohaus_hero_cta">
+                                <i class="fa fa-search" role="presentation"/>
+                                <span>Buscar repuestos</span>
+                                <i class="fa fa-arrow-right" role="presentation"/>
+                            </a>
+                            <span class="o_autohaus_hero_sync">Cat&#225;logo sincronizado</span>
+                        </div>
 
                         <!-- Distintivos -->
                         <ul class="o_autohaus_hero_badges">
