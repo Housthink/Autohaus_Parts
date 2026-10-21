@@ -2,7 +2,7 @@
 <odoo>
     <!-- ==================================================================
          Autohaus Parts - Ficha de producto: datos bajo el titulo
-         (OEM / SKU, valoracion, disponibilidad y descripcion).
+         (OEM / numero de parte, valoracion, disponibilidad y descripcion).
          ================================================================== -->
     <template id="autohaus_product_meta"
               inherit_id="website_sale.product_title"
@@ -14,7 +14,7 @@
                 <ul class="o_autohaus_prod_ident">
                     <li><span>OEM</span></li>
                     <li class="o_autohaus_prod_ident_alt"><span>Aftermarket</span></li>
-                    <li><span>SKU: <t t-esc="product.default_code or ''"/></span></li>
+                    <li><span>N&#250;mero de parte: <t t-esc="product.finditparts_part_number or ''"/></span></li>
                 </ul>
 
                 <div class="o_autohaus_prod_avail">

@@ -20,7 +20,28 @@ class ProductTemplate(models.Model):
         default=False,
         help='Automatically flagged when the product appears in the FinditParts best-seller ranking.',
     )
-    
+
+    finditparts_part_number = fields.Char(
+        string='FinditParts Part Number',
+        compute='_compute_finditparts_part_number',
+        help='Part number reported by FinditParts for the linked product.',
+    )
+
+    @api.depends('default_code')
+    def _compute_finditparts_part_number(self):
+        FinditPartsProduct = self.env['finditparts.product'].sudo()
+        part_numbers = {}
+        for finditparts_product in FinditPartsProduct.search([
+            ('odoo_product_id', 'in', self.ids)
+        ]):
+            part_numbers.setdefault(
+                finditparts_product.odoo_product_id.id,
+                finditparts_product.part_number,
+            )
+
+        for product in self:
+            product.finditparts_part_number = part_numbers.get(product.id) or product.default_code
+
     @api.depends('default_code', 'qty_available')
     def _compute_finditparts_stock(self):
         """Compute stock from finditparts.product and check both sources"""
