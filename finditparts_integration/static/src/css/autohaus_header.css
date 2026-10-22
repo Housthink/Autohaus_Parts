@@ -169,6 +169,17 @@
     font-size: 1.6rem;
 }
 
+.o_autohaus_cart .my_cart_quantity {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    min-width: 18px;
+    padding: 0.2em 0.4em;
+    font-size: 0.65rem;
+    line-height: 1;
+    border-radius: 999px;
+}
+
 /* --- Responsive -------------------------------------------------------- */
 @media (max-width: 991.98px) {
     .o_autohaus_header_inner {

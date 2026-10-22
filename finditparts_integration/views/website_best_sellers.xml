@@ -2,7 +2,7 @@
 <odoo>
     <template id="best_sellers_page" name="Best Sellers">
         <t t-call="website.layout">
-            <div id="wrap" class="o_autohaus_bs_wrap">
+            <div id="wrap" class="o_autohaus_bs_wrap oe_website_sale">
                 <div class="container py-4 py-lg-5">
 
                     <nav class="o_autohaus_bs_breadcrumb" aria-label="breadcrumb">
