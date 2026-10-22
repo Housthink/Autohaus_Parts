@@ -63,7 +63,7 @@
                     </section>
 
                     <!-- Productos disponibles -->
-                    <section class="o_autohaus_home_products">
+                    <section class="o_autohaus_home_products oe_website_sale">
                         <div class="o_autohaus_home_container">
                             <t t-set="home_products" t-value="request.env['product.template'].sudo().search([
                                 ('is_published', '=', True),

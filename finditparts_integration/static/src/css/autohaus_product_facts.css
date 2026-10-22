@@ -73,6 +73,22 @@
 
 /* --- Responsive: se apilan en pantallas estrechas ----------------------- */
 @media (max-width: 767.98px) {
+    #product_details .o_wsale_product_details_content_section_contact {
+        margin-bottom: 0 !important;
+    }
+
+    section#product_detail {
+        margin-bottom: 0.75rem !important;
+    }
+
+    #product_full_description.mt16 {
+        margin-top: 0 !important;
+    }
+
+    .o_autohaus_facts {
+        margin-top: 0 !important;
+    }
+
     .o_autohaus_facts.o_autohaus_facts {
         grid-template-columns: minmax(0, 1fr);
     }

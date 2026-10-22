@@ -13,6 +13,7 @@
 
         <xpath expr="//header" position="inside">
             <nav class="o_autohaus_header d-none d-lg-block" aria-label="Autohaus header">
+                <t t-set="autohaus_cart_qty" t-value="request.session.get('website_sale_cart_quantity', request.cart.cart_quantity) or 0"/>
                 <div class="o_autohaus_header_inner">
 
                     <!-- Brand -->
@@ -51,6 +52,7 @@
                         </a>
                         <a class="o_autohaus_cart" href="/shop/cart" title="Carrito" aria-label="Carrito">
                             <i class="fa fa-shopping-cart"/>
+                            <sup t-attf-class="my_cart_quantity badge bg-primary #{'' if autohaus_cart_qty else 'd-none'}" t-out="autohaus_cart_qty"/>
                         </a>
                         <t t-if="request.env.user._is_public()">
                             <a class="o_autohaus_action" href="/web/login">
