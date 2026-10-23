@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Autohaus Parts - Pagina de Devoluciones y Garantias
+   ========================================================================== */
+.o_autohaus_returns_wrap {
+    min-height: 60vh;
+    background: #f6f7f9;
+}
+
+.o_autohaus_returns_breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+    color: #6b7280;
+    font-size: 0.82rem;
+}
+
+.o_autohaus_returns_breadcrumb a {
+    color: #123a5f;
+    text-decoration: none;
+}
+
+.o_autohaus_returns_breadcrumb a:hover {
+    color: #ee5a24;
+}
+
+.o_autohaus_returns_sep {
+    color: #b6bcc5;
+}
+
+.o_autohaus_returns_header {
+    margin-bottom: 1.5rem;
+}
+
+.o_autohaus_returns_header h1 {
+    margin: 0 0 0.35rem;
+    color: #123a5f;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.o_autohaus_returns_header p {
+    margin: 0;
+    color: #5b6776;
+    font-size: 0.98rem;
+}
+
+.o_autohaus_returns_content {
+    padding: 1.75rem;
+    background: #ffffff;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+}
+
+.o_autohaus_returns_content h2 {
+    margin: 1.6rem 0 0.6rem;
+    color: #123a5f;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.o_autohaus_returns_content h2:first-child {
+    margin-top: 0;
+}
+
+.o_autohaus_returns_content h3 {
+    margin: 1.1rem 0 0.4rem;
+    color: #123a5f;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.o_autohaus_returns_content p {
+    color: #4a4a4a;
+    font-size: 0.94rem;
+    line-height: 1.6;
+}
+
+.o_autohaus_returns_content ul,
+.o_autohaus_returns_content ol {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.25rem;
+    color: #4a4a4a;
+    font-size: 0.94rem;
+    line-height: 1.6;
+}
+
+.o_autohaus_returns_content li {
+    margin-bottom: 0.45rem;
+}
+
+.o_autohaus_returns_faq {
+    list-style: none;
+    padding-left: 0;
+}
+
+.o_autohaus_returns_faq li {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f2f4;
+}
+
+.o_autohaus_returns_faq li:last-child {
+    border-bottom: 0;
+}
+
+.o_autohaus_returns_faq strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #123a5f;
+}
+
+.o_autohaus_returns_faq p {
+    margin: 0;
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_returns_header h1 {
+        font-size: 1.6rem;
+    }
+
+    .o_autohaus_returns_content {
+        padding: 1.25rem;
+    }
+}

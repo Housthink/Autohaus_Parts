@@ -91,6 +91,21 @@
     margin-top: 0.5rem;
 }
 
+/* Enlace "Ver Mas" dentro de Garantia y Devoluciones */
+.o_autohaus_facts_more {
+    display: inline-block;
+    margin: 0 1rem 0.75rem;
+    color: #ee5a24;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.o_autohaus_facts_more:hover {
+    color: #d94d1a;
+    text-decoration: underline;
+}
+
 /* Titulo cuando solo hay una seccion (sin pestanas) */
 .o_autohaus_facts_title {
     margin: 0;

@@ -632,6 +632,7 @@ class FindinPartProduct(models.Model):
             "y en su empaque original. El crédito se procesa dentro de 3 a 5 días "
             "hábiles desde la recepción de la pieza."
             "</p></div>"
+            "<a class='o_autohaus_facts_more' href='/devoluciones'>Ver Más</a>"
         )
 
         # --- Armar secciones ----------------------------------------------
