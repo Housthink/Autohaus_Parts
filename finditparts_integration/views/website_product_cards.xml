@@ -12,6 +12,7 @@
 
         <form class="o_autohaus_bs_card o_carousel_product_card o_autohaus_bs_form"
               role="article"
+              data-number-of-elements="3"
               t-att-aria-label="display_name"
               t-att-data-publish="product.website_published and 'on' or 'off'">
 

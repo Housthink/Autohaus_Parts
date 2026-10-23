@@ -1,49 +1,125 @@
 /* ==========================================================================
    Autohaus Parts - Quick Facts / Product Attributes (ficha de producto)
-   Diseno de dos tarjetas con filas etiqueta / valor.
+   Diseno con pestanas (tabs) horizontales: la informacion queda separada
+   por pestanas y se muestra el contenido de la activa.
    ========================================================================== */
 /* El wrapper lleva la clase 'container' de Bootstrap/Odoo, por lo que hereda
    el mismo max-width y padding que la fila del producto (imagen + detalles)
-   y queda automaticamente alineado en todos los breakpoints.
-
-   Selector con doble clase para ganar siempre a .container en display/grid. */
+   y queda automaticamente alineado en todos los breakpoints. */
 .o_autohaus_facts {
     margin-top: 1.5rem;
 }
 
-/* Fila flex: las tarjetas quedan una al lado de la otra */
-.o_autohaus_facts_inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 1.25rem;
-    width: 100%;
-}
-
-.o_autohaus_facts_inner > .o_autohaus_facts_card {
-    flex: 1 1 0%;
-    min-width: 320px;
-}
-
-.o_autohaus_facts_card {
+.o_autohaus_facts_panel {
     border: 1px solid #e3e6ea;
     border-radius: 8px;
     background: #ffffff;
-    overflow: hidden;
 }
 
-.o_autohaus_facts_title {
+/* --- Pestanas (estilo underline) ---------------------------------------- */
+.o_autohaus_facts_tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin: 0;
-    padding: 0.7rem 1rem;
-    background: #f5f7f9;
+    padding: 0 0.75rem;
     border-bottom: 1px solid #e3e6ea;
+    list-style: none;
+}
+
+.o_autohaus_facts_tabs .nav-item {
+    margin: 0;
+}
+
+.o_autohaus_facts_tabs .nav-link {
+    display: block;
+    padding: 0.7rem 0.25rem;
+    margin-bottom: -1px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
     color: #123a5f;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.o_autohaus_facts_tabs .nav-link:hover {
+    color: #ee5a24;
+}
+
+.o_autohaus_facts_tabs .nav-link.active {
+    border-bottom-color: #ee5a24;
+    color: #ee5a24;
+    font-weight: 700;
+}
+
+/* --- Contenido ---------------------------------------------------------- */
+.o_autohaus_facts_content {
+    background: #ffffff;
+}
+
+.o_autohaus_facts_content .tab-pane {
+    padding: 0.25rem 0 0.5rem;
+}
+
+/* --- Bloques de texto (Descripcion, Garantia y Devoluciones) ------------- */
+.o_autohaus_facts_subtitle {
+    margin: 0;
+    padding: 0.75rem 1rem 0.35rem;
+    color: #123a5f;
+    font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     text-transform: uppercase;
 }
 
+.o_autohaus_facts_prose {
+    padding: 0 1rem 0.75rem;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.o_autohaus_facts_prose p {
+    margin: 0;
+}
+
+.o_autohaus_facts_prose p + p {
+    margin-top: 0.5rem;
+}
+
+/* Enlace "Ver Mas" dentro de Garantia y Devoluciones */
+.o_autohaus_facts_more {
+    display: inline-block;
+    margin: 0 1rem 0.75rem;
+    color: #ee5a24;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.o_autohaus_facts_more:hover {
+    color: #d94d1a;
+    text-decoration: underline;
+}
+
+/* Titulo cuando solo hay una seccion (sin pestanas) */
+.o_autohaus_facts_title {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background: #fdf3ee;
+    border-bottom: 1px solid #f3e0d6;
+    color: #123a5f;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* --- Filas etiqueta / valor --------------------------------------------- */
 .o_autohaus_facts_row {
     display: flex;
     align-items: baseline;
@@ -71,7 +147,43 @@
     word-break: break-word;
 }
 
-/* --- Responsive: se apilan en pantallas estrechas ----------------------- */
+/* --- Enlaces de compatibilidad ------------------------------------------ */
+.o_autohaus_compat_link {
+    color: #ee5a24;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.o_autohaus_compat_link:hover,
+.o_autohaus_compat_link:focus {
+    color: #d94d1a;
+    text-decoration: underline;
+}
+
+/* --- Información de envío ----------------------------------------------- */
+.o_autohaus_shipping_info {
+    padding: 0.5rem 1rem;
+}
+
+.o_autohaus_shipping_list {
+    margin: 0;
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.o_autohaus_shipping_list li {
+    margin-bottom: 0.5rem;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.o_autohaus_shipping_list li strong {
+    color: #123a5f;
+    font-weight: 700;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
 @media (max-width: 767.98px) {
     #product_details .o_wsale_product_details_content_section_contact {
         margin-bottom: 0 !important;
@@ -87,20 +199,6 @@
 
     .o_autohaus_facts {
         margin-top: 0 !important;
-    }
-
-    .o_autohaus_facts.o_autohaus_facts {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .o_autohaus_facts_label {
-        flex: 0 0 45%;
-        max-width: 45%;
-    }
-}@media (max-width: 767.98px) {
-    .o_autohaus_facts_inner > .o_autohaus_facts_card {
-        flex: 1 1 100%;
-        min-width: 0;
     }
 
     .o_autohaus_facts_label {

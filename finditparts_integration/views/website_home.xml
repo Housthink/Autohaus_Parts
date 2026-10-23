@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- ==================================================================
-         Autohaus Parts - Contenido del home
-         Categorias, productos disponibles y franja de beneficios.
+         Autohaus Parts - Home completo
+         Orden: Stats → Value Props → Brands → Products → Help → Categories
          Solo se renderiza en "/" para no tocar la tienda.
          ================================================================== -->
     <template id="autohaus_home_sections"
@@ -16,49 +16,79 @@
             <t t-if="autohaus_home_path == '/'">
                 <div class="o_autohaus_home">
 
-                    <!-- Categorias -->
-                    <section class="o_autohaus_home_cats" aria-label="Categor&#237;as">
+                    <!-- Barra de estadísticas -->
+                    <section class="o_autohaus_home_stats" aria-label="Estadísticas">
                         <div class="o_autohaus_home_container">
-                            <ul class="o_autohaus_home_cats_list">
-                                <t t-set="home_cat_specs" t-value="[
-                                    ('Engine Parts and Accessories', 'Motor di&#233;sel'),
-                                    ('Brakes', 'Frenos'),
-                                    ('Suspension and Steering', 'Suspensi&#243;n'),
-                                    ('Electrical', 'El&#233;ctrico'),
-                                    ('Trailer', 'Remolques'),
-                                    ('Lighting', 'Luces')
-                                ]"/>
-                                <t t-foreach="home_cat_specs" t-as="spec">
-                                    <t t-set="cat" t-value="request.env['product.public.category'].sudo().search([('name', '=', spec[0])], limit=1)"/>
-                                    <t t-if="cat">
-                                        <t t-set="preview_product" t-value="request.env['product.template'].sudo().search([('public_categ_ids', 'child_of', cat.id), ('image_128', '!=', False)], limit=1)"/>
-                                        <li>
-                                            <a t-att-href="'/shop/category/%s' % slug(cat)"
-                                               class="o_autohaus_home_cat_card"
-                                               t-att-aria-label="spec[1]">
-                                                <span class="o_autohaus_home_cat_media">
-                                                    <img t-if="cat.image_128"
-                                                         t-attf-src="/web/image/product.public.category/{{ cat.id }}/image_256"
-                                                         t-att-alt="spec[1]"
-                                                         loading="lazy"/>
-                                                    <img t-elif="preview_product"
-                                                         t-attf-src="/web/image/product.template/{{ preview_product.id }}/image_256"
-                                                         t-att-alt="spec[1]"
-                                                         loading="lazy"/>
-                                                    <img t-else=""
-                                                         src="/finditparts_integration/static/img/category_placeholder.png"
-                                                         t-att-alt="spec[1]"
-                                                         loading="lazy"/>
-                                                </span>
-                                                <span class="o_autohaus_home_cat_footer">
-                                                    <span class="o_autohaus_home_cat_name" t-out="spec[1]"/>
-                                                    <i class="fa fa-chevron-right o_autohaus_home_cat_chevron" aria-hidden="true"/>
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </t>
-                                </t>
+                            <ul class="o_autohaus_home_stats_list">
+                                <li>
+                                    <span class="o_autohaus_home_stats_number">200,000+</span>
+                                    <span class="o_autohaus_home_stats_label">piezas en catálogo</span>
+                                </li>
+                                <li>
+                                    <span class="o_autohaus_home_stats_number">4,000+</span>
+                                    <span class="o_autohaus_home_stats_label">marcas disponibles</span>
+                                </li>
+                                <li>
+                                    <span class="o_autohaus_home_stats_number">30 días</span>
+                                    <span class="o_autohaus_home_stats_label">de garantía</span>
+                                </li>
+                                <li>
+                                    <span class="o_autohaus_home_stats_number">24/7</span>
+                                    <span class="o_autohaus_home_stats_label">soporte online</span>
+                                </li>
                             </ul>
+                        </div>
+                    </section>
+
+                    <!-- Value propositions (reemplaza beneficios) -->
+                    <section class="o_autohaus_home_value_props" aria-label="Propuestas de valor">
+                        <div class="o_autohaus_home_container">
+                            <ul class="o_autohaus_home_value_props_list">
+                                <li>
+                                    <div class="o_autohaus_home_value_icon">
+                                        <i class="fa fa-cubes" aria-hidden="true"/>
+                                    </div>
+                                    <div class="o_autohaus_home_value_text">
+                                        <h3>Catálogo más grande de Panamá</h3>
+                                        <p>Más de 200,000 repuestos de las mejores marcas internacionales</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="o_autohaus_home_value_icon">
+                                        <i class="fa fa-users" aria-hidden="true"/>
+                                    </div>
+                                    <div class="o_autohaus_home_value_text">
+                                        <h3>Asesoría técnica especializada</h3>
+                                        <p>Expertos que te ayudan a encontrar la pieza correcta para tu vehículo</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="o_autohaus_home_value_icon">
+                                        <i class="fa fa-shield" aria-hidden="true"/>
+                                    </div>
+                                    <div class="o_autohaus_home_value_text">
+                                        <h3>Garantía en todos los repuestos</h3>
+                                        <p>Calidad certificada y respaldo en cada compra que realizas</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Marcas líderes -->
+                    <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands(12)"/>
+                    <section t-if="home_brands" class="o_autohaus_home_brands" aria-label="Marcas líderes">
+                        <div class="o_autohaus_home_container">
+                            <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
+                            <div class="o_autohaus_home_brands_grid">
+                                <t t-foreach="home_brands" t-as="tag">
+                                    <a t-att-href="'/shop?tags=%s' % tag.id"
+                                       class="o_autohaus_home_brand_item"
+                                       t-att-aria-label="tag.name">
+                                        <span class="o_autohaus_home_brand_name" t-out="tag.name"/>
+                                    </a>
+                                </t>
+                            </div>
                         </div>
                     </section>
 
@@ -103,49 +133,80 @@
                         </div>
                     </section>
 
+                    <!-- Ayuda para encontrar repuestos -->
+                    <section class="o_autohaus_home_help" aria-label="Ayuda">
+                        <div class="o_autohaus_home_container">
+                            <div class="o_autohaus_home_help_inner">
+                                <div class="o_autohaus_home_help_text">
+                                    <h2>&#191;No encuentras la pieza?</h2>
+                                    <p>Nuestro equipo de expertos te ayuda a encontrar el repuesto correcto para tu veh&#237;culo</p>
+                                    <div class="o_autohaus_home_help_actions">
+                                        <a href="/shop" class="o_autohaus_home_help_btn o_autohaus_help_search">
+                                            <i class="fa fa-search" aria-hidden="true"/>
+                                            <span>Buscar por n&#250;mero de parte</span>
+                                        </a>
+                                        <a href="/contactus" class="o_autohaus_home_help_btn o_autohaus_help_contact">
+                                            <i class="fa fa-envelope" aria-hidden="true"/>
+                                            <span>Consultar por veh&#237;culo</span>
+                                        </a>
+                                        <a href="tel:2304930" class="o_autohaus_home_help_btn o_autohaus_help_call">
+                                            <i class="fa fa-phone" aria-hidden="true"/>
+                                            <span>Llamar ahora</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Categorías -->
+                    <section class="o_autohaus_home_cats" aria-label="Categor&#237;as">
+                        <div class="o_autohaus_home_container">
+                            <h2 class="o_autohaus_home_cats_title">Categor&#237;as populares</h2>
+                            <ul class="o_autohaus_home_cats_list">
+                                <t t-set="home_cat_specs" t-value="[
+                                    ('Engine Parts and Accessories', 'Motor di&#233;sel'),
+                                    ('Brakes', 'Frenos'),
+                                    ('Suspension and Steering', 'Suspensi&#243;n'),
+                                    ('Electrical', 'El&#233;ctrico'),
+                                    ('Trailer', 'Remolques'),
+                                    ('Lighting', 'Luces')
+                                ]"/>
+                                <t t-foreach="home_cat_specs" t-as="spec">
+                                    <t t-set="cat" t-value="request.env['product.public.category'].sudo().search([('name', '=', spec[0])], limit=1)"/>
+                                    <t t-if="cat">
+                                        <t t-set="preview_product" t-value="request.env['product.template'].sudo().search([('public_categ_ids', 'child_of', cat.id), ('image_128', '!=', False)], limit=1)"/>
+                                        <li>
+                                            <a t-att-href="'/shop/category/%s' % slug(cat)"
+                                               class="o_autohaus_home_cat_card"
+                                               t-att-aria-label="spec[1]">
+                                                <span class="o_autohaus_home_cat_media">
+                                                    <img t-if="cat.image_128"
+                                                         t-attf-src="/web/image/product.public.category/{{ cat.id }}/image_256"
+                                                         t-att-alt="spec[1]"
+                                                         loading="lazy"/>
+                                                    <img t-elif="preview_product"
+                                                         t-attf-src="/web/image/product.template/{{ preview_product.id }}/image_256"
+                                                         t-att-alt="spec[1]"
+                                                         loading="lazy"/>
+                                                    <img t-else=""
+                                                         src="/finditparts_integration/static/img/category_placeholder.png"
+                                                         t-att-alt="spec[1]"
+                                                         loading="lazy"/>
+                                                </span>
+                                                <span class="o_autohaus_home_cat_footer">
+                                                    <span class="o_autohaus_home_cat_name" t-out="spec[1]"/>
+                                                    <i class="fa fa-chevron-right o_autohaus_home_cat_chevron" aria-hidden="true"/>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </t>
+                                </t>
+                            </ul>
+                        </div>
+                    </section>
+
                 </div>
-            </t>
-        </xpath>
-
-        <xpath expr="//main" position="after">
-            <t t-set="autohaus_home_path" t-value="request.httprequest.path"/>
-
-            <t t-if="autohaus_home_path == '/'">
-                <!-- Beneficios -->
-                <section class="o_autohaus_home_benefits" aria-label="Beneficios">
-                    <div class="o_autohaus_home_container">
-                        <ul class="o_autohaus_home_benefits_list">
-                            <li>
-                                <i class="fa fa-truck" aria-hidden="true"/>
-                                <span>
-                                    <strong>Entrega r&#225;pida</strong>
-                                    <em>A todo Panam&#225;</em>
-                                </span>
-                            </li>
-                            <li>
-                                <i class="fa fa-shield" aria-hidden="true"/>
-                                <span>
-                                    <strong>Repuestos con garant&#237;a</strong>
-                                    <em>Calidad y confianza</em>
-                                </span>
-                            </li>
-                            <li>
-                                <i class="fa fa-headphones" aria-hidden="true"/>
-                                <span>
-                                    <strong>Soporte especializado</strong>
-                                    <em>Te ayudamos a encontrar la pieza correcta</em>
-                                </span>
-                            </li>
-                            <li>
-                                <i class="fa fa-file-text-o" aria-hidden="true"/>
-                                <span>
-                                    <strong>Cotizaciones empresariales</strong>
-                                    <em>Soluciones para flotas y talleres</em>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </section>
             </t>
         </xpath>
     </template>

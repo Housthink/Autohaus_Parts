@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="returns_page" name="Política de Devoluciones">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_returns_wrap oe_website_sale">
+                <div class="container py-4 py-lg-5">
+
+                    <nav class="o_autohaus_returns_breadcrumb" aria-label="breadcrumb">
+                        <a href="/">Inicio</a>
+                        <span class="o_autohaus_returns_sep">/</span>
+                        <span>Devoluciones y Garantías</span>
+                    </nav>
+
+                    <header class="o_autohaus_returns_header">
+                        <h1>Política de Devoluciones</h1>
+                        <p>Todo lo que necesitas saber sobre devoluciones, reembolsos y garantías.</p>
+                    </header>
+
+                    <section class="o_autohaus_returns_content">
+                        <h2>Política de Devoluciones</h2>
+                        <p>
+                            Entendemos que a veces las cosas no salen como se espera, por eso mantenemos una
+                            política de devolución diseñada para apoyar las necesidades de nuestros clientes.
+                            Salvo que se indique lo contrario más abajo, los productos elegibles son
+                            retornables y nos esforzamos por procesar los créditos más rápido que nadie en la
+                            industria. <strong>Los principios clave de esta política son:</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                Todos los productos, excepto las piezas no retornables, pueden devolverse por
+                                cualquier motivo, siempre que la solicitud de devolución se inicie dentro de
+                                los 30 días posteriores a la fecha de entrega.
+                            </li>
+                            <li>
+                                El crédito se procesa dentro de 3 a 5 días hábiles a partir de la fecha en que
+                                se recibe la pieza, usando nuestra etiqueta de envío de devolución. Los
+                                artículos de alto valor (más de $1,000) requieren verificación adicional y
+                                pueden estar sujetos a revisión por parte del fabricante original.
+                            </li>
+                            <li>
+                                Las devoluciones pueden iniciarse directamente desde nuestro sitio web o
+                                escribiendo a support@finditparts.com.
+                            </li>
+                        </ul>
+
+                        <h2>Elegibilidad para Devoluciones</h2>
+                        <p>Para calificar para una devolución, se deben cumplir las siguientes condiciones:</p>
+                        <ul>
+                            <li>
+                                La solicitud de devolución se inicia dentro de los 30 días posteriores a la
+                                fecha de entrega. Las solicitudes enviadas después de 30 días de la fecha de
+                                entrega no serán aceptadas.
+                            </li>
+                            <li>El producto está nuevo, en condición vendible y en su empaque original.</li>
+                            <li>
+                                La pieza no ha sido instalada ni modificada. <strong>Las piezas que han sido
+                                instaladas o modificadas no pueden devolverse.</strong>
+                            </li>
+                            <li>
+                                El artículo está clasificado como no retornable. Ciertas categorías de piezas
+                                no son retornables, incluyendo, entre otras, componentes eléctricos y
+                                electrónicos, módulos de control, sensores, juntas y sistemas de sellado,
+                                herramientas de diagnóstico y artículos de pedido especial. Nos reservamos el
+                                derecho de designar artículos adicionales como no retornables y de evaluar las
+                                devoluciones caso por caso.
+                            </li>
+                        </ul>
+
+                        <h2>Cómo Iniciar una Devolución</h2>
+                        <p>
+                            Todas las devoluciones deben contar con una Autorización de Devolución de Mercancía
+                            (RMA, por sus siglas en inglés) antes de ser enviadas de vuelta.
+                        </p>
+                        <ol>
+                            <li>
+                                Solicita tu RMA en línea a través de nuestra página de seguimiento de pedidos,
+                                o escribiendo a support@finditparts.com. Se asigna un número de RMA
+                                específicamente a tu devolución y se utiliza para fines de seguimiento
+                                interno. Los números de RMA siguen el formato R123456789.
+                            </li>
+                            <li>
+                                Recibirás un número de RMA, una etiqueta de envío de devolución prepagada e
+                                instrucciones de devolución.
+                            </li>
+                            <li>
+                                Coloca la etiqueta de devolución en el paquete y entrégalo al transportista
+                                indicado. Nosotros nos encargamos del resto.
+                            </li>
+                        </ol>
+
+                        <h2>Créditos y Reembolsos</h2>
+
+                        <h3>Cómo se Calculan los Créditos</h3>
+                        <p>
+                            Emitiremos un crédito por el precio total de la pieza comprada, menos las
+                            siguientes deducciones:
+                        </p>
+                        <ul>
+                            <li>
+                                El cargo de flete original de salida en el que incurrimos, si pagamos el
+                                flete en el pedido inicial.
+                            </li>
+                            <li>El costo de la etiqueta de devolución prepagada proporcionada con el RMA.</li>
+                            <li>Una tarifa de reposición del 20%.</li>
+                        </ul>
+                        <p>Los cargos de flete y manejo pagados por el cliente no son reembolsables.</p>
+
+                        <h3>Tiempo y Método de Reembolso</h3>
+                        <p>
+                            Los reembolsos se procesan dentro de 3 a 5 días hábiles a partir de la fecha en
+                            que envías la devolución, siempre que uses la etiqueta de devolución que
+                            proporcionamos. Una vez emitido, un reembolso puede tardar de 48 a 72 horas
+                            hábiles en reflejarse en tu estado de cuenta, dependiendo de tu banco. Te
+                            notificaremos por correo electrónico una vez que tu reembolso haya sido
+                            procesado. Los créditos se emiten al método de pago original (por ejemplo, la
+                            tarjeta de crédito o la cuenta de PayPal) proporcionado al momento de realizar el
+                            pedido.
+                        </p>
+
+                        <h2>Devoluciones para Panamá</h2>
+                        <p>
+                            Los pedidos internacionales pueden devolverse. Todos los gastos de envío de
+                            devolución son responsabilidad del cliente, y las solicitudes de devolución
+                            internacional deben iniciarse dentro de los 30 días posteriores a la fecha de
+                            entrega.
+                        </p>
+                        <p>Si el pago se realizó mediante transferencia bancaria internacional o ACH, se aplican los siguientes términos de reembolso:</p>
+                        <ul>
+                            <li>
+                                <strong>Moneda y tipo de cambio:</strong> Todas las transacciones se realizan
+                                en dólares estadounidenses (USD). En consecuencia, todos los reembolsos se
+                                procesan exclusivamente en dólares estadounidenses (USD).
+                            </li>
+                            <li>
+                                <strong>Fluctuaciones del tipo de cambio:</strong> No somos responsables de
+                                ninguna fluctuación en el tipo de cambio que ocurra entre el momento de la
+                                compra y el momento del reembolso. El tipo de cambio aplicado durante el
+                                proceso de reembolso lo determinan nuestros socios de procesamiento de pagos y
+                                puede diferir del tipo de cambio al momento de la compra.
+                            </li>
+                        </ul>
+
+                        <h2>Devoluciones Grandes y de Carga</h2>
+                        <p>
+                            Para devoluciones grandes, como un pallet de producto, comunícate con nuestro
+                            centro de llamadas para recibir asistencia.
+                        </p>
+
+                        <h2>Devoluciones de Núcleo (Core)</h2>
+                        <p>
+                            Nuestra política completa de devolución de núcleos se puede encontrar en nuestra
+                            página de Devoluciones de Núcleo.
+                        </p>
+
+                        <h2>Preguntas Frecuentes</h2>
+                        <ul class="o_autohaus_returns_faq">
+                            <li>
+                                <strong>¿Qué es un número de Autorización de Devolución de Mercancía (RMA)?</strong>
+                                <p>
+                                    Un RMA es un número asignado específicamente a tu devolución y se utiliza
+                                    para fines de seguimiento interno. Los números de RMA tienen este formato:
+                                    R123456789.
+                                </p>
+                            </li>
+                            <li>
+                                <strong>¿Qué tan pronto recibiré mi reembolso?</strong>
+                                <p>
+                                    Los reembolsos se emiten dentro de 3 a 5 días hábiles a partir de la fecha
+                                    en que envías la devolución cuando usas la etiqueta de devolución que
+                                    proporcionamos. Una vez emitido, el reembolso puede tardar de 48 a 72
+                                    horas hábiles adicionales en aparecer en tu estado de cuenta, dependiendo
+                                    de tu banco.
+                                </p>
+                            </li>
+                            <li>
+                                <strong>¿Qué pasa si nos equivocamos y enviamos la pieza incorrecta?</strong>
+                                <p>
+                                    Si el error fue nuestro o de nuestro proveedor o socio, acreditaremos el
+                                    monto total que pagaste: precio de la pieza, impuestos y cualquier flete o
+                                    manejo, y te proporcionaremos una etiqueta de devolución prepagada sin
+                                    costo.
+                                </p>
+                            </li>
+                            <li>
+                                <strong>¿Se pueden devolver los pedidos internacionales?</strong>
+                                <p>
+                                    Sí. Los pedidos internacionales pueden devolverse, con todos los gastos de
+                                    envío de devolución pagados por el cliente. Las solicitudes de devolución
+                                    internacional deben iniciarse dentro de los 30 días posteriores a la fecha
+                                    de entrega.
+                                </p>
+                            </li>
+                            <li>
+                                <strong>¿Qué pasa si mi devolución es muy grande, como un pallet de producto?</strong>
+                                <p>
+                                    Para devoluciones grandes, comunícate con nuestro centro de llamadas.
+                                </p>
+                            </li>
+                        </ul>
+                    </section>
+
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
