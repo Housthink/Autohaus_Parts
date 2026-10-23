@@ -22,6 +22,7 @@
         'account',
         'payment',
         'website_sale',
+        'portal',
         'mail',
         'crm',
     ],
@@ -51,6 +52,7 @@
         'views/website_whatsapp_button.xml',
         'views/website_best_sellers.xml',
         'views/website_returns.xml',
+        'views/website_account.xml',
     ],
     'assets': {
         'web.assets_frontend': [
@@ -65,6 +67,7 @@
             'finditparts_integration/static/src/css/autohaus_best_sellers.css',
             'finditparts_integration/static/src/css/autohaus_home.css',
             'finditparts_integration/static/src/css/autohaus_returns.css',
+            'finditparts_integration/static/src/css/autohaus_account.css',
         ],
     },
     'demo': [],

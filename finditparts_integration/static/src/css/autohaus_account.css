@@ -1,0 +1,181 @@
+/* =======================================================================
+   Autohaus Parts - Panel de cliente
+   ======================================================================= */
+.o_autohaus_account_wrap {
+    min-height: 60vh;
+    background: #f6f7f9;
+    color: #4a4a4a;
+}
+
+.o_autohaus_account_wrap > .container {
+    max-width: 1240px;
+}
+
+.o_autohaus_account_wrap h1 {
+    margin: 0;
+    color: #123a5f;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.o_autohaus_account_wrap h2,
+.o_autohaus_account_wrap .h5 {
+    color: #123a5f;
+    font-weight: 800;
+}
+
+.o_autohaus_account_wrap a:not(.btn) {
+    color: #123a5f;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.o_autohaus_account_wrap a:not(.btn):hover {
+    color: #ee5a24;
+}
+
+.o_autohaus_account_wrap .text-muted {
+    color: #6b7280 !important;
+}
+
+.o_autohaus_account_tile {
+    position: relative;
+    display: block;
+    height: 100%;
+    min-height: 112px;
+    padding: 1.25rem 1.35rem 1.15rem;
+    overflow: hidden;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #123a5f !important;
+    box-shadow: 0 4px 14px rgba(18, 58, 95, 0.05);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.o_autohaus_account_tile::after {
+    position: absolute;
+    right: 1.1rem;
+    bottom: 0.9rem;
+    color: #ee5a24;
+    content: "→";
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.o_autohaus_account_tile:hover {
+    border-color: #ee5a24;
+    box-shadow: 0 10px 24px rgba(18, 58, 95, 0.1);
+    color: #123a5f !important;
+    transform: translateY(-2px);
+}
+
+.o_autohaus_account_tile h2 {
+    margin: 0 2rem 0.4rem 0;
+    font-size: 1.05rem;
+}
+
+.o_autohaus_account_tile p {
+    max-width: 245px;
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.o_autohaus_account_wrap .card {
+    border: 1px solid #e3e6ea !important;
+    border-radius: 10px !important;
+    box-shadow: 0 5px 18px rgba(18, 58, 95, 0.06) !important;
+}
+
+.o_autohaus_account_wrap .card-body {
+    padding: 1.25rem;
+}
+
+.o_autohaus_account_wrap .table {
+    margin-bottom: 0;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+}
+
+.o_autohaus_account_wrap .table thead th {
+    border-bottom: 2px solid #123a5f;
+    color: #123a5f;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.o_autohaus_account_wrap .table td {
+    border-color: #eef0f3;
+    vertical-align: middle;
+}
+
+.o_autohaus_account_wrap .table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.o_autohaus_account_wrap .badge {
+    border: 1px solid #d7e3ee;
+    border-radius: 999px;
+    background: #eef5fa !important;
+    color: #123a5f !important;
+    font-weight: 700;
+}
+
+.o_autohaus_account_wrap .btn-primary {
+    border-color: #ee5a24;
+    background: #ee5a24;
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.o_autohaus_account_wrap .btn-primary:hover,
+.o_autohaus_account_wrap .btn-primary:focus {
+    border-color: #d94d1a;
+    background: #d94d1a;
+}
+
+.o_autohaus_account_wrap .btn-outline-primary,
+.o_autohaus_account_wrap .btn-outline-secondary {
+    border-color: #123a5f;
+    color: #123a5f !important;
+    font-weight: 700;
+}
+
+.o_autohaus_account_wrap .btn-outline-primary:hover,
+.o_autohaus_account_wrap .btn-outline-secondary:hover {
+    border-color: #123a5f;
+    background: #123a5f;
+    color: #ffffff !important;
+}
+
+.o_autohaus_account_wrap .form-control,
+.o_autohaus_account_wrap .form-select {
+    border-color: #d8dde3;
+    border-radius: 5px;
+}
+
+.o_autohaus_account_wrap .form-control:focus,
+.o_autohaus_account_wrap .form-select:focus {
+    border-color: #123a5f;
+    box-shadow: 0 0 0 0.2rem rgba(18, 58, 95, 0.12);
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_account_wrap h1 {
+        font-size: 1.6rem;
+    }
+
+    .o_autohaus_account_wrap .card-body {
+        padding: 1rem;
+    }
+
+    .o_autohaus_account_tile {
+        min-height: 96px;
+    }
+}
