@@ -148,7 +148,6 @@
             <t t-set="sale_order" t-value="request.session.get('sale_order_id') and request.env['sale.order'].sudo().browse(request.session.get('sale_order_id')) or False"/>
             <div id="pickup_meta" t-att-data-pickup="sale_order and sale_order.pickup_warehouse or ''" style="display:none;"></div>
             <style>
-                #o_delivery_form { display: none !important; }
                 #billing_address_list { display: none !important; }
                 .o_note_warehouse { display: none !important; }
                 .pickup-badge {

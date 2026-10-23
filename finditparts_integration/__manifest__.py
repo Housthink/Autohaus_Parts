@@ -19,6 +19,7 @@
         'stock',
         'purchase',
         'sale',
+        'delivery',
         'account',
         'payment',
         'website_sale',
