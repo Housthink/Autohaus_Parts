@@ -147,6 +147,42 @@
     word-break: break-word;
 }
 
+/* --- Enlaces de compatibilidad ------------------------------------------ */
+.o_autohaus_compat_link {
+    color: #ee5a24;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.o_autohaus_compat_link:hover,
+.o_autohaus_compat_link:focus {
+    color: #d94d1a;
+    text-decoration: underline;
+}
+
+/* --- Información de envío ----------------------------------------------- */
+.o_autohaus_shipping_info {
+    padding: 0.5rem 1rem;
+}
+
+.o_autohaus_shipping_list {
+    margin: 0;
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.o_autohaus_shipping_list li {
+    margin-bottom: 0.5rem;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.o_autohaus_shipping_list li strong {
+    color: #123a5f;
+    font-weight: 700;
+}
+
 /* --- Responsive ---------------------------------------------------------- */
 @media (max-width: 767.98px) {
     #product_details .o_wsale_product_details_content_section_contact {

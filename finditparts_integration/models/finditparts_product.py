@@ -438,6 +438,7 @@ class FindinPartProduct(models.Model):
             self.last_sync_date = fields.Datetime.now()
             self.sync_errors = False
             self.update_stock_status()
+            self._link_alternative_products()
             
             return True
             
@@ -446,6 +447,41 @@ class FindinPartProduct(models.Model):
             self.sync_status = 'failed'
             self.sync_errors = str(e)
             return False
+    
+    def _link_alternative_products(self):
+        """Vincula productos alternativos (relacionados) al producto de Odoo.
+
+        Usa como heuristica los productos publicados de la misma marca (tag);
+        si no hay, usa los de la misma categoria. Esto alimenta la seccion
+        nativa "Productos relacionados" del website.
+        """
+        odoo_product = self.odoo_product_id
+        if not odoo_product:
+            return
+        Template = self.env['product.template'].sudo()
+        alternatives = Template.browse()
+
+        brand_tags = odoo_product.product_tag_ids
+        if brand_tags:
+            alternatives = Template.search([
+                ('id', '!=', odoo_product.id),
+                ('is_published', '=', True),
+                ('sale_ok', '=', True),
+                ('product_tag_ids', 'in', brand_tags.ids),
+            ], limit=8)
+
+        if not alternatives and odoo_product.public_categ_ids:
+            alternatives = Template.search([
+                ('id', '!=', odoo_product.id),
+                ('is_published', '=', True),
+                ('sale_ok', '=', True),
+                ('public_categ_ids', 'in', odoo_product.public_categ_ids.ids),
+            ], limit=8)
+
+        if alternatives:
+            odoo_product.sudo().write({
+                'alternative_product_ids': [(6, 0, alternatives.ids)],
+            })
     
     def action_view_odoo_product(self):
         """Open the related Odoo product"""
@@ -539,12 +575,19 @@ class FindinPartProduct(models.Model):
                 return text
             return html_escape(text).replace('\n', '<br/>')
 
-        def build_rows(rows):
+        def build_rows(rows, as_links=False):
             """Filas etiqueta/valor para una pestana."""
+            def format_value(label, value):
+                formatted = format_text(value)
+                if as_links and part_number_re.match(value or ''):
+                    href = '/shop?search=%s' % requests.utils.quote(value or '')
+                    return "<a href='%s' class='o_autohaus_compat_link'>%s</a>" % (href, formatted)
+                return formatted
+            
             body = ''.join(
                 f"<div class='o_autohaus_facts_row'>"
                 f"<span class='o_autohaus_facts_label'>{format_text(label)}</span>"
-                f"<span class='o_autohaus_facts_value'>{format_text(value)}</span>"
+                f"<span class='o_autohaus_facts_value'>{format_value(label, value)}</span>"
                 f"</div>"
                 for label, value in rows if value not in (None, '', [])
             )
@@ -561,6 +604,58 @@ class FindinPartProduct(models.Model):
                 f"<h4 class='o_autohaus_facts_subtitle'>{format_text(title)}</h4>"
                 f"<div class='o_autohaus_facts_prose'>{body}</div>"
             )
+
+        def build_shipping_info(product_data, current_variant):
+            """Construye información de entrega y envío."""
+            shipping_items = []
+            
+            # Tiempo estimado de entrega
+            estimated_days = current_variant.get('estimated_days_to_deliver')
+            if estimated_days:
+                shipping_items.append(f"<strong>Tiempo estimado de entrega:</strong> {estimated_days} días hábiles")
+            
+            # Fecha estimada de envío
+            estimated_ship = current_variant.get('estimated_ship_date')
+            if estimated_ship:
+                try:
+                    ship_date = datetime.fromisoformat(estimated_ship.replace('Z', '+00:00'))
+                    shipping_items.append(f"<strong>Fecha estimada de envío:</strong> {ship_date.strftime('%d de %B de %Y')}")
+                except:
+                    pass
+            
+            # Fecha estimada de entrega
+            estimated_delivery = current_variant.get('estimated_delivery_date_ground')
+            if estimated_delivery:
+                try:
+                    delivery_date = datetime.fromisoformat(estimated_delivery.replace('Z', '+00:00'))
+                    shipping_items.append(f"<strong>Fecha estimada de entrega:</strong> {delivery_date.strftime('%d de %B de %Y')}")
+                except:
+                    pass
+            
+            # Ubicación del vendedor
+            location = current_variant.get('location')
+            if location:
+                shipping_items.append(f"<strong>Ubicación:</strong> {location}")
+            
+            # Notas de envío de purchase_notes
+            purchase_notes = product_data.get('purchase_notes') or []
+            for note in purchase_notes:
+                note_type = note.get('type', '')
+                html_message = note.get('html_message', '')
+                if note_type == 'SHIPPING_MESSAGE' and html_message:
+                    shipping_items.append(html_message)
+                elif note_type == 'SHIPPING_PROMISE' and html_message:
+                    shipping_items.append(html_message)
+            
+            if not shipping_items:
+                return ''
+            
+            content = '<ul class="o_autohaus_shipping_list">'
+            for item in shipping_items:
+                content += f'<li>{item}</li>'
+            content += '</ul>'
+            
+            return f"<div class='o_autohaus_shipping_info'>{content}</div>"
 
         # --- Descripcion ---------------------------------------------------
         pies_data = product_data.get('pies_data') or {}
@@ -583,7 +678,10 @@ class FindinPartProduct(models.Model):
             build_text_block('Características y beneficios', features),
         ])
 
-        # --- Especificaciones (datos clave del producto) ------------------
+        # --- Especificaciones técnicas -------------------------------------
+        specs_content = build_rows(attribute_pairs)
+
+        # --- Datos clave del producto (Quick Facts) ----------------------
         breadcrumbs = product_data.get('breadcrumbs_ancestors') or []
         category_label = None
         if isinstance(breadcrumbs, list) and breadcrumbs:
@@ -591,7 +689,7 @@ class FindinPartProduct(models.Model):
 
         current_variant = product_data.get('current_variant') or {}
 
-        specs_rows = []
+        quick_facts_rows = []
         for label, value in [
             ('Número de parte', product_data.get('part_number') or product_data.get('sku')),
             ('Fabricante', product_data.get('manufacturer') or product_data.get('brand')),
@@ -603,10 +701,10 @@ class FindinPartProduct(models.Model):
             ('Peso (lbs)', product_data.get('weight')),
         ]:
             if value not in (None, '', []):
-                specs_rows.append((label, value))
-        specs_content = build_rows(specs_rows)
+                quick_facts_rows.append((label, value))
+        quick_facts_content = build_rows(quick_facts_rows)
 
-        # --- Compatibilidad -----------------------------------------------
+        # --- Compatibilidad (referencias equivalentes) -------------------
         compat_rows = []
         for interchange in pies_data.get('part_interchanges') or []:
             part_number = interchange.get('part_number')
@@ -614,7 +712,7 @@ class FindinPartProduct(models.Model):
                 continue
             brand = interchange.get('brand_label') or interchange.get('brand_aaiaid') or ''
             compat_rows.append((brand or 'OEM', part_number))
-        compat_content = build_rows(compat_rows)
+        compat_content = build_rows(compat_rows, as_links=True)
 
         # --- Garantia y Devoluciones (estatico, traducido) ----------------
         warranty_content = (
@@ -635,13 +733,20 @@ class FindinPartProduct(models.Model):
             "<a class='o_autohaus_facts_more' href='/devoluciones'>Ver Más</a>"
         )
 
+        # --- Entrega e información de envío --------------------------------
+        shipping_info_content = build_shipping_info(product_data, current_variant)
+
         # --- Armar secciones ----------------------------------------------
         if description_content:
             sections.append(('o_autohaus_pane_description', 'Descripción', description_content))
         if specs_content:
-            sections.append(('o_autohaus_pane_specs', 'Especificaciones', specs_content))
+            sections.append(('o_autohaus_pane_specs', 'Especificaciones técnicas', specs_content))
+        if quick_facts_content:
+            sections.append(('o_autohaus_pane_quick_facts', 'Ficha técnica', quick_facts_content))
         if compat_content:
             sections.append(('o_autohaus_pane_compat', 'Compatibilidad', compat_content))
+        if shipping_info_content:
+            sections.append(('o_autohaus_pane_shipping', 'Entrega e información de envío', shipping_info_content))
         sections.append(('o_autohaus_pane_warranty', 'Garantía y Devoluciones', warranty_content))
 
         if not sections:

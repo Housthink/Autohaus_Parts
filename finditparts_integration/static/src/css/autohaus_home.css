@@ -134,14 +134,17 @@
     background: #f6f7f9;
     border: 1px solid #e3e6ea;
     border-radius: 8px;
+    text-decoration: none;
     transition: all 0.2s ease;
 }
 
-.o_autohaus_home_brand_item:hover {
+.o_autohaus_home_brand_item:hover,
+.o_autohaus_home_brand_item:focus {
     background: #ffffff;
     border-color: #ee5a24;
     box-shadow: 0 4px 12px rgba(238, 90, 36, 0.15);
     transform: translateY(-2px);
+    text-decoration: none;
 }
 
 .o_autohaus_home_brand_name {

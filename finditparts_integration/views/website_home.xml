@@ -76,14 +76,17 @@
                     </section>
 
                     <!-- Marcas líderes -->
-                    <section class="o_autohaus_home_brands" aria-label="Marcas líderes">
+                    <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands(12)"/>
+                    <section t-if="home_brands" class="o_autohaus_home_brands" aria-label="Marcas líderes">
                         <div class="o_autohaus_home_container">
                             <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
                             <div class="o_autohaus_home_brands_grid">
-                                <t t-foreach="['MACK', 'VOLVO', 'FREIGHTLINER', 'CUMMINS', 'PETERBILT', 'KENWORTH', 'INTERNATIONAL', 'CAT', 'DETROIT DIESEL', 'MERITOR', 'BENDIX', 'WABCO']" t-as="brand">
-                                    <div class="o_autohaus_home_brand_item">
-                                        <span class="o_autohaus_home_brand_name" t-out="brand"/>
-                                    </div>
+                                <t t-foreach="home_brands" t-as="tag">
+                                    <a t-att-href="'/shop?tags=%s' % tag.id"
+                                       class="o_autohaus_home_brand_item"
+                                       t-att-aria-label="tag.name">
+                                        <span class="o_autohaus_home_brand_name" t-out="tag.name"/>
+                                    </a>
                                 </t>
                             </div>
                         </div>
