@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="customer_account_home" name="Mi cuenta">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_account_wrap">
+                <div class="container py-4 py-lg-5">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                        <div>
+                            <h1 class="mb-1">Mi cuenta</h1>
+                            <p class="text-muted mb-0">Hola, <t t-out="partner.name"/>.</p>
+                        </div>
+                        <a class="btn btn-outline-primary" href="/my/account">Mis datos y direcciones</a>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <t t-foreach="[
+                            ('/mi-cuenta/pedidos', 'Pedidos y seguimiento', 'Consulta compras, estados y entregas.'),
+                            ('/mi-cuenta/facturas', 'Facturas', 'Consulta y descarga tus facturas.'),
+                            ('/mi-cuenta/cotizaciones', 'Cotizaciones', 'Revisa tus cotizaciones abiertas.'),
+                            ('/shop/wishlist', 'Favoritos', 'Tus productos guardados para después.'),
+                            ('/mi-cuenta/solicitudes', 'Devoluciones y garantías', 'Crea y consulta solicitudes.'),
+                            ('/my/account', 'Datos personales', 'Actualiza tus datos y direcciones.')
+                        ]" t-as="item">
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <a t-att-href="item[0]" class="o_autohaus_account_tile">
+                                    <h2 t-out="item[1]"/><p t-out="item[2]"/>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h2 class="h5 mb-0">Pedidos recientes</h2>
+                                        <a href="/mi-cuenta/pedidos">Ver todos</a>
+                                    </div>
+                                    <t t-if="orders">
+                                        <div class="table-responsive"><table class="table align-middle mb-0">
+                                            <tr t-foreach="orders" t-as="order">
+                                                <td><a t-att-href="'/mi-cuenta/pedido/%s' % order.id"><t t-out="order.name"/></a></td>
+                                                <td><t t-out="order.date_order"/></td>
+                                                <td><span class="badge text-bg-light"><t t-out="dict(order._fields['state'].selection).get(order.state, order.state)"/></span></td>
+                                                <td class="text-end"><t t-out="order.amount_total" t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/></td>
+                                            </tr>
+                                        </table></div>
+                                    </t>
+                                    <p t-else="" class="text-muted mb-0">Todavía no tienes pedidos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <h2 class="h5">Solicitudes recientes</h2>
+                                    <t t-if="requests"><div t-foreach="requests" t-as="item" class="border-bottom py-2">
+                                        <strong t-out="item.name"/> · <span t-out="item.reason"/><br/>
+                                        <small class="text-muted" t-out="item.state"/>
+                                    </div></t>
+                                    <p t-else="" class="text-muted mb-0">No tienes solicitudes abiertas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="customer_orders" name="Mis pedidos">
+        <t t-call="website.layout"><div class="container py-5 o_autohaus_account_wrap">
+            <h1>Historial de pedidos y compras</h1>
+            <div class="table-responsive mt-4"><table class="table align-middle">
+                <thead><tr><th>Pedido</th><th>Fecha</th><th>Estado</th><th>Entrega estimada</th><th></th></tr></thead>
+                <tbody><tr t-foreach="orders" t-as="order">
+                    <td><a t-att-href="'/mi-cuenta/pedido/%s' % order.id"><t t-out="order.name"/></a></td>
+                    <td t-out="order.date_order"/>
+                    <td t-out="dict(order._fields['state'].selection).get(order.state, order.state)"/>
+                    <td><t t-out="order.estimated_delivery_panama or order.estimated_delivery_miami or 'Pendiente'"/></td>
+                    <td><a class="btn btn-sm btn-outline-primary" t-att-href="'/mi-cuenta/pedido/%s' % order.id">Ver seguimiento</a></td>
+                </tr></tbody>
+            </table></div>
+        </div></t>
+    </template>
+
+    <template id="customer_order_detail" name="Seguimiento de pedido">
+        <t t-call="website.layout"><div class="container py-5 o_autohaus_account_wrap">
+            <a href="/mi-cuenta/pedidos">← Volver a pedidos</a>
+            <h1 class="mt-3">Pedido <t t-out="order.name"/></h1>
+            <t t-set="tracking" t-value="order.get_portal_tracking()"/>
+            <div class="card border-0 shadow-sm my-4"><div class="card-body">
+                <h2 class="h5">Seguimiento</h2>
+                <p class="lead"><t t-out="tracking['state_label']"/></p>
+                <div class="row g-3">
+                    <div class="col-md-4"><small class="text-muted d-block">Origen</small><strong>Estados Unidos</strong></div>
+                    <div class="col-md-4"><small class="text-muted d-block">Destino</small><strong>Panamá</strong></div>
+                    <div class="col-md-4"><small class="text-muted d-block">Número de seguimiento</small><strong t-out="order.tracking_number or 'Pendiente'"/></div>
+                    <div class="col-md-6"><small class="text-muted d-block">Entrega estimada en Miami</small><strong t-out="order.estimated_delivery_miami or 'Pendiente'"/></div>
+                    <div class="col-md-6"><small class="text-muted d-block">Entrega estimada en Panamá</small><strong t-out="order.estimated_delivery_panama or 'Pendiente'"/></div>
+                </div>
+            </div></div>
+            <div class="card border-0 shadow-sm"><div class="card-body"><h2 class="h5">Productos</h2>
+                <div t-foreach="order.order_line" t-as="line" class="d-flex justify-content-between border-bottom py-2">
+                    <span><t t-out="line.name"/> × <t t-out="line.product_uom_qty"/></span>
+                    <a class="btn btn-sm btn-outline-secondary" t-att-href="'/mi-cuenta/volver-a-comprar/%s' % line.id">Volver a comprar</a>
+                </div>
+            </div></div>
+        </div></t>
+    </template>
+
+    <template id="customer_invoices" name="Mis facturas">
+        <t t-call="website.layout"><div class="container py-5 o_autohaus_account_wrap">
+            <h1>Facturas</h1><div class="table-responsive mt-4"><table class="table">
+                <thead><tr><th>Documento</th><th>Fecha</th><th>Estado</th><th>Total</th><th></th></tr></thead>
+                <tbody><tr t-foreach="invoices" t-as="invoice">
+                    <td t-out="invoice.name or invoice.ref or 'Borrador'"/><td t-out="invoice.invoice_date or invoice.date"/>
+                    <td t-out="invoice.payment_state"/><td t-out="invoice.amount_total" t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                    <td><a class="btn btn-sm btn-outline-primary" t-att-href="'/mi-cuenta/factura/%s/pdf' % invoice.id">Descargar PDF</a></td>
+                </tr></tbody>
+            </table></div>
+        </div></t>
+    </template>
+
+    <template id="customer_quotations" name="Mis cotizaciones">
+        <t t-call="website.layout"><div class="container py-5 o_autohaus_account_wrap">
+            <h1>Cotizaciones</h1><div class="table-responsive mt-4"><table class="table">
+                <thead><tr><th>Referencia</th><th>Fecha</th><th>Cliente</th><th>Total</th></tr></thead>
+                <tbody><tr t-foreach="orders" t-as="order"><td><a t-att-href="'/mi-cuenta/pedido/%s' % order.id" t-out="order.name"/></td><td t-out="order.date_order"/><td t-out="order.partner_id.name"/><td t-out="order.amount_total" t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/><td><a t-att-href="'/my/orders/%s?report_type=pdf' % order.id">Descargar PDF</a></td></tr></tbody>
+            </table></div>
+        </div></t>
+    </template>
+
+    <template id="customer_requests" name="Mis solicitudes">
+        <t t-call="website.layout"><div class="container py-5 o_autohaus_account_wrap">
+            <div class="d-flex justify-content-between align-items-center"><h1>Devoluciones y garantías</h1><a class="btn btn-primary" href="/mi-cuenta/solicitud">Nueva solicitud</a></div>
+            <div class="table-responsive mt-4"><table class="table"><thead><tr><th>Solicitud</th><th>Tipo</th><th>Pedido</th><th>Estado</th><th>Fecha</th></tr></thead>
+                <tbody><tr t-foreach="requests" t-as="item"><td t-out="item.name"/><td t-out="dict(item._fields['request_type'].selection).get(item.request_type, item.request_type)"/><td t-out="item.sale_order_id.name or '-'"/><td t-out="dict(item._fields['state'].selection).get(item.state, item.state)"/><td t-out="item.create_date"/></tr></tbody>
+            </table></div>
+        </div></t>
+    </template>
+
+    <template id="customer_request_form" name="Nueva solicitud">
+        <t t-call="website.layout"><div class="container py-5 o_autohaus_account_wrap">
+            <h1>Nueva devolución o garantía</h1>
+            <div t-if="error" class="alert alert-danger" t-out="error"/>
+            <form method="post" action="/mi-cuenta/solicitud" class="card border-0 shadow-sm p-4 mt-4">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <label class="form-label">Tipo</label><select name="request_type" class="form-select mb-3"><option value="return">Devolución</option><option value="warranty">Garantía</option></select>
+                <label class="form-label">Pedido</label><select name="order_id" class="form-select mb-3"><option value="">Selecciona un pedido</option><option t-foreach="orders" t-as="order" t-att-value="order.id" t-out="order.name"/></select>
+                <label class="form-label">Motivo</label><input name="reason" class="form-control mb-3" required="required"/>
+                <label class="form-label">Descripción</label><textarea name="description" class="form-control mb-3" rows="5" required="required"/>
+                <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+            </form>
+        </div></t>
+    </template>
+</odoo>
