@@ -486,7 +486,12 @@ class FindinPartProduct(models.Model):
             }
     
     def _extract_attribute_pairs(self, product_data):
-        """Return list of (label, value) attribute tuples from API data"""
+        """Return list of (label, value) attribute tuples from API data.
+
+        Incluye tanto los atributos del producto (PIES product_attributes)
+        como la informacion adicional (extended_product_informations), que
+        juntos forman las especificaciones del producto.
+        """
         attribute_pairs = []
         attribute_map = product_data.get('attributes')
         if isinstance(attribute_map, dict):
@@ -496,10 +501,14 @@ class FindinPartProduct(models.Model):
                 label = key.replace('_', ' ').title()
                 attribute_pairs.append((label, value))
         pies_data = product_data.get('pies_data') or {}
-        pies_attributes = pies_data.get('product_attributes') or []
-        for attr in pies_attributes:
+        for attr in pies_data.get('product_attributes') or []:
             name = attr.get('name')
             value = attr.get('value')
+            if name and value:
+                attribute_pairs.append((name, value))
+        for info in pies_data.get('extended_product_informations') or []:
+            name = info.get('description')
+            value = info.get('value')
             if name and value:
                 attribute_pairs.append((name, value))
         return attribute_pairs
@@ -507,12 +516,15 @@ class FindinPartProduct(models.Model):
     def _build_html_description(self, product_data, attribute_pairs=None, related_parts=None):
         """Genera la descripcion del producto en la web.
 
-        Solo se muestran dos bloques, con el diseno de dos tarjetas:
-          - Quick Facts        (datos clave del producto)
-          - Product Attributes (atributos PIES)
+        Muestra la informacion separada por pestanas (tabs):
+          - Descripcion
+          - Especificaciones
+          - Compatibilidad
+          - Garantia y Devoluciones
 
-        El estilo vive en el CSS del modulo (autohaus_product_facts.css);
-        aqui solo se genera el HTML semantico.
+        Las tres primeras se alimentan de los datos del producto; la ultima es
+        contenido estatico traducido. El estilo vive en el CSS del modulo
+        (autohaus_product_facts.css); aqui solo se genera el HTML semantico.
         """
         attribute_pairs = attribute_pairs or []
         sections = []
@@ -527,10 +539,8 @@ class FindinPartProduct(models.Model):
                 return text
             return html_escape(text).replace('\n', '<br/>')
 
-        def build_card(title, rows):
-            """Tarjeta con titulo y tabla etiqueta/valor."""
-            if not rows:
-                return ''
+        def build_rows(rows):
+            """Filas etiqueta/valor para una pestana."""
             body = ''.join(
                 f"<div class='o_autohaus_facts_row'>"
                 f"<span class='o_autohaus_facts_label'>{format_text(label)}</span>"
@@ -540,60 +550,132 @@ class FindinPartProduct(models.Model):
             )
             if not body:
                 return ''
+            return f"<div class='o_autohaus_facts_table'>{body}</div>"
+
+        def build_text_block(title, body):
+            """Bloque de texto con subtitulo y parrafo."""
+            body = format_text(body)
+            if not body:
+                return ''
             return (
-                f"<div class='o_autohaus_facts_card'>"
-                f"<h3 class='o_autohaus_facts_title'>{format_text(title)}</h3>"
-                f"<div class='o_autohaus_facts_table'>{body}</div>"
-                f"</div>"
+                f"<h4 class='o_autohaus_facts_subtitle'>{format_text(title)}</h4>"
+                f"<div class='o_autohaus_facts_prose'>{body}</div>"
             )
 
-        # --- Quick Facts ---------------------------------------------------
+        # --- Descripcion ---------------------------------------------------
+        pies_data = product_data.get('pies_data') or {}
+        descriptions = pies_data.get('descriptions') or []
+
+        def pies_value(code):
+            for item in descriptions:
+                if item.get('description_code') == code and item.get('value'):
+                    return item.get('value')
+            return ''
+
+        core_description = (
+            product_data.get('short_description')
+            or product_data.get('long_description')
+            or product_data.get('description')
+        )
+        features = pies_value('FAB') or pies_value('MKT')
+        description_content = ''.join([
+            build_text_block('Descripción del producto', core_description),
+            build_text_block('Características y beneficios', features),
+        ])
+
+        # --- Especificaciones (datos clave del producto) ------------------
         breadcrumbs = product_data.get('breadcrumbs_ancestors') or []
         category_label = None
         if isinstance(breadcrumbs, list) and breadcrumbs:
             category_label = (breadcrumbs[-1] or {}).get('name')
 
         current_variant = product_data.get('current_variant') or {}
-        core_description = (
-            product_data.get('short_description')
-            or product_data.get('description')
-            or product_data.get('long_description')
-        )
 
-        quick_facts = []
+        specs_rows = []
         for label, value in [
-            (_('Part Number'), product_data.get('part_number') or product_data.get('sku')),
-            (_('Manufacturer'), product_data.get('manufacturer') or product_data.get('brand')),
-            (_('Description'), core_description),
-            (_('Category'), category_label),
-            (_('Condition'), product_data.get('condition')),
-            (_('Sellable'), _('Yes') if product_data.get('sellable') else _('No')),
-            (_('Stock'), current_variant.get('quantity')),
-            (_('Weight (lbs)'), product_data.get('weight')),
+            ('Número de parte', product_data.get('part_number') or product_data.get('sku')),
+            ('Fabricante', product_data.get('manufacturer') or product_data.get('brand')),
+            ('Descripción', core_description),
+            ('Categoría', category_label),
+            ('Condición', product_data.get('condition')),
+            ('Vendible', 'Sí' if product_data.get('sellable') else 'No'),
+            ('Stock', current_variant.get('quantity')),
+            ('Peso (lbs)', product_data.get('weight')),
         ]:
             if value not in (None, '', []):
-                quick_facts.append((label, value))
+                specs_rows.append((label, value))
+        specs_content = build_rows(specs_rows)
 
-        card = build_card(_('Quick Facts'), quick_facts)
-        if card:
-            sections.append(card)
+        # --- Compatibilidad -----------------------------------------------
+        compat_rows = []
+        for interchange in pies_data.get('part_interchanges') or []:
+            part_number = interchange.get('part_number')
+            if not part_number:
+                continue
+            brand = interchange.get('brand_label') or interchange.get('brand_aaiaid') or ''
+            compat_rows.append((brand or 'OEM', part_number))
+        compat_content = build_rows(compat_rows)
 
-        # --- Product Attributes -------------------------------------------
-        card = build_card(_('Product Attributes'), list(attribute_pairs))
-        if card:
-            sections.append(card)
+        # --- Garantia y Devoluciones (estatico, traducido) ----------------
+        warranty_content = (
+            "<h4 class='o_autohaus_facts_subtitle'>Garantía</h4>"
+            "<div class='o_autohaus_facts_prose'><p>"
+            "Todos nuestros productos están respaldados por la garantía del "
+            "fabricante contra defectos de materiales y mano de obra bajo "
+            "condiciones normales de uso."
+            "</p></div>"
+            "<h4 class='o_autohaus_facts_subtitle'>Devoluciones</h4>"
+            "<div class='o_autohaus_facts_prose'><p>"
+            "Política de devolución de 30 días. Los productos elegibles pueden "
+            "devolverse por cualquier motivo dentro de los 30 días posteriores a "
+            "la fecha de entrega, siempre que estén nuevos, en condición vendible "
+            "y en su empaque original. El crédito se procesa dentro de 3 a 5 días "
+            "hábiles desde la recepción de la pieza."
+            "</p></div>"
+        )
+
+        # --- Armar secciones ----------------------------------------------
+        if description_content:
+            sections.append(('o_autohaus_pane_description', 'Descripción', description_content))
+        if specs_content:
+            sections.append(('o_autohaus_pane_specs', 'Especificaciones', specs_content))
+        if compat_content:
+            sections.append(('o_autohaus_pane_compat', 'Compatibilidad', compat_content))
+        sections.append(('o_autohaus_pane_warranty', 'Garantía y Devoluciones', warranty_content))
 
         if not sections:
             return ''
 
-        body = ''.join(sections)
+        if len(sections) == 1:
+            _pane_id, title, content = sections[0]
+            body = (
+                f"<h3 class='o_autohaus_facts_title'>{format_text(title)}</h3>"
+                f"{content}"
+            )
+        else:
+            tabs = ''.join(
+                f"<li class='nav-item'>"
+                f"<a class='nav-link{' active' if index == 0 else ''}' "
+                f"data-bs-toggle='tab' href='#{pane_id}'>{format_text(title)}</a>"
+                f"</li>"
+                for index, (pane_id, title, _content) in enumerate(sections)
+            )
+            panes = ''.join(
+                f"<div class='tab-pane fade{' show active' if index == 0 else ''}' id='{pane_id}'>"
+                f"{content}"
+                f"</div>"
+                for index, (pane_id, _title, content) in enumerate(sections)
+            )
+            body = (
+                f"<ul class='nav nav-tabs o_autohaus_facts_tabs'>{tabs}</ul>"
+                f"<div class='tab-content o_autohaus_facts_content'>{panes}</div>"
+            )
+
         # 'container' de Odoo/Bootstrap: mismo ancho y padding que la fila
         # del producto (imagen + detalles), para que queden alineados.
-        # Las tarjetas van dentro de un flex para que queden siempre una al
-        # lado de la otra (y se apilen solas si no cabe el espacio).
         return (
             "<div class='o_autohaus_facts container'>"
-            "<div class='o_autohaus_facts_inner'>"
+            "<div class='o_autohaus_facts_panel'>"
             f"{body}"
             "</div>"
             "</div>"
