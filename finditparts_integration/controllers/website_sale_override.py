@@ -18,6 +18,53 @@ class WebsiteSalePickup(WebsiteSale):
     _PART_NUMBER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{2,39}$")
     _PART_NUMBER_LOOKUP_TTL = 600
 
+    @http.route('/shop/autocomplete', type='http', auth='public', website=True,
+                methods=['GET'], csrf=False)
+    def shop_autocomplete(self, q='', limit=8, **kwargs):
+        """Return lightweight public product suggestions for the header search."""
+        query = (q or '').strip()
+        try:
+            limit = min(max(int(limit), 1), 12)
+        except (TypeError, ValueError):
+            limit = 8
+
+        if len(query) < 2:
+            return request.make_json_response({'results': []})
+
+        Product = request.env['product.template'].sudo()
+        domain = [
+            ('sale_ok', '=', True),
+            '|', ('name', 'ilike', query),
+            ('default_code', 'ilike', query),
+        ]
+        if 'is_published' in Product._fields:
+            domain.insert(0, ('is_published', '=', True))
+        products = Product.search(domain, limit=limit)
+
+        # A part number is also stored in finditparts.product, so include linked
+        # products when the match is not in the native product name/SKU.
+        if len(products) < limit:
+            linked = request.env['finditparts.product'].sudo().search([
+                '|', ('sku', 'ilike', query), ('part_number', 'ilike', query),
+            ], limit=limit)
+            linked_products = linked.mapped('odoo_product_id').filtered(
+                lambda product: product.sale_ok and (
+                    'is_published' not in product._fields or product.is_published
+                )
+            )
+            products |= linked_products
+
+        results = []
+        for product in products[:limit]:
+            results.append({
+                'id': product.id,
+                'name': product.name,
+                'sku': product.default_code or '',
+                'url': product.website_url or '/shop?search=%s' % query,
+                'image': '/web/image/product.template/%s/image_128' % product.id,
+            })
+        return request.make_json_response({'results': results})
+
     def _looks_like_part_number(self, search):
         search = (search or "").strip()
         return bool(

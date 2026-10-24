@@ -60,6 +60,7 @@
     'assets': {
         'web.assets_frontend': [
             'finditparts_integration/static/src/css/autohaus_header.css',
+            'finditparts_integration/static/src/js/autohaus_search.js',
             'finditparts_integration/static/src/css/autohaus_footer.css',
             'finditparts_integration/static/src/css/autohaus_shop_hero.css',
             'finditparts_integration/static/src/css/autohaus_product.css',
