@@ -56,6 +56,7 @@
         'views/website_returns.xml',
         'views/website_account.xml',
         'views/website_contact_override.xml',
+        'views/website_static_pages.xml',
     ],
     'assets': {
         'web.assets_frontend': [
@@ -73,6 +74,7 @@
             'finditparts_integration/static/src/css/autohaus_returns.css',
             'finditparts_integration/static/src/css/autohaus_account.css',
             'finditparts_integration/static/src/css/autohaus_contact.css',
+            'finditparts_integration/static/src/css/autohaus_info_pages.css',
         ],
     },
     'demo': [],

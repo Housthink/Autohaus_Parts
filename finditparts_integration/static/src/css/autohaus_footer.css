@@ -1,142 +1,127 @@
-/* ==========================================================================
-   Autohaus Parts - Footer contact bar (dark navy)
-   [logo] | phone | email | website | address
-   ========================================================================== */
-
-/* Hide Odoo's default footer: only the Autohaus contact bar is displayed */
-.o_footer {
-    display: none !important;
-}
+/* =======================================================================
+   Autohaus Parts - Simplified FinditParts-style footer
+   ======================================================================= */
+.o_footer { display: none !important; }
 
 .o_autohaus_footer {
     position: relative;
-    width: 100%;
-    background: #0f2c4d;
     overflow: hidden;
+    background: #0f2c4d;
+    color: #ffffff;
 }
 
-/* Franja naranja inclinada en el extremo derecho */
 .o_autohaus_footer::after {
-    content: "";
     position: absolute;
     top: -30%;
     right: -40px;
     width: 70px;
     height: 160%;
     background: #ee5a24;
+    content: "";
     transform: skewX(-12deg);
 }
 
-.o_autohaus_footer_inner {
+.o_autohaus_footer_main,
+.o_autohaus_footer_bottom {
     position: relative;
     z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+    display: grid;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.1rem 3.2rem 1.1rem 1.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
+    padding-right: 3.2rem;
+    padding-left: 1.5rem;
 }
 
-.o_autohaus_footer_inner::-webkit-scrollbar {
-    display: none;
+.o_autohaus_footer_main {
+    grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(150px, 1fr));
+    gap: 2rem;
+    padding-top: 2.4rem;
+    padding-bottom: 2.2rem;
 }
 
-/* --- Logo -------------------------------------------------------------- */
-.o_autohaus_footer_brand {
-    flex: 0 0 auto;
+.o_autohaus_footer_about {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
 }
 
-.o_autohaus_footer_brand a {
+.o_autohaus_footer_about a:first-child {
     display: block;
-    text-decoration: none;
     line-height: 0;
 }
 
-/* El logo se muestra en blanco para contrastar sobre el fondo azul.
-   OJO: el filtro es monocromático, el emblema naranja también queda blanco. */
 .o_autohaus_footer_logo {
-    max-height: 62px;
     width: auto;
+    max-height: 58px;
     object-fit: contain;
     filter: brightness(0) invert(1);
     opacity: 0.95;
 }
 
-/* --- Items (phone / email / web) --------------------------------------- */
-.o_autohaus_footer_item {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    color: #ffffff;
-    font-size: 0.92rem;
+.o_autohaus_footer_about p {
+    max-width: 255px;
+    margin: 0.55rem 0 0.45rem;
+    color: #dce7f1;
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.o_autohaus_footer_contact,
+.o_autohaus_footer_column a {
+    color: #dce7f1;
+    font-size: 0.88rem;
     text-decoration: none;
-    white-space: nowrap;
     transition: color 0.15s ease-in-out;
 }
 
-.o_autohaus_footer_item:hover,
-.o_autohaus_footer_item:focus {
+.o_autohaus_footer_contact:hover,
+.o_autohaus_footer_contact:focus,
+.o_autohaus_footer_column a:hover,
+.o_autohaus_footer_column a:focus {
     color: #ee5a24;
+    text-decoration: none;
 }
 
-.o_autohaus_footer_icon {
-    font-size: 1.35rem;
-    color: #ffffff;
-    opacity: 0.9;
-}
-
-.o_autohaus_footer_item:hover .o_autohaus_footer_icon {
-    color: #ee5a24;
-}
-
-/* --- Address ----------------------------------------------------------- */
-.o_autohaus_footer_address {
-    flex: 0 0 auto;
+.o_autohaus_footer_column {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 0.55rem;
-    margin-left: auto;
+    gap: 0.5rem;
+}
+
+.o_autohaus_footer_column h3 {
+    margin: 0 0 0.45rem;
     color: #ffffff;
     font-size: 0.92rem;
-    line-height: 1.45;
-    text-align: left;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
-.o_autohaus_footer_address .o_autohaus_footer_icon {
-    margin-top: 0.1rem;
+.o_autohaus_footer_bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    color: #b9cbdc;
+    font-size: 0.76rem;
 }
 
-/* --- Responsive -------------------------------------------------------- */
-@media (max-width: 991.98px) {
-    .o_autohaus_footer_inner {
-        gap: 1.25rem;
-        flex-wrap: wrap;
-        padding: 1rem 3rem 1rem 1rem;
+@media (max-width: 767.98px) {
+    .o_autohaus_footer_main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.75rem 1rem;
+        padding: 2rem 1rem 1.75rem;
     }
 
-    .o_autohaus_footer_address {
-        margin-left: 0;
-        flex: 1 0 100%;
-    }
+    .o_autohaus_footer_about { grid-column: 1 / -1; }
+    .o_autohaus_footer_bottom { flex-direction: column; padding: 0.85rem 1rem; }
 }
 
-@media (max-width: 575.98px) {
-    .o_autohaus_footer_item span {
-        display: none;
-    }
-
-    .o_autohaus_footer_address span {
-        display: block;
-    }
-
-    .o_autohaus_footer_logo {
-        max-height: 44px;
-    }
+@media (max-width: 420px) {
+    .o_autohaus_footer_main { grid-template-columns: 1fr; }
 }

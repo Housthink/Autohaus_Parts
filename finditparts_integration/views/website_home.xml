@@ -206,6 +206,38 @@
                         </div>
                     </section>
 
+                    <!-- Preguntas frecuentes -->
+                    <section class="o_autohaus_home_faq" aria-label="Preguntas frecuentes">
+                        <div class="o_autohaus_home_container">
+                            <div class="o_autohaus_home_faq_head">
+                                <div>
+                                    <span class="o_autohaus_home_section_kicker">Ayuda rápida</span>
+                                    <h2>Preguntas frecuentes</h2>
+                                    <p>Respuestas sobre repuestos, envíos y devoluciones.</p>
+                                </div>
+                                <a href="/faq" class="o_autohaus_home_more">Ver todas las preguntas <i class="fa fa-arrow-right" aria-hidden="true"/></a>
+                            </div>
+                            <div class="o_autohaus_home_faq_grid">
+                                <details open="open">
+                                    <summary>¿Cómo busco un repuesto?</summary>
+                                    <p>Busca por número de parte, SKU, marca o descripción usando la barra superior.</p>
+                                </details>
+                                <details>
+                                    <summary>¿Desde dónde se envían los repuestos?</summary>
+                                    <p>Según la disponibilidad, pueden salir de Panamá o de proveedores y almacenes en Estados Unidos.</p>
+                                </details>
+                                <details>
+                                    <summary>¿Cómo se calcula el envío?</summary>
+                                    <p>El costo depende del transportista, la dirección y las características del pedido.</p>
+                                </details>
+                                <details>
+                                    <summary>¿Puedo devolver una pieza?</summary>
+                                    <p>Consulta nuestra <a href="/devoluciones">Política de devoluciones</a> para conocer las condiciones.</p>
+                                </details>
+                            </div>
+                        </div>
+                    </section>
+
                 </div>
             </t>
         </xpath>
