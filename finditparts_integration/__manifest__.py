@@ -57,11 +57,13 @@
         'views/website_account.xml',
         'views/website_contact_override.xml',
         'views/website_static_pages.xml',
+        'views/website_shop_labels.xml',
     ],
     'assets': {
         'web.assets_frontend': [
             'finditparts_integration/static/src/css/autohaus_header.css',
             'finditparts_integration/static/src/js/autohaus_search.js',
+            'finditparts_integration/static/src/js/autohaus_shop_labels.js',
             'finditparts_integration/static/src/css/autohaus_footer.css',
             'finditparts_integration/static/src/css/autohaus_shop_hero.css',
             'finditparts_integration/static/src/css/autohaus_product.css',

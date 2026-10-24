@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- The shop filters are injected through t-calls. Remove the previous
+         XPath views; the label is adjusted safely by the frontend asset. -->
+    <delete model="ir.ui.view" id="autohaus_shop_filter_manufacturer_label"/>
+    <delete model="ir.ui.view" id="autohaus_shop_mobile_manufacturer_label"/>
+</odoo>

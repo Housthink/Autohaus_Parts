@@ -166,6 +166,17 @@
     font-size: 0.75rem;
 }
 
+/* Odoo translates the native tag-filter title as “Etiquetas”. */
+button[aria-controls="o_wsale_tags_option_inner"] b {
+    font-size: 0;
+}
+
+button[aria-controls="o_wsale_tags_option_inner"] b::after {
+    color: inherit;
+    content: "Fabricante";
+    font-size: 1rem;
+}
+
 .o_autohaus_search input.o_autohaus_search_input {
     flex: 1 1 auto;
     min-width: 0;

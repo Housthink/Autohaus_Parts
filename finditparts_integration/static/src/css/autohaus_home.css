@@ -441,6 +441,27 @@
     text-decoration: none;
 }
 
+.o_autohaus_home_help_phone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.o_autohaus_home_help_phone a {
+    color: #ffffff;
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+.o_autohaus_home_help_phone a:hover,
+.o_autohaus_home_help_phone a:focus {
+    color: #ffd8c9;
+}
+
 /* --- Responsive --------------------------------------------------------- */
 @media (max-width: 1199.98px) {
     .o_autohaus_home_cats_list {
@@ -592,6 +613,11 @@
     .o_autohaus_home_help_btn {
         width: 100%;
         justify-content: center;
+    }
+
+    .o_autohaus_home_help_phone {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }
 
