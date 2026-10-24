@@ -88,6 +88,95 @@
     overflow: hidden;
 }
 
+.o_autohaus_search_wrap {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.o_autohaus_search_wrap .o_autohaus_search {
+    width: 100%;
+}
+
+.o_autohaus_search_suggestions {
+    position: absolute;
+    z-index: 1050;
+    top: calc(100% + 6px);
+    right: 0;
+    left: 0;
+    display: none;
+    overflow: hidden;
+    border: 1px solid #d8dde3;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(18, 58, 95, 0.16);
+}
+
+.o_autohaus_search_suggestions.is-visible {
+    display: block;
+}
+
+.o_autohaus_search_suggestion {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.8rem;
+    border-bottom: 1px solid #eef0f3;
+    color: #123a5f;
+    text-decoration: none;
+}
+
+.o_autohaus_search_suggestion:last-child {
+    border-bottom: 0;
+}
+
+.o_autohaus_search_suggestion:hover,
+.o_autohaus_search_suggestion:focus {
+    background: #f6f7f9;
+    color: #123a5f;
+    text-decoration: none;
+}
+
+.o_autohaus_search_suggestion img {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+.o_autohaus_search_suggestion span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.o_autohaus_search_suggestion strong {
+    overflow: hidden;
+    color: #123a5f;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.o_autohaus_search_suggestion small {
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+/* Odoo translates the native tag-filter title as “Etiquetas”. */
+button[aria-controls="o_wsale_tags_option_inner"] b {
+    font-size: 0;
+}
+
+button[aria-controls="o_wsale_tags_option_inner"] b::after {
+    color: inherit;
+    content: "Fabricante";
+    font-size: 1rem;
+}
+
 .o_autohaus_search input.o_autohaus_search_input {
     flex: 1 1 auto;
     min-width: 0;

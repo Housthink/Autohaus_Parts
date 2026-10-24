@@ -29,6 +29,37 @@ class SaleOrder(models.Model):
         copy=False,
     )
     tracking_number = fields.Char(string="Número de seguimiento", copy=False)
+    logistics_actual_cost = fields.Monetary(
+        string="Costo real de envío",
+        currency_field="currency_id",
+        copy=False,
+        help=(
+            "Costo efectivamente pagado al transportista, tomado de la factura, "
+            "guía o cotización real del envío."
+        ),
+    )
+    logistics_charged_amount = fields.Monetary(
+        string="Envío cobrado al cliente",
+        currency_field="currency_id",
+        compute="_compute_logistics_costs",
+        store=True,
+        readonly=True,
+    )
+    logistics_result = fields.Monetary(
+        string="Resultado del envío",
+        currency_field="currency_id",
+        compute="_compute_logistics_costs",
+        store=True,
+        readonly=True,
+        help="Importe cobrado al cliente menos el costo real del envío.",
+    )
+    logistics_loss = fields.Boolean(
+        string="Pérdida logística",
+        compute="_compute_logistics_costs",
+        store=True,
+        readonly=True,
+        help="Se activa cuando el costo real del envío supera lo cobrado al cliente.",
+    )
     estimated_delivery_miami = fields.Date(
         string="Entrega estimada Miami", compute="_compute_delivery_dates", store=True
     )
@@ -49,6 +80,22 @@ class SaleOrder(models.Model):
             miami_date = base_date + timedelta(days=int(transit_days))
             order.estimated_delivery_miami = miami_date
             order.estimated_delivery_panama = miami_date + timedelta(days=2)
+
+    @api.depends(
+        "order_line.is_delivery",
+        "order_line.price_subtotal",
+        "logistics_actual_cost",
+    )
+    def _compute_logistics_costs(self):
+        for order in self:
+            charged = sum(
+                order.order_line.filtered("is_delivery").mapped("price_subtotal")
+            )
+            order.logistics_charged_amount = charged
+            order.logistics_result = charged - order.logistics_actual_cost
+            order.logistics_loss = bool(
+                order.logistics_actual_cost and order.logistics_actual_cost > charged
+            )
 
     def get_portal_tracking(self):
         self.ensure_one()

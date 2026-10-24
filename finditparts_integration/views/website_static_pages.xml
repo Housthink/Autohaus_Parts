@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="autohaus_info_page_layout" name="Autohaus information page layout">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page">
+                <div class="container py-4 py-lg-5">
+                    <nav class="o_autohaus_info_breadcrumb" aria-label="breadcrumb">
+                        <a href="/">Inicio</a><span>/</span><span t-out="page_title"/>
+                    </nav>
+                    <header class="o_autohaus_info_header">
+                        <h1 t-out="page_title"/>
+                        <p t-out="page_intro"/>
+                    </header>
+                    <section class="o_autohaus_info_content">
+                        <t t-out="0"/>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="cores_page" name="Cores">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Cores</span></nav>
+                <header class="o_autohaus_info_header"><h1>Cores</h1><p>Información sobre cargos, devoluciones y créditos de núcleos.</p></header>
+                <section class="o_autohaus_info_content">
+                    <h2>¿Qué es un core?</h2>
+                    <p>Un core es una pieza usada que puede devolverse para ser reconstruida. Algunos productos incluyen un cargo de núcleo que se acredita cuando recibimos la pieza elegible.</p>
+                    <h2>Cómo funciona</h2>
+                    <ol><li>Revisa si el producto tiene cargo de core al realizar tu pedido.</li><li>Conserva la pieza original y envíala siguiendo las instrucciones de devolución.</li><li>Inspeccionamos la pieza y procesamos el crédito correspondiente.</li></ol>
+                    <p>La pieza debe ser del tipo correcto, estar completa y no presentar daños que impidan su reconstrucción. Para confirmar la elegibilidad, <a href="/contactus">contáctanos</a>.</p>
+                </section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="shipping_page" name="Información de envíos">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Envíos</span></nav>
+                <header class="o_autohaus_info_header"><h1>Información de envíos</h1><p>Opciones de entrega, tiempos estimados y seguimiento de pedidos.</p></header>
+                <section class="o_autohaus_info_content">
+                    <h2>Métodos de entrega</h2><p>Los métodos disponibles dependen de la dirección, el peso, el volumen y el transportista configurado para tu pedido. Verás las opciones y su costo durante el checkout.</p>
+                    <h2>Tiempos de entrega</h2><p>La fecha estimada se calcula según la disponibilidad de la pieza, el origen y el método seleccionado. Los pedidos pueden pasar por nuestro almacén en Estados Unidos antes de llegar a Panamá.</p>
+                    <h2>Seguimiento</h2><p>Cuando el pedido sea despachado recibirás la información de seguimiento disponible. También puedes consultar el estado desde <a href="/mi-cuenta/pedidos">Mis pedidos</a>.</p>
+                    <h2>¿Necesitas ayuda?</h2><p><a href="/contactus">Contáctanos</a> antes de completar la compra si necesitas confirmar una ruta o una entrega especial.</p>
+                </section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="parts_directory_page" name="Directorio de repuestos">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Directorio de repuestos</span></nav>
+                <header class="o_autohaus_info_header"><h1>Directorio de repuestos</h1><p>Busca por número de parte, fabricante, marca o categoría.</p></header>
+                <section class="o_autohaus_info_content">
+                    <h2>Encuentra la pieza correcta</h2><p>Usa la búsqueda superior para consultar nuestro catálogo sincronizado con FinditParts. Puedes buscar por SKU, número de parte o descripción.</p>
+                    <a class="btn btn-primary" href="/shop">Explorar repuestos</a>
+                    <h2>¿No encuentras lo que necesitas?</h2><p>Envíanos el número de parte o los datos de tu vehículo desde nuestro <a href="/contactus">formulario de contacto</a>.</p>
+                </section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="about_page" name="Nosotros">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Nosotros</span></nav>
+                <header class="o_autohaus_info_header"><h1>Nosotros</h1><p>Repuestos confiables para mantener tu operación en movimiento.</p></header>
+                <section class="o_autohaus_info_content">
+                    <h2>AutoHaus Parts</h2><p>Somos una tienda especializada en repuestos para vehículos y equipos de trabajo. Combinamos un catálogo amplio, información clara y atención cercana para ayudarte a encontrar la pieza correcta.</p>
+                    <h2>Nuestro compromiso</h2><p>Trabajamos para ofrecer disponibilidad actualizada, precios transparentes y una experiencia de compra sencilla desde la búsqueda hasta la entrega en Panamá.</p>
+                    <p>¿Tienes una pregunta? <a href="/contactus">Nuestro equipo está para ayudarte.</a></p>
+                </section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="blog_page" name="Blog">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Blog</span></nav>
+                <header class="o_autohaus_info_header"><h1>Blog</h1><p>Consejos para elegir, mantener y comprar tus repuestos.</p></header>
+                <section class="o_autohaus_info_content o_autohaus_blog_grid">
+                    <article><h2>Cómo buscar por número de parte</h2><p>El número de parte suele ser la forma más rápida de encontrar una pieza compatible. Escríbelo completo en la barra de búsqueda.</p></article>
+                    <article><h2>Antes de comprar un repuesto</h2><p>Confirma marca, aplicación, medidas y compatibilidad. Si tienes dudas, nuestro equipo puede orientarte.</p></article>
+                    <article><h2>Cuida tu flota</h2><p>Un mantenimiento preventivo ayuda a reducir paradas y a detectar con tiempo las piezas que necesitas reemplazar.</p></article>
+                </section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="faq_page" name="Preguntas frecuentes">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>FAQ</span></nav>
+                <header class="o_autohaus_info_header"><h1>Preguntas frecuentes</h1><p>Respuestas rápidas sobre compras, entregas y devoluciones.</p></header>
+                <section class="o_autohaus_info_content o_autohaus_faq_content">
+                    <details open="open"><summary>¿Dónde está ubicada AutoHaus Parts?</summary><p>AutoHaus Parts opera desde Panamá y coordina la compra y entrega de repuestos para vehículos y equipos de trabajo.</p></details>
+                    <details><summary>¿Desde dónde se envían los repuestos?</summary><p>Los repuestos pueden salir de nuestro almacén en Panamá o de proveedores y almacenes ubicados en Estados Unidos, según la disponibilidad y el origen de la pieza.</p></details>
+                    <details><summary>¿Es AutoHaus Parts una fuente confiable de repuestos?</summary><p>Sí. Trabajamos con piezas OEM y aftermarket de fabricantes reconocidos. La garantía y las condiciones aplicables se indican según cada producto.</p></details>
+                    <details><summary>¿Por qué puede ser difícil encontrar repuestos para camiones?</summary><p>Existen muchas marcas, modelos, años y especificaciones. Además, algunas piezas son poco comunes o pueden tener disponibilidad regional. Nuestro catálogo y búsqueda por número de parte ayudan a localizar opciones compatibles.</p></details>
+                    <details><summary>¿Cuáles son las partes principales de un camión?</summary><p>Un camión normalmente se divide en tractor y remolque. Entre sus sistemas principales están el motor, transmisión, ejes, suspensión, frenos, chasis, carrocería y los componentes de carga del remolque.</p></details>
+                    <details><summary>¿Cómo busco un repuesto?</summary><p>Busca por número de parte, SKU, marca o descripción usando la barra superior. Si no encuentras la pieza, <a href="/contactus">contáctanos</a>.</p></details>
+                    <details><summary>¿Cómo se calcula el envío?</summary><p>El costo depende del transportista, la dirección y las características del pedido. Las opciones disponibles se muestran antes de confirmar la compra.</p></details>
+                    <details><summary>¿Puedo devolver una pieza?</summary><p>Consulta nuestra <a href="/devoluciones">Política de devoluciones</a> para conocer plazos y condiciones.</p></details>
+                </section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="terms_page" name="Términos de uso">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Términos de uso</span></nav>
+                <header class="o_autohaus_info_header"><h1>Términos de uso</h1><p>Condiciones para utilizar nuestro sitio y realizar compras.</p></header>
+                <section class="o_autohaus_info_content"><h2>Uso del sitio</h2><p>Al utilizar este sitio aceptas usarlo de forma lícita y proporcionar información correcta para procesar tus pedidos.</p><h2>Productos y precios</h2><p>La disponibilidad, los precios y las fechas estimadas pueden cambiar sin previo aviso. Confirmaremos cualquier condición aplicable antes del despacho.</p><h2>Pedidos</h2><p>Nos reservamos el derecho de revisar o cancelar pedidos cuando exista un error evidente, falta de disponibilidad o información incompleta.</p><h2>Contacto</h2><p>Para preguntas sobre estos términos, <a href="/contactus">contáctanos</a>.</p></section>
+            </div></div>
+        </t>
+    </template>
+
+    <template id="privacy_page" name="Política de privacidad">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Política de privacidad</span></nav>
+                <header class="o_autohaus_info_header"><h1>Política de privacidad</h1><p>Cómo recopilamos y utilizamos la información que compartes con nosotros.</p></header>
+                <section class="o_autohaus_info_content"><h2>Información que recibimos</h2><p>Podemos recibir datos de contacto, dirección de entrega, información del pedido y mensajes que envíes mediante nuestros formularios.</p><h2>Para qué la usamos</h2><p>Utilizamos la información para procesar pedidos, responder consultas, coordinar entregas y mejorar nuestro servicio.</p><h2>Protección de datos</h2><p>Aplicamos medidas razonables para proteger la información y no la vendemos a terceros. Podemos compartir los datos necesarios con proveedores que participan en el procesamiento o entrega del pedido.</p><h2>Tus derechos</h2><p>Si deseas actualizar o eliminar tus datos, <a href="/contactus">contáctanos</a>.</p></section>
+            </div></div>
+        </t>
+    </template>
+</odoo>

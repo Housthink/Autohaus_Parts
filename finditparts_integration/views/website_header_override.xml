@@ -29,16 +29,19 @@
                     </a>
 
                     <!-- Search -->
-                    <form class="o_autohaus_search" role="search" action="/shop" method="get">
-                        <input type="text"
-                               name="search"
-                               class="o_autohaus_search_input"
-                               autocomplete="off"
-                               placeholder="Buscar por palabra clave, número de parte, categoría..."/>
-                        <button type="submit" class="o_autohaus_search_btn" title="Buscar" aria-label="Buscar">
-                            <i class="oi oi-search"/>
-                        </button>
-                    </form>
+                    <div class="o_autohaus_search_wrap">
+                        <form class="o_autohaus_search" role="search" action="/shop" method="get">
+                            <input type="text"
+                                   name="search"
+                                   class="o_autohaus_search_input"
+                                   autocomplete="off"
+                                   placeholder="Buscar por palabra clave, número de parte, categoría..."/>
+                            <button type="submit" class="o_autohaus_search_btn" title="Buscar" aria-label="Buscar">
+                                <i class="oi oi-search"/>
+                            </button>
+                        </form>
+                        <div class="o_autohaus_search_suggestions" role="listbox" aria-label="Sugerencias de búsqueda"/>
+                    </div>
 
                     <!-- Right actions -->
                     <div class="o_autohaus_actions">

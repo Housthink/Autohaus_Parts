@@ -21,20 +21,20 @@
                         <div class="o_autohaus_home_container">
                             <ul class="o_autohaus_home_stats_list">
                                 <li>
-                                    <span class="o_autohaus_home_stats_number">200,000+</span>
-                                    <span class="o_autohaus_home_stats_label">piezas en catálogo</span>
+                                    <span class="o_autohaus_home_stats_number">1,000+</span>
+                                    <span class="o_autohaus_home_stats_label">clientes atendidos diariamente</span>
+                                </li>
+                                <li>
+                                    <span class="o_autohaus_home_stats_number">3 millones+</span>
+                                    <span class="o_autohaus_home_stats_label">piezas disponibles para vender</span>
                                 </li>
                                 <li>
                                     <span class="o_autohaus_home_stats_number">4,000+</span>
-                                    <span class="o_autohaus_home_stats_label">marcas disponibles</span>
-                                </li>
-                                <li>
-                                    <span class="o_autohaus_home_stats_number">30 días</span>
-                                    <span class="o_autohaus_home_stats_label">de garantía</span>
+                                    <span class="o_autohaus_home_stats_label">fabricantes para elegir</span>
                                 </li>
                                 <li>
                                     <span class="o_autohaus_home_stats_number">24/7</span>
-                                    <span class="o_autohaus_home_stats_label">soporte online</span>
+                                    <span class="o_autohaus_home_stats_label">atención online</span>
                                 </li>
                             </ul>
                         </div>
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="o_autohaus_home_value_text">
                                         <h3>Catálogo más grande de Panamá</h3>
-                                        <p>Más de 200,000 repuestos de las mejores marcas internacionales</p>
+                                        <p>Más de 3 millones de repuestos de las mejores marcas internacionales</p>
                                     </div>
                                 </li>
                                 <li>
@@ -149,10 +149,10 @@
                                             <i class="fa fa-envelope" aria-hidden="true"/>
                                             <span>Consultar por veh&#237;culo</span>
                                         </a>
-                                        <a href="tel:2304930" class="o_autohaus_home_help_btn o_autohaus_help_call">
-                                            <i class="fa fa-phone" aria-hidden="true"/>
-                                            <span>Llamar ahora</span>
-                                        </a>
+                                    </div>
+                                    <div class="o_autohaus_home_help_phone">
+                                        <span>¿Necesitas ayuda? Escríbenos</span>
+                                        <a href="tel:+50761003445">+507 6100-3445</a>
                                     </div>
                                 </div>
                             </div>
@@ -203,6 +203,38 @@
                                     </t>
                                 </t>
                             </ul>
+                        </div>
+                    </section>
+
+                    <!-- Preguntas frecuentes -->
+                    <section class="o_autohaus_home_faq" aria-label="Preguntas frecuentes">
+                        <div class="o_autohaus_home_container">
+                            <div class="o_autohaus_home_faq_head">
+                                <div>
+                                    <span class="o_autohaus_home_section_kicker">Ayuda rápida</span>
+                                    <h2>Preguntas frecuentes</h2>
+                                    <p>Respuestas sobre repuestos, envíos y devoluciones.</p>
+                                </div>
+                                <a href="/faq" class="o_autohaus_home_more">Ver todas las preguntas <i class="fa fa-arrow-right" aria-hidden="true"/></a>
+                            </div>
+                            <div class="o_autohaus_home_faq_grid">
+                                <details open="open">
+                                    <summary>¿Cómo busco un repuesto?</summary>
+                                    <p>Busca por número de parte, SKU, marca o descripción usando la barra superior.</p>
+                                </details>
+                                <details>
+                                    <summary>¿Desde dónde se envían los repuestos?</summary>
+                                    <p>Según la disponibilidad, pueden salir de Panamá o de proveedores y almacenes en Estados Unidos.</p>
+                                </details>
+                                <details>
+                                    <summary>¿Cómo se calcula el envío?</summary>
+                                    <p>El costo depende del transportista, la dirección y las características del pedido.</p>
+                                </details>
+                                <details>
+                                    <summary>¿Puedo devolver una pieza?</summary>
+                                    <p>Consulta nuestra <a href="/devoluciones">Política de devoluciones</a> para conocer las condiciones.</p>
+                                </details>
+                            </div>
                         </div>
                     </section>
 

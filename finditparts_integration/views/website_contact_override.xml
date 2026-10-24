@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="autohaus_contact_page" inherit_id="website.contactus"
+              name="Autohaus Contact Page">
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="o_autohaus_contact_page" separator=" "/>
+        </xpath>
+    </template>
+</odoo>

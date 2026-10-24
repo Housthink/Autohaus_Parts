@@ -1,0 +1,27 @@
+/* Shared styling for public informational pages. */
+.o_autohaus_info_page { min-height: 60vh; background: #f6f7f9; }
+.o_autohaus_info_page .container { max-width: 1100px; }
+.o_autohaus_info_breadcrumb { display: flex; gap: 0.5rem; margin-bottom: 1rem; color: #6b7280; font-size: 0.82rem; }
+.o_autohaus_info_breadcrumb a { color: #123a5f; text-decoration: none; }
+.o_autohaus_info_breadcrumb a:hover { color: #ee5a24; }
+.o_autohaus_info_header { margin-bottom: 1.5rem; }
+.o_autohaus_info_header h1 { margin: 0 0 0.4rem; color: #ee5a24; font-size: 2rem; font-weight: 800; }
+.o_autohaus_info_header p { margin: 0; color: #5b6776; }
+.o_autohaus_info_content { padding: 1.75rem; border: 1px solid #e3e6ea; border-radius: 10px; background: #ffffff; box-shadow: 0 5px 18px rgba(18, 58, 95, 0.05); }
+.o_autohaus_info_content h2 { margin: 1.5rem 0 0.55rem; color: #123a5f; font-size: 1.25rem; font-weight: 800; }
+.o_autohaus_info_content h2:first-child { margin-top: 0; }
+.o_autohaus_info_content p, .o_autohaus_info_content li { color: #4a4a4a; font-size: 0.94rem; line-height: 1.65; }
+.o_autohaus_info_content a { color: #123a5f; font-weight: 700; }
+.o_autohaus_info_content a:hover { color: #ee5a24; }
+.o_autohaus_info_content .btn-primary { border-color: #ee5a24; background: #ee5a24; color: #ffffff; }
+.o_autohaus_blog_grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.o_autohaus_blog_grid article { padding: 1.2rem; border: 1px solid #e3e6ea; border-radius: 8px; background: #f6f7f9; }
+.o_autohaus_blog_grid article h2 { margin-top: 0; font-size: 1.05rem; }
+.o_autohaus_faq_content details { padding: 0.95rem 0; border-bottom: 1px solid #eef0f3; }
+.o_autohaus_faq_content details:last-child { border-bottom: 0; }
+.o_autohaus_faq_content summary { cursor: pointer; color: #123a5f; font-weight: 800; }
+@media (max-width: 700px) {
+    .o_autohaus_info_header h1 { font-size: 1.65rem; }
+    .o_autohaus_info_content { padding: 1.25rem; }
+    .o_autohaus_blog_grid { grid-template-columns: 1fr; }
+}
