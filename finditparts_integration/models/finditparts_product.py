@@ -6,6 +6,7 @@ import re
 import os
 import base64
 import json
+import requests
 from datetime import datetime
 from urllib.parse import urlsplit
 
@@ -49,6 +50,14 @@ class FindinPartProduct(models.Model):
     api_price = fields.Float('API Price', digits=(10, 2))
     api_cost = fields.Float('API Cost', digits=(10, 2))
     msrp_price = fields.Float('MSRP Price', digits=(10, 2))
+    discount_percent = fields.Float(
+        'Discount (%)', digits=(10, 2),
+        help='Discount reported by FinditParts or calculated from MSRP and sale price.',
+    )
+    discount_amount = fields.Float(
+        'Discount Amount', digits=(10, 2),
+        help='Difference between the comparable/original price and the sale price.',
+    )
     currency_id = fields.Many2one('res.currency', 'Currency', default=lambda self: self.env.company.currency_id)
     
     stock_quantity = fields.Float('Stock Quantity', default=0)
@@ -296,6 +305,12 @@ class FindinPartProduct(models.Model):
                     })
                 
                 odoo_product = self.env['product.template'].sudo().create(product_vals)
+                template_discount_vals = {
+                    'finditparts_discount_percent': self.discount_percent,
+                }
+                if 'compare_list_price' in odoo_product._fields:
+                    template_discount_vals['compare_list_price'] = self.msrp_price or False
+                odoo_product.sudo().write(template_discount_vals)
                 # Try writing cost separately with sudo (ignore failure)
                 try:
                     if self.cost_price is not None or self.api_cost is not None:
@@ -338,9 +353,12 @@ class FindinPartProduct(models.Model):
                         
                         # Usar el método oficial de Odoo para actualizar cantidad disponible
                         # Esto actualiza correctamente qty_available
-                        product_variant.sudo().with_context(inventory_mode=True)._update_available_quantity(
+                        self.env['stock.quant'].sudo().with_context(
+                            inventory_mode=True
+                        )._update_available_quantity(
+                            product_variant,
                             location_id,
-                            self.stock_quantity
+                            self.stock_quantity,
                         )
                         _logger.info(f"Stock set to {self.stock_quantity} for product {self.sku} using _update_available_quantity")
                 except Exception as inv_err:
@@ -374,6 +392,10 @@ class FindinPartProduct(models.Model):
                 if 'public_categ_ids' in self.env['product.template']._fields:
                     # Always replace existing website categories with the new one
                     update_vals['public_categ_ids'] = [(6, 0, self.public_categ_ids.ids)]
+                if 'finditparts_discount_percent' in self.odoo_product_id._fields:
+                    update_vals['finditparts_discount_percent'] = self.discount_percent
+                if 'compare_list_price' in self.odoo_product_id._fields:
+                    update_vals['compare_list_price'] = self.msrp_price or False
                 
                 if update_vals:
                     self.odoo_product_id.sudo().write(update_vals)
@@ -426,9 +448,12 @@ class FindinPartProduct(models.Model):
                         
                         if qty_diff != 0:
                             # Usar el método oficial para actualizar la cantidad
-                            product_variant.sudo().with_context(inventory_mode=True)._update_available_quantity(
+                            self.env['stock.quant'].sudo().with_context(
+                                inventory_mode=True
+                            )._update_available_quantity(
+                                product_variant,
                                 location_id,
-                                qty_diff
+                                qty_diff,
                             )
                             _logger.info(f"Stock updated from {current_qty} to {self.stock_quantity} for product {self.sku}")
                 except Exception as inv_err:
@@ -564,6 +589,7 @@ class FindinPartProduct(models.Model):
         """
         attribute_pairs = attribute_pairs or []
         sections = []
+        part_number_re = re.compile(r'^[A-Za-z0-9][A-Za-z0-9._/-]*$')
 
         def format_text(value):
             if value in (None, False):
@@ -1129,7 +1155,12 @@ class FindinPartProduct(models.Model):
             # Handle pricing from current variant
             current_variant = product_data.get('current_variant', {})
             if current_variant:
-                variant_price = float(current_variant.get('price', 0) or 0)
+                variant_price = float(
+                    current_variant.get('sale_price')
+                    or current_variant.get('account_price')
+                    or current_variant.get('price', 0)
+                    or 0
+                )
                 variant_cost = float(current_variant.get('cost', 0) or 0)
                 vals.update({
                     'api_price': variant_price,
@@ -1138,6 +1169,41 @@ class FindinPartProduct(models.Model):
                     'cost_price': variant_cost,
                     'stock_quantity': float(current_variant.get('quantity', 0) or 0),
                 })
+
+                discount_value = (
+                    current_variant.get('discount_percent')
+                    or current_variant.get('discount_percentage')
+                    or current_variant.get('discount')
+                    or product_data.get('discount_percent')
+                    or product_data.get('discount_percentage')
+                    or product_data.get('discount')
+                )
+                original_value = (
+                    current_variant.get('original_price')
+                    or current_variant.get('regular_price')
+                    or current_variant.get('list_price')
+                    or current_variant.get('msrp')
+                    or product_data.get('msrp')
+                )
+                try:
+                    original_price = float(original_value or 0)
+                    explicit_discount = float(discount_value or 0)
+                    if explicit_discount > 1:
+                        discount_percent = explicit_discount
+                    elif explicit_discount:
+                        discount_percent = explicit_discount * 100
+                    elif original_price > variant_price > 0:
+                        discount_percent = ((original_price - variant_price) / original_price) * 100
+                    else:
+                        discount_percent = 0.0
+                    if original_price <= variant_price:
+                        original_price = 0.0
+                    vals.update({
+                        'discount_percent': max(0.0, discount_percent),
+                        'discount_amount': max(0.0, original_price - variant_price),
+                    })
+                except (TypeError, ValueError):
+                    _logger.warning('Invalid discount data for %s', part_number)
             
             if isinstance(current_variant, dict):
                 estimated_days = current_variant.get('estimated_days_to_deliver')
@@ -1155,8 +1221,11 @@ class FindinPartProduct(models.Model):
                 msrp_value = float(product_data['msrp'])
                 vals.update({
                     'msrp_price': msrp_value,
-                    'list_price': msrp_value,
                 })
+                sale_value = vals.get('list_price', 0.0)
+                if msrp_value > sale_value > 0 and not vals.get('discount_percent'):
+                    vals['discount_percent'] = ((msrp_value - sale_value) / msrp_value) * 100
+                    vals['discount_amount'] = msrp_value - sale_value
             
             # Handle weight
             if product_data.get('weight'):

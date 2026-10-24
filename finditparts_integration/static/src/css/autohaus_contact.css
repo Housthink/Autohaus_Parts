@@ -1,0 +1,128 @@
+/* =======================================================================
+   Autohaus Parts - Contact page
+   ======================================================================= */
+.o_autohaus_contact_page {
+    min-height: 60vh;
+    padding: 3rem 0 4rem;
+    background: #f6f7f9;
+    color: #4a4a4a;
+}
+
+.o_autohaus_contact_page .container {
+    max-width: 1240px;
+}
+
+/* Capa blanca sobre la imagen de portada para mejorar la legibilidad. */
+.o_autohaus_contact_page section.s_cover,
+.o_autohaus_contact_page section.s_banner {
+    position: relative;
+}
+
+.o_autohaus_contact_page section.s_cover::before,
+.o_autohaus_contact_page section.s_banner::before {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.88);
+    content: "";
+    pointer-events: none;
+}
+
+.o_autohaus_contact_page section.s_cover > *,
+.o_autohaus_contact_page section.s_banner > * {
+    position: relative;
+    z-index: 2;
+}
+
+.o_autohaus_contact_page h1,
+.o_autohaus_contact_page h2,
+.o_autohaus_contact_page h3 {
+    color: #123a5f;
+    font-weight: 800;
+}
+
+.o_autohaus_contact_page .s_title h1,
+.o_autohaus_contact_page h1:first-child {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.78);
+    color: #ee5a24;
+    box-shadow: 0 3px 12px rgba(18, 58, 95, 0.08);
+}
+
+.o_autohaus_contact_page .s_website_form,
+.o_autohaus_contact_page .o_website_form,
+.o_autohaus_contact_page form[action*="/website/form"] {
+    max-width: 760px;
+    margin: 1.5rem auto 0;
+    padding: 2rem;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 5px 18px rgba(18, 58, 95, 0.06);
+}
+
+.o_autohaus_contact_page label,
+.o_autohaus_contact_page .s_website_form_label {
+    color: #123a5f;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.o_autohaus_contact_page .form-control,
+.o_autohaus_contact_page .form-select,
+.o_autohaus_contact_page textarea {
+    min-height: 44px;
+    border: 1px solid #d8dde3;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #4a4a4a;
+}
+
+.o_autohaus_contact_page textarea {
+    min-height: 130px;
+}
+
+.o_autohaus_contact_page .form-control:focus,
+.o_autohaus_contact_page .form-select:focus,
+.o_autohaus_contact_page textarea:focus {
+    border-color: #123a5f;
+    box-shadow: 0 0 0 0.2rem rgba(18, 58, 95, 0.12);
+}
+
+.o_autohaus_contact_page .btn-primary,
+.o_autohaus_contact_page button[type="submit"] {
+    border-color: #ee5a24;
+    border-radius: 5px;
+    background: #ee5a24;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.o_autohaus_contact_page .btn-primary:hover,
+.o_autohaus_contact_page .btn-primary:focus,
+.o_autohaus_contact_page button[type="submit"]:hover,
+.o_autohaus_contact_page button[type="submit"]:focus {
+    border-color: #d94d1a;
+    background: #d94d1a;
+    color: #ffffff;
+}
+
+.o_autohaus_contact_page .text-muted {
+    color: #6b7280 !important;
+}
+
+@media (max-width: 575.98px) {
+    .o_autohaus_contact_page {
+        padding: 2rem 0 3rem;
+    }
+
+    .o_autohaus_contact_page .s_website_form,
+    .o_autohaus_contact_page .o_website_form,
+    .o_autohaus_contact_page form[action*="/website/form"] {
+        margin-top: 1rem;
+        padding: 1.25rem;
+    }
+}

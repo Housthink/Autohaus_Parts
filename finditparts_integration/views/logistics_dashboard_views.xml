@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_order_form_logistics_costs" model="ir.ui.view">
+            <field name="name">sale.order.form.logistics.costs</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Costos logísticos" name="logistics_costs">
+                        <group>
+                            <group string="Envío">
+                                <field name="carrier_id"/>
+                                <field name="logistics_actual_cost"/>
+                            </group>
+                            <group string="Rentabilidad del envío">
+                                <field name="logistics_charged_amount"/>
+                                <field name="logistics_result"
+                                       decoration-danger="logistics_loss"
+                                       decoration-success="not logistics_loss"/>
+                                <field name="logistics_loss" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <div class="alert alert-danger" role="alert"
+                             invisible="not logistics_loss">
+                            Este envío puede generar una pérdida: el costo real supera
+                            el importe cobrado al cliente.
+                        </div>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_logistics_cost_tree" model="ir.ui.view">
+            <field name="name">sale.order.logistics.cost.tree</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <list string="Costos logísticos"
+                      decoration-danger="logistics_loss">
+                    <field name="name"/>
+                    <field name="date_order"/>
+                    <field name="partner_id"/>
+                    <field name="carrier_id"/>
+                    <field name="logistics_charged_amount" sum="Total cobrado"/>
+                    <field name="logistics_actual_cost" sum="Costo real"/>
+                    <field name="logistics_result" sum="Resultado"/>
+                    <field name="logistics_loss"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="sale_order_logistics_cost_search" model="ir.ui.view">
+            <field name="name">sale.order.logistics.cost.search</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <search string="Costos logísticos">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="carrier_id"/>
+                    <filter string="Con pérdida" name="logistics_loss"
+                            domain="[('logistics_loss', '=', True)]"/>
+                    <filter string="Con costo real" name="has_actual_cost"
+                            domain="[('logistics_actual_cost', '>', 0)]"/>
+                    <group>
+                        <filter string="Transportista" name="group_carrier"
+                                context="{'group_by': 'carrier_id'}"/>
+                        <filter string="Cliente" name="group_customer"
+                                context="{'group_by': 'partner_id'}"/>
+                        <filter string="Fecha" name="group_date"
+                                context="{'group_by': 'date_order:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="sale_order_logistics_cost_pivot" model="ir.ui.view">
+            <field name="name">sale.order.logistics.cost.pivot</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <pivot string="Resumen de costos logísticos">
+                    <field name="carrier_id" type="row"/>
+                    <field name="date_order" type="col" interval="month"/>
+                    <field name="logistics_charged_amount" type="measure"/>
+                    <field name="logistics_actual_cost" type="measure"/>
+                    <field name="logistics_result" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="sale_order_logistics_cost_graph" model="ir.ui.view">
+            <field name="name">sale.order.logistics.cost.graph</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <graph string="Costos logísticos por transportista" type="bar">
+                    <field name="carrier_id" type="row"/>
+                    <field name="logistics_charged_amount" type="measure"/>
+                    <field name="logistics_actual_cost" type="measure"/>
+                    <field name="logistics_result" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_logistics_cost_dashboard" model="ir.actions.act_window">
+            <field name="name">Panel de costos logísticos</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">pivot,graph,list,form</field>
+            <field name="search_view_id" ref="sale_order_logistics_cost_search"/>
+            <field name="domain">[('carrier_id', '!=', False)]</field>
+            <field name="context">{'group_by': ['carrier_id']}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No hay pedidos con transportista asignado.
+                </p>
+                <p>
+                    Registra el costo real del transportista en cada pedido para
+                    comparar el envío cobrado y detectar pérdidas.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_logistics_cost_dashboard_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="sale_order_logistics_cost_pivot"/>
+            <field name="act_window_id" ref="action_logistics_cost_dashboard"/>
+        </record>
+        <record id="action_logistics_cost_dashboard_graph" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="sale_order_logistics_cost_graph"/>
+            <field name="act_window_id" ref="action_logistics_cost_dashboard"/>
+        </record>
+        <record id="action_logistics_cost_dashboard_list" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="sale_order_logistics_cost_tree"/>
+            <field name="act_window_id" ref="action_logistics_cost_dashboard"/>
+        </record>
+
+        <menuitem id="menu_logistics_cost_dashboard"
+                  name="Costos logísticos"
+                  parent="menu_finditparts_root"
+                  action="action_logistics_cost_dashboard"
+                  sequence="45"
+                  groups="base.group_user"/>
+
+        <!-- Remove the temporary backend shortcut; keep the logistics dashboard. -->
+        <delete model="ir.ui.menu" id="menu_finditparts_sale_orders"/>
+        <delete model="ir.actions.act_window" id="action_finditparts_sale_orders"/>
+
+    </data>
+</odoo>

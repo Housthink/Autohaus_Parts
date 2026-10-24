@@ -34,6 +34,7 @@
         'views/finditparts_config_views.xml',
         'views/finditparts_product_views.xml',
         'views/finditparts_order_views.xml',
+        'views/logistics_dashboard_views.xml',
         'views/finditparts_sync_wizard_views.xml',
         'views/menu_views.xml',
         'views/finditparts_cron_views.xml',
@@ -54,6 +55,7 @@
         'views/website_best_sellers.xml',
         'views/website_returns.xml',
         'views/website_account.xml',
+        'views/website_contact_override.xml',
     ],
     'assets': {
         'web.assets_frontend': [
@@ -69,6 +71,7 @@
             'finditparts_integration/static/src/css/autohaus_home.css',
             'finditparts_integration/static/src/css/autohaus_returns.css',
             'finditparts_integration/static/src/css/autohaus_account.css',
+            'finditparts_integration/static/src/css/autohaus_contact.css',
         ],
     },
     'demo': [],

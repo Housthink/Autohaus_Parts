@@ -21,6 +21,11 @@ class ProductTemplate(models.Model):
         help='Automatically flagged when the product appears in the FinditParts best-seller ranking.',
     )
 
+    finditparts_discount_percent = fields.Float(
+        string='FinditParts Discount (%)',
+        help='Discount reported by FinditParts during the last synchronization.',
+    )
+
     finditparts_part_number = fields.Char(
         string='FinditParts Part Number',
         compute='_compute_finditparts_part_number',
