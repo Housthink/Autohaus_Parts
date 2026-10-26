@@ -76,16 +76,21 @@
                     </section>
 
                     <!-- Marcas líderes -->
-                    <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands(12)"/>
+                    <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands()"/>
                     <section t-if="home_brands" class="o_autohaus_home_brands" aria-label="Marcas líderes">
                         <div class="o_autohaus_home_container">
                             <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
                             <div class="o_autohaus_home_brands_grid">
-                                <t t-foreach="home_brands" t-as="tag">
-                                    <a t-att-href="'/shop?tags=%s' % tag.id"
+                                <t t-foreach="home_brands" t-as="brand">
+                                    <a t-att-href="'/shop?tags=%s' % brand['tag'].id"
                                        class="o_autohaus_home_brand_item"
-                                       t-att-aria-label="tag.name">
-                                        <span class="o_autohaus_home_brand_name" t-out="tag.name"/>
+                                       t-att-aria-label="brand['tag'].name">
+                                        <img t-if="brand['logo']"
+                                             t-att-src="brand['logo']"
+                                             t-att-alt="brand['tag'].name"
+                                             class="o_autohaus_home_brand_logo"
+                                             loading="lazy"/>
+                                        <span t-else="" class="o_autohaus_home_brand_name" t-out="brand['tag'].name"/>
                                     </a>
                                 </t>
                             </div>
