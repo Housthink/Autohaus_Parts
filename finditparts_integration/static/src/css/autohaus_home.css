@@ -224,6 +224,48 @@
     color: #123a5f;
 }
 
+.o_autohaus_home_brand_logo {
+    display: block;
+    max-width: 100%;
+    max-height: 52px;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.78;
+    transition: all 0.2s ease;
+}
+
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo,
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
+/* Logos con letras blancas: se invierten para que sean visibles sobre fondo claro */
+.o_autohaus_home_brand_logo[src*="buyers_products"],
+.o_autohaus_home_brand_logo[src*="garrison"],
+.o_autohaus_home_brand_logo[src*="wix"],
+.o_autohaus_home_brand_logo[src*="mack"],
+.o_autohaus_home_brand_logo[src*="cardone"],
+.o_autohaus_home_brand_logo[src*="haldex"] {
+    filter: grayscale(100%) invert(1);
+}
+
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo[src*="buyers_products"],
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo[src*="buyers_products"],
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo[src*="garrison"],
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo[src*="garrison"],
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo[src*="wix"],
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo[src*="wix"],
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo[src*="mack"],
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo[src*="mack"],
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo[src*="cardone"],
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo[src*="cardone"],
+.o_autohaus_home_brand_item:hover .o_autohaus_home_brand_logo[src*="haldex"],
+.o_autohaus_home_brand_item:focus .o_autohaus_home_brand_logo[src*="haldex"] {
+    filter: grayscale(100%) invert(1);
+}
+
 /* --- Categorías --------------------------------------------------------- */
 .o_autohaus_home_cats {
     padding: 2rem 0;
