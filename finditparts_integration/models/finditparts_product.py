@@ -764,7 +764,6 @@ class FindinPartProduct(models.Model):
         # --- Información del fabricante ------------------------------------
         manufacturer_name = product_data.get('manufacturer') or product_data.get('brand') or ''
         manufacturer_image = product_data.get('manufacturer_image') or ''
-        manufacturer_url = product_data.get('product_url') or ''
 
         brand_href = (
             '/shop?search=%s' % requests.utils.quote(manufacturer_name)
@@ -798,12 +797,6 @@ class FindinPartProduct(models.Model):
             mfr_actions.append(
                 f"<a class='o_autohaus_facts_more' href='{brand_href}'>"
                 "Ver todos los productos de esta marca</a>"
-            )
-        if manufacturer_url:
-            mfr_actions.append(
-                "<a class='o_autohaus_facts_more' "
-                f"href='{format_text(manufacturer_url)}' target='_blank' rel='noopener'>"
-                "Ver página del fabricante</a>"
             )
 
         mfr_desc_html = ''
@@ -977,15 +970,20 @@ class FindinPartProduct(models.Model):
         """Find or create a product.tag record for the product brand.
 
         Returns the tag recordset (empty if the product has no brand).
+        El nombre de marca se normaliza antes de buscar/crear para que las
+        variantes textuales (p. ej. "CATERPILLAR-REPLACEMENT") no generen
+        tags duplicados.
         """
         brand_name = (brand_name or self.manufacturer or self.brand or '').strip()
         if not brand_name:
             return self.env['product.tag']
+        from .website import normalize_brand_name
+        normalized = normalize_brand_name(brand_name)
         Tag = self.env['product.tag'].sudo()
-        tag = Tag.search([('name', '=ilike', brand_name)], limit=1)
+        tag = Tag.search([('name', '=ilike', normalized)], limit=1)
         if not tag:
-            tag = Tag.create({'name': brand_name})
-            _logger.info(f"Created product.tag for brand: {brand_name}")
+            tag = Tag.create({'name': normalized})
+            _logger.info(f"Created product.tag for brand: {normalized}")
         return tag
 
     def _get_or_create_category_path(self, names, model):
