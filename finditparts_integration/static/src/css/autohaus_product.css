@@ -246,8 +246,79 @@
     line-height: 1.2;
 }
 
+/* --- Tarjetas de informacion (Return Policy / Free Shipping) ------------- */
+.o_autohaus_prod_info_cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 0.9rem 0 0;
+}
+
+.o_autohaus_info_card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #e3e6ea;
+    border-radius: 8px;
+    background: #f5f7f9;
+    text-decoration: none;
+    transition: border-color 0.15s ease-in-out, background 0.15s ease-in-out;
+}
+
+.o_autohaus_info_card:hover {
+    border-color: #123a5f;
+    background: #eef2f6;
+}
+
+.o_autohaus_info_card > i.fa {
+    flex: 0 0 auto;
+    font-size: 1.4rem;
+    color: #ee5a24;
+}
+
+.o_autohaus_info_card_text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.o_autohaus_info_card_text strong {
+    color: #123a5f;
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.o_autohaus_info_card_text em {
+    color: #6c757d;
+    font-size: 0.78rem;
+    font-style: normal;
+    line-height: 1.35;
+}
+
+.o_autohaus_info_card_link {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.3rem;
+    color: #123a5f;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.o_autohaus_info_card:hover .o_autohaus_info_card_link {
+    color: #ee5a24;
+}
+
 @media (max-width: 575.98px) {
     .o_autohaus_prod_benefits {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .o_autohaus_prod_info_cards {
         grid-template-columns: minmax(0, 1fr);
     }
 }

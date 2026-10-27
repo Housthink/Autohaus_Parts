@@ -14,6 +14,10 @@
 .o_autohaus_info_content a { color: #123a5f; font-weight: 700; }
 .o_autohaus_info_content a:hover { color: #ee5a24; }
 .o_autohaus_info_content .btn-primary { border-color: #ee5a24; background: #ee5a24; color: #ffffff; }
+.o_autohaus_shipping_banner { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; padding: 1rem 1.25rem; border: 1px solid #f7c9b6; border-radius: 8px; background: #fdf1ec; color: #123a5f; }
+.o_autohaus_shipping_banner i.fa { color: #ee5a24; font-size: 1.4rem; }
+.o_autohaus_shipping_banner strong { font-size: 1.02rem; font-weight: 800; }
+.o_autohaus_shipping_banner span { color: #5b6776; font-size: 0.9rem; }
 .o_autohaus_blog_grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .o_autohaus_blog_grid article { padding: 1.2rem; border: 1px solid #e3e6ea; border-radius: 8px; background: #f6f7f9; }
 .o_autohaus_blog_grid article h2 { margin-top: 0; font-size: 1.05rem; }
