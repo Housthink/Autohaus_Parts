@@ -178,3 +178,21 @@ class Website(models.Model):
                 first_letter = '#'
             grouped.setdefault(first_letter, []).append(tag)
         return grouped
+
+    def get_all_products_grouped(self):
+        """Devuelve los productos publicados y vendibles, agrupados por letra
+        inicial (A-Z) y ordenados alfabeticamente, para el glosario de
+        productos."""
+        Product = self.env['product.template'].sudo()
+        products = Product.search([
+            ('is_published', '=', True),
+            ('sale_ok', '=', True),
+        ])
+        products = products.sorted(key=lambda p: (p.name or '').strip().upper())
+        grouped = {}
+        for product in products:
+            first_letter = (product.name or '').strip().upper()[:1]
+            if not first_letter.isalpha():
+                first_letter = '#'
+            grouped.setdefault(first_letter, []).append(product)
+        return grouped
