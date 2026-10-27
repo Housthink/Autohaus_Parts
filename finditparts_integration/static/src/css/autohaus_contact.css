@@ -52,10 +52,25 @@
     box-shadow: 0 3px 12px rgba(18, 58, 95, 0.08);
 }
 
+/* La columna que contiene el formulario ocupa todo el ancho para poder
+   centrarlo simetricamente (mismo margen a ambos lados). */
+.o_autohaus_contact_page .row > [class*="col-lg-"]:has(.s_website_form),
+.o_autohaus_contact_page .row > [class*="col-lg-"]:has(form[action*="/website/form"]) {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+/* Ocultar el bloque de informacion de contacto (direccion, telefono, correo).
+   Es la columna con offset (col-lg-4 offset-lg-1) que acompaña al formulario. */
+.o_autohaus_contact_page .row > [class*="offset-lg-1"] {
+    display: none !important;
+}
+
 .o_autohaus_contact_page .s_website_form,
 .o_autohaus_contact_page .o_website_form,
 .o_autohaus_contact_page form[action*="/website/form"] {
-    max-width: 760px;
+    max-width: 900px;
+    width: 100%;
     margin: 1.5rem auto 0;
     padding: 2rem;
     border: 1px solid #e3e6ea;
