@@ -79,6 +79,25 @@
                     <span>Soporte<em>especializado</em></span>
                 </li>
             </ul>
+
+            <div class="o_autohaus_prod_info_cards">
+                <a class="o_autohaus_info_card" href="/devoluciones">
+                    <i class="fa fa-undo"/>
+                    <span class="o_autohaus_info_card_text">
+                        <strong>Devolución en 30 días</strong>
+                        <em>En artículos elegibles</em>
+                    </span>
+                    <span class="o_autohaus_info_card_link">Detalles<i class="fa fa-chevron-right"/></span>
+                </a>
+                <a class="o_autohaus_info_card" href="/envios">
+                    <i class="fa fa-truck"/>
+                    <span class="o_autohaus_info_card_text">
+                        <strong>¡Envío gratis!</strong>
+                        <em>Envío LTL de EE. UU. sin costo.</em>
+                    </span>
+                    <span class="o_autohaus_info_card_link">Detalles<i class="fa fa-chevron-right"/></span>
+                </a>
+            </div>
         </xpath>
     </template>
 </odoo>
