@@ -50,22 +50,29 @@ class ProductTemplate(models.Model):
     @api.depends('default_code', 'qty_available')
     def _compute_finditparts_stock(self):
         """Compute stock from finditparts.product and check both sources"""
+        # Una sola consulta para todos los productos vinculados (evita N+1).
+        finditparts_products = self.env['finditparts.product'].sudo().search([
+            ('odoo_product_id', 'in', self.ids)
+        ])
+        fp_stock_by_product = {
+            fp.odoo_product_id.id: fp.stock_quantity or 0
+            for fp in finditparts_products
+        }
+
+        # qty_available dispara el calculo de existencias de 'stock', que lee
+        # stock.warehouse (sin acceso para el usuario publico del website).
+        # Se lee con sudo y de una sola vez para todo el recordset.
+        local_qtys = self.sudo().mapped('qty_available')
+        qty_available_by_product = dict(zip(self.ids, local_qtys))
+
         for product in self:
-            # Buscar el producto de FindinParts vinculado
-            finditparts_product = self.env['finditparts.product'].sudo().search([
-                ('odoo_product_id', '=', product.id)
-            ], limit=1)
-
-            # qty_available dispara el calculo de existencias de 'stock', que lee
-            # stock.warehouse (sin acceso para el usuario publico del website).
-            # Se lee con sudo para no romper la ficha de producto.
-            qty_available = product.sudo().qty_available
-
-            if finditparts_product:
-                product.finditparts_stock = finditparts_product.stock_quantity or 0
+            fp_stock = fp_stock_by_product.get(product.id)
+            local_qty = qty_available_by_product.get(product.id, 0)
+            if fp_stock is not None:
+                product.finditparts_stock = fp_stock
                 # Tiene stock si hay stock local O stock en FinditParts
-                product.finditparts_has_stock = (qty_available > 0) or (finditparts_product.stock_quantity > 0)
+                product.finditparts_has_stock = (local_qty > 0) or (fp_stock > 0)
             else:
                 # Si no hay producto de FindinParts, usar solo stock local
                 product.finditparts_stock = 0
-                product.finditparts_has_stock = qty_available > 0
+                product.finditparts_has_stock = local_qty > 0

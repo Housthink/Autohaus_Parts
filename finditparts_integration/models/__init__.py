@@ -4,6 +4,7 @@ from . import finditparts_order
 from . import finditparts_sync_wizard
 from . import finditparts_sync_cron
 from . import product_template
+from . import product_public_category
 from . import sale_order
 from . import website
 from . import customer_request
