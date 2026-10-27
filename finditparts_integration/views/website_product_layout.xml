@@ -98,6 +98,16 @@
                     <span class="o_autohaus_info_card_link">Detalles<i class="fa fa-chevron-right"/></span>
                 </a>
             </div>
+
+            <div class="o_autohaus_payment_methods">
+                <span class="o_autohaus_payment_label">Pago seguro con</span>
+                <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/visa.png" alt="Visa" loading="lazy"/>
+                <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/mastercard.png" alt="Mastercard" loading="lazy"/>
+                <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/amex.png" alt="American Express" loading="lazy"/>
+                <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/discover.png" alt="Discover" loading="lazy"/>
+                <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/paypal.png" alt="PayPal" loading="lazy"/>
+                <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/ach.png" alt="ACH" loading="lazy"/>
+            </div>
         </xpath>
     </template>
 </odoo>
