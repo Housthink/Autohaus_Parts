@@ -111,6 +111,61 @@
     flex: 0 0 auto;
 }
 
+/* ==================================================================
+   Dropdown de subcategorias (hover)
+   ================================================================== */
+
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cats_list > li {
+    position: relative;
+}
+
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cat_dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1050;
+    min-width: 210px;
+    margin: 0.35rem 0 0;
+    padding: 0.35rem 0;
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(18, 58, 95, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+}
+
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cat_dropdown--open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cat_dropdown_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cat_dropdown_link {
+    display: block;
+    padding: 0.45rem 1rem;
+    color: #123a5f;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    text-decoration: none;
+    white-space: normal;
+}
+
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cat_dropdown_link:hover,
+#o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cat_dropdown_link:focus {
+    background: #f2f5f8;
+    color: #0b2a47;
+    text-decoration: none;
+}
+
 @media (max-width: 767.98px) {
     #o_wsale_categories_filmstrip.o_autohaus_cats .o_autohaus_cats_list {
         gap: 0.75rem;
