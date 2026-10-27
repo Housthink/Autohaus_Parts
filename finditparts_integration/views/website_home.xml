@@ -75,95 +75,6 @@
                         </div>
                     </section>
 
-                    <!-- Marcas líderes -->
-                    <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands()"/>
-                    <section t-if="home_brands" class="o_autohaus_home_brands" aria-label="Marcas líderes">
-                        <div class="o_autohaus_home_container">
-                            <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
-                            <div class="o_autohaus_home_brands_grid">
-                                <t t-foreach="home_brands" t-as="brand">
-                                    <a t-att-href="'/shop?tags=%s' % brand['tag'].id"
-                                       class="o_autohaus_home_brand_item"
-                                       t-att-aria-label="brand['tag'].name">
-                                        <img t-if="brand['logo']"
-                                             t-att-src="brand['logo']"
-                                             t-att-alt="brand['tag'].name"
-                                             class="o_autohaus_home_brand_logo"
-                                             loading="lazy"/>
-                                        <span t-else="" class="o_autohaus_home_brand_name" t-out="brand['tag'].name"/>
-                                    </a>
-                                </t>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Productos disponibles -->
-                    <section class="o_autohaus_home_products oe_website_sale">
-                        <div class="o_autohaus_home_container">
-                            <t t-set="home_products" t-value="request.env['product.template'].sudo().search([
-                                ('is_published', '=', True),
-                                ('sale_ok', '=', True),
-                                ('image_128', '!=', False),
-                                ('name', 'not ilike', 'Test')
-                            ], order='best_seller desc, website_sequence, id desc', limit=4)"/>
-                            <t t-if="not home_products">
-                                <t t-set="home_products" t-value="request.env['product.template'].sudo().search([
-                                    ('is_published', '=', True),
-                                    ('sale_ok', '=', True),
-                                    ('image_128', '!=', False)
-                                ], order='best_seller desc, website_sequence, id desc', limit=4)"/>
-                            </t>
-
-                            <div t-if="home_products" class="o_autohaus_home_products_head">
-                                <h2>Productos disponibles</h2>
-                                <a href="/shop" class="o_autohaus_home_more">
-                                    Ver m&#225;s productos <i class="fa fa-arrow-right" aria-hidden="true"/>
-                                </a>
-                            </div>
-
-                            <div t-if="home_products" class="row g-3 g-lg-4">
-                                <t t-foreach="home_products" t-as="product">
-                                    <div class="col-6 col-md-4 col-lg-3">
-                                        <t t-set="card_mode" t-value="'dynamic'"/>
-                                        <t t-set="show_badge" t-value="True"/>
-                                        <t t-set="is_best_seller" t-value="product.best_seller"/>
-                                        <t t-set="display_name" t-value="product.name"/>
-                                        <t t-set="product_href" t-value="product.website_url"/>
-                                        <t t-set="product_variant" t-value="False"/>
-                                        <t t-set="card_label" t-value="'Agregar cotizaci&#243;n'"/>
-                                        <t t-call="finditparts_integration.autohaus_product_card"/>
-                                    </div>
-                                </t>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Ayuda para encontrar repuestos -->
-                    <section class="o_autohaus_home_help" aria-label="Ayuda">
-                        <div class="o_autohaus_home_container">
-                            <div class="o_autohaus_home_help_inner">
-                                <div class="o_autohaus_home_help_text">
-                                    <h2>&#191;No encuentras la pieza?</h2>
-                                    <p>Nuestro equipo de expertos te ayuda a encontrar el repuesto correcto para tu veh&#237;culo</p>
-                                    <div class="o_autohaus_home_help_actions">
-                                        <a href="/shop" class="o_autohaus_home_help_btn o_autohaus_help_search">
-                                            <i class="fa fa-search" aria-hidden="true"/>
-                                            <span>Buscar por n&#250;mero de parte</span>
-                                        </a>
-                                        <a href="/contactus" class="o_autohaus_home_help_btn o_autohaus_help_contact">
-                                            <i class="fa fa-envelope" aria-hidden="true"/>
-                                            <span>Consultar por veh&#237;culo</span>
-                                        </a>
-                                    </div>
-                                    <div class="o_autohaus_home_help_phone">
-                                        <span>¿Necesitas ayuda? Escríbenos</span>
-                                        <a href="tel:+50761003445">+507 6100-3445</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
                     <!-- Categorías -->
                     <section class="o_autohaus_home_cats" aria-label="Categor&#237;as">
                         <div class="o_autohaus_home_container">
@@ -208,6 +119,95 @@
                                     </t>
                                 </t>
                             </ul>
+                        </div>
+                    </section>
+
+                    <!-- Productos disponibles -->
+                    <section class="o_autohaus_home_products oe_website_sale">
+                        <div class="o_autohaus_home_container">
+                            <t t-set="home_products" t-value="request.env['product.template'].sudo().search([
+                                ('is_published', '=', True),
+                                ('sale_ok', '=', True),
+                                ('image_128', '!=', False),
+                                ('name', 'not ilike', 'Test')
+                            ], order='best_seller desc, website_sequence, id desc', limit=4)"/>
+                            <t t-if="not home_products">
+                                <t t-set="home_products" t-value="request.env['product.template'].sudo().search([
+                                    ('is_published', '=', True),
+                                    ('sale_ok', '=', True),
+                                    ('image_128', '!=', False)
+                                ], order='best_seller desc, website_sequence, id desc', limit=4)"/>
+                            </t>
+
+                            <div t-if="home_products" class="o_autohaus_home_products_head">
+                                <h2>Productos disponibles</h2>
+                                <a href="/shop" class="o_autohaus_home_more">
+                                    Ver m&#225;s productos <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                </a>
+                            </div>
+
+                            <div t-if="home_products" class="row g-3 g-lg-4">
+                                <t t-foreach="home_products" t-as="product">
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <t t-set="card_mode" t-value="'dynamic'"/>
+                                        <t t-set="show_badge" t-value="True"/>
+                                        <t t-set="is_best_seller" t-value="product.best_seller"/>
+                                        <t t-set="display_name" t-value="product.name"/>
+                                        <t t-set="product_href" t-value="product.website_url"/>
+                                        <t t-set="product_variant" t-value="False"/>
+                                        <t t-set="card_label" t-value="'Agregar cotizaci&#243;n'"/>
+                                        <t t-call="finditparts_integration.autohaus_product_card"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Marcas líderes -->
+                    <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands()"/>
+                    <section t-if="home_brands" class="o_autohaus_home_brands" aria-label="Marcas líderes">
+                        <div class="o_autohaus_home_container">
+                            <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
+                            <div class="o_autohaus_home_brands_grid">
+                                <t t-foreach="home_brands" t-as="brand">
+                                    <a t-att-href="'/shop?tags=%s' % brand['tag'].id"
+                                       class="o_autohaus_home_brand_item"
+                                       t-att-aria-label="brand['tag'].name">
+                                        <img t-if="brand['logo']"
+                                             t-att-src="brand['logo']"
+                                             t-att-alt="brand['tag'].name"
+                                             class="o_autohaus_home_brand_logo"
+                                             loading="lazy"/>
+                                        <span t-else="" class="o_autohaus_home_brand_name" t-out="brand['tag'].name"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Ayuda para encontrar repuestos -->
+                    <section class="o_autohaus_home_help" aria-label="Ayuda">
+                        <div class="o_autohaus_home_container">
+                            <div class="o_autohaus_home_help_inner">
+                                <div class="o_autohaus_home_help_text">
+                                    <h2>&#191;No encuentras la pieza?</h2>
+                                    <p>Nuestro equipo de expertos te ayuda a encontrar el repuesto correcto para tu veh&#237;culo</p>
+                                    <div class="o_autohaus_home_help_actions">
+                                        <a href="/shop" class="o_autohaus_home_help_btn o_autohaus_help_search">
+                                            <i class="fa fa-search" aria-hidden="true"/>
+                                            <span>Buscar por n&#250;mero de parte</span>
+                                        </a>
+                                        <a href="/contactus" class="o_autohaus_home_help_btn o_autohaus_help_contact">
+                                            <i class="fa fa-envelope" aria-hidden="true"/>
+                                            <span>Consultar por veh&#237;culo</span>
+                                        </a>
+                                    </div>
+                                    <div class="o_autohaus_home_help_phone">
+                                        <span>¿Necesitas ayuda? Escríbenos</span>
+                                        <a href="tel:+50761003445">+507 6100-3445</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
 

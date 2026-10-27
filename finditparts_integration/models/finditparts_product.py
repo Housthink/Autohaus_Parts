@@ -1445,7 +1445,6 @@ class FindinPartProduct(models.Model):
             
             for products in products_batches:
                 for product_data in products:
-                    print(product_data)
                     try:
                         effective_data = product_data
                         # For search/list results, use a detailed call to fetch

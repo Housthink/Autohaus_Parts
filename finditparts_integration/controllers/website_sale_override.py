@@ -1,10 +1,13 @@
-from odoo import http
-from odoo.addons.website_sale.controllers.main import WebsiteSale
-from odoo.http import request
 import json
 import logging
 import re
+import threading
 import time
+
+from odoo import api, http
+from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.http import request
+from odoo.modules.registry import Registry
 
 _logger = logging.getLogger(__name__)
 
@@ -94,29 +97,47 @@ class WebsiteSalePickup(WebsiteSale):
         if not config or not config.auto_create_products:
             return False
 
-        result = request.env["finditparts.product"].sudo().sync_products_from_api(
-            part_number=part_number,
-            limit=1,
-        )
-        created = result.get("created", 0)
-        updated = result.get("updated", 0)
-        _logger.info(
-            "On-demand FinditParts lookup for %s: %s created, %s updated",
-            part_number,
-            created,
-            updated,
-        )
+        # Run the lookup in a background thread: the FinditParts API call can
+        # take tens of seconds, and doing it synchronously blocks (and can
+        # time out) the /shop request.
+        dbname = request.env.cr.dbname
+        threading.Thread(
+            target=self._sync_part_number_background,
+            args=(dbname, part_number),
+            daemon=True,
+        ).start()
 
-        imported = bool(created or updated)
-        if imported:
-            lookups = {
-                key: value
-                for key, value in lookups.items()
-                if now - value < self._PART_NUMBER_LOOKUP_TTL
-            }
-            lookups[part_number] = now
-            request.session["autohaus_part_lookups"] = lookups
-        return imported
+        # Remember the lookup so we don't spawn a thread on every search.
+        lookups = {
+            key: value
+            for key, value in lookups.items()
+            if now - value < self._PART_NUMBER_LOOKUP_TTL
+        }
+        lookups[part_number] = now
+        request.session["autohaus_part_lookups"] = lookups
+        return False
+
+    def _sync_part_number_background(self, dbname, part_number):
+        try:
+            registry = Registry(dbname)
+            with registry.cursor() as cr:
+                env = api.Environment(cr, api.SUPERUSER_ID, {})
+                result = env["finditparts.product"].sync_products_from_api(
+                    part_number=part_number,
+                    limit=1,
+                )
+                cr.commit()
+                _logger.info(
+                    "Background FinditParts lookup for %s: %s created, %s updated",
+                    part_number,
+                    result.get("created", 0),
+                    result.get("updated", 0),
+                )
+        except Exception:
+            _logger.exception(
+                "Background FinditParts lookup failed for part number %s",
+                part_number,
+            )
 
     def _shop_lookup_products(self, options, post, search, website):
         result = super()._shop_lookup_products(options, post, search, website)
