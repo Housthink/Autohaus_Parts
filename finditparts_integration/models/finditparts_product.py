@@ -14,7 +14,31 @@ DEFAULT_IMAGE_URL = '/finditparts_integration/static/img/default_product.png'
 BEST_SELLER_LIMIT = 100
 BEST_SELLER_CACHE_TTL = 3600  # seconds
 
+_MANUFACTURER_DESCRIPTIONS_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'data', 'manufacturer_descriptions.json',
+)
+_manufacturer_descriptions = None
+
 _logger = logging.getLogger(__name__)
+
+
+def _get_manufacturer_description(manufacturer_name):
+    """Return the curated description for a manufacturer, if any."""
+    global _manufacturer_descriptions
+    if _manufacturer_descriptions is None:
+        try:
+            with open(_MANUFACTURER_DESCRIPTIONS_PATH, 'r', encoding='utf-8') as fh:
+                _manufacturer_descriptions = json.load(fh)
+        except (OSError, ValueError):
+            _logger.warning(
+                "Could not load manufacturer descriptions from %s",
+                _MANUFACTURER_DESCRIPTIONS_PATH,
+            )
+            _manufacturer_descriptions = {}
+    return (_manufacturer_descriptions or {}).get(
+        (manufacturer_name or '').strip().upper(), ''
+    )
 
 
 class FindinPartProduct(models.Model):
@@ -28,11 +52,14 @@ class FindinPartProduct(models.Model):
     brand = fields.Char('Brand')
     manufacturer = fields.Char('Manufacturer')
     part_number = fields.Char('Part Number')
+    manufacturer_image = fields.Char('Manufacturer Image')
+    product_url = fields.Char('Product URL')
     
     name = fields.Char('Product Name', required=True)
     description = fields.Text('Description')
     long_description = fields.Html('Long Description')
     specifications = fields.Text('Technical Specifications')
+    pies_data_json = fields.Text('PIES Data (JSON)')
     
     category_id = fields.Many2one('product.category', 'Category')
     subcategory_id = fields.Many2one('product.category', 'Subcategory')
@@ -580,12 +607,16 @@ class FindinPartProduct(models.Model):
         Muestra la informacion separada por pestanas (tabs):
           - Descripcion
           - Especificaciones
-          - Compatibilidad
+          - Ficha tecnica
+          - Informacion del fabricante
+          - Referencias cruzadas
+          - Entrega e informacion de envio
           - Garantia y Devoluciones
 
-        Las tres primeras se alimentan de los datos del producto; la ultima es
-        contenido estatico traducido. El estilo vive en el CSS del modulo
-        (autohaus_product_facts.css); aqui solo se genera el HTML semantico.
+        Todas se alimentan de los datos del producto, salvo la de Garantia y
+        Devoluciones que es contenido estatico traducido. El estilo vive en el
+        CSS del modulo (autohaus_product_facts.css); aqui solo se genera el
+        HTML semantico.
         """
         attribute_pairs = attribute_pairs or []
         sections = []
@@ -730,7 +761,71 @@ class FindinPartProduct(models.Model):
                 quick_facts_rows.append((label, value))
         quick_facts_content = build_rows(quick_facts_rows)
 
-        # --- Compatibilidad (referencias equivalentes) -------------------
+        # --- Información del fabricante ------------------------------------
+        manufacturer_name = product_data.get('manufacturer') or product_data.get('brand') or ''
+        manufacturer_image = product_data.get('manufacturer_image') or ''
+        manufacturer_url = product_data.get('product_url') or ''
+
+        brand_href = (
+            '/shop?search=%s' % requests.utils.quote(manufacturer_name)
+            if manufacturer_name else ''
+        )
+
+        mfr_logo = ''
+        if manufacturer_image:
+            mfr_logo = (
+                "<div class='o_autohaus_manufacturer_logo'>"
+                f"<img src='{format_text(manufacturer_image)}' "
+                f"alt='{format_text(manufacturer_name or 'Fabricante')}' loading='lazy' />"
+                "</div>"
+            )
+
+        mfr_name = ''
+        if manufacturer_name:
+            if brand_href:
+                mfr_name = (
+                    f"<a class='o_autohaus_manufacturer_name' href='{brand_href}'>"
+                    f"{format_text(manufacturer_name)}</a>"
+                )
+            else:
+                mfr_name = (
+                    f"<span class='o_autohaus_manufacturer_name'>"
+                    f"{format_text(manufacturer_name)}</span>"
+                )
+
+        mfr_actions = []
+        if brand_href:
+            mfr_actions.append(
+                f"<a class='o_autohaus_facts_more' href='{brand_href}'>"
+                "Ver todos los productos de esta marca</a>"
+            )
+        if manufacturer_url:
+            mfr_actions.append(
+                "<a class='o_autohaus_facts_more' "
+                f"href='{format_text(manufacturer_url)}' target='_blank' rel='noopener'>"
+                "Ver página del fabricante</a>"
+            )
+
+        mfr_desc_html = ''
+        mfr_description = _get_manufacturer_description(manufacturer_name)
+        if mfr_description:
+            mfr_desc_html = (
+                "<div class='o_autohaus_manufacturer_desc'>"
+                f"<p>{format_text(mfr_description)}</p>"
+                "</div>"
+            )
+
+        mfr_info = (
+            "<div class='o_autohaus_manufacturer_info'>"
+            f"{mfr_name}{mfr_desc_html}{''.join(mfr_actions)}"
+            "</div>"
+        ) if (mfr_name or mfr_desc_html or mfr_actions) else ''
+
+        manufacturer_content = (
+            f"<div class='o_autohaus_manufacturer'>{mfr_logo}{mfr_info}</div>"
+        ) if (mfr_logo or mfr_info) else ''
+
+        # --- Referencias cruzadas (part_interchanges) ----------------------
         compat_rows = []
         for interchange in pies_data.get('part_interchanges') or []:
             part_number = interchange.get('part_number')
@@ -739,6 +834,12 @@ class FindinPartProduct(models.Model):
             brand = interchange.get('brand_label') or interchange.get('brand_aaiaid') or ''
             compat_rows.append((brand or 'OEM', part_number))
         compat_content = build_rows(compat_rows, as_links=True)
+        if not compat_content:
+            compat_content = (
+                "<div class='o_autohaus_facts_prose'>"
+                "<p>No hay referencias cruzadas disponibles para este producto.</p>"
+                "</div>"
+            )
 
         # --- Garantia y Devoluciones (estatico, traducido) ----------------
         warranty_content = (
@@ -769,8 +870,9 @@ class FindinPartProduct(models.Model):
             sections.append(('o_autohaus_pane_specs', 'Especificaciones técnicas', specs_content))
         if quick_facts_content:
             sections.append(('o_autohaus_pane_quick_facts', 'Ficha técnica', quick_facts_content))
-        if compat_content:
-            sections.append(('o_autohaus_pane_compat', 'Compatibilidad', compat_content))
+        if manufacturer_content:
+            sections.append(('o_autohaus_pane_manufacturer', 'Información del fabricante', manufacturer_content))
+        sections.append(('o_autohaus_pane_compat', 'Referencias cruzadas', compat_content))
         if shipping_info_content:
             sections.append(('o_autohaus_pane_shipping', 'Entrega e información de envío', shipping_info_content))
         sections.append(('o_autohaus_pane_warranty', 'Garantía y Devoluciones', warranty_content))
@@ -1150,6 +1252,8 @@ class FindinPartProduct(models.Model):
                 'long_description': product_data.get('long_description', ''),
                 'manufacturer': manufacturer,
                 'brand': manufacturer,
+                'manufacturer_image': product_data.get('manufacturer_image', ''),
+                'product_url': product_data.get('product_url', ''),
             }
             
             # Handle pricing from current variant
@@ -1275,6 +1379,8 @@ class FindinPartProduct(models.Model):
             for desc in pies_descriptions:
                 if desc.get('description_code') == 'KEY' and desc.get('value'):
                     seo_keywords.append(desc.get('value'))
+            if pies_data:
+                vals['pies_data_json'] = json.dumps(pies_data)
             
             html_description = self._build_html_description(product_data, attribute_pairs, related_parts)
             if html_description:
