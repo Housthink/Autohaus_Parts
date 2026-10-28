@@ -22,6 +22,7 @@
         'delivery',
         'account',
         'payment',
+        'payment_stripe',
         'website_sale',
         'portal',
         'mail',
