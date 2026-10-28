@@ -2,6 +2,14 @@ from odoo import models, fields, api
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
+
+    shipping_weight_unit = fields.Selection(
+        selection=[('lb', 'lb'), ('kg', 'kg')],
+        string='Shipping Weight Unit',
+        default='lb',
+        required=True,
+        help='Unit used by the stored product weight when calculating delivery prices.',
+    )
     
     finditparts_stock = fields.Float(
         string='FinditParts Stock',

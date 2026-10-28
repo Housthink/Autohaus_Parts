@@ -108,7 +108,7 @@ class FindinPartProduct(models.Model):
     datasheet_url = fields.Char('Datasheet URL')
     video_url = fields.Char('Video URL')
     
-    weight = fields.Float('Weight (kg)')
+    weight = fields.Float('Weight (lbs)')
     length = fields.Float('Length (cm)')
     width = fields.Float('Width (cm)')
     height = fields.Float('Height (cm)')
@@ -1435,7 +1435,7 @@ class FindinPartProduct(models.Model):
             if product_data.get('weight'):
                 try:
                     weight_lbs = float(product_data['weight'])
-                    vals['weight'] = weight_lbs * 0.453592
+                    vals['weight'] = weight_lbs
                 except (ValueError, TypeError):
                     vals['weight'] = 0.0
             
