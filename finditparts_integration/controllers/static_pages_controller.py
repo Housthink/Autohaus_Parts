@@ -56,3 +56,11 @@ class AutohausStaticPages(http.Controller):
             'finditparts_integration.product_glossary_page',
             {'products_by_letter': products_by_letter},
         )
+
+    @http.route('/categorias', type='http', auth='public', website=True, sitemap=True)
+    def category_glossary(self, **kwargs):
+        categories_by_letter = request.env['website'].sudo().get_current_website().get_all_categories_grouped()
+        return request.render(
+            'finditparts_integration.category_glossary_page',
+            {'categories_by_letter': categories_by_letter},
+        )

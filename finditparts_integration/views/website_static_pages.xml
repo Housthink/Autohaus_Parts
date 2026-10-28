@@ -528,4 +528,66 @@
             </div>
         </t>
     </template>
+
+    <template id="category_glossary_page" name="Glosario de categorías">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page o_autohaus_glossary_page">
+                <div class="container py-4 py-lg-5">
+                    <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Categorías</span></nav>
+                    <header class="o_autohaus_info_header">
+                        <h1>Glosario de categorías</h1>
+                        <p>Explora nuestro catálogo por categoría. Haz clic en una categoría para ver sus productos.</p>
+                    </header>
+
+                    <t t-set="alphabet" t-value="['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']"/>
+                    <nav class="o_autohaus_glossary_alpha" aria-label="Índice alfabético">
+                        <t t-foreach="alphabet" t-as="letter">
+                            <t t-if="categories_by_letter.get(letter)">
+                                <a t-attf-href="#letra-{{ letter }}" class="o_autohaus_glossary_alpha_link" t-out="letter"/>
+                            </t>
+                            <t t-else="">
+                                <span class="o_autohaus_glossary_alpha_link o_autohaus_glossary_alpha_link_disabled" t-out="letter"/>
+                            </t>
+                        </t>
+                        <t t-if="categories_by_letter.get('#')">
+                            <a href="#letra-num" class="o_autohaus_glossary_alpha_link">#</a>
+                        </t>
+                    </nav>
+
+                    <div class="o_autohaus_glossary_sections">
+                        <t t-foreach="alphabet" t-as="letter">
+                            <t t-if="categories_by_letter.get(letter)">
+                                <section t-attf-id="letra-{{ letter }}" class="o_autohaus_glossary_section">
+                                    <h2 class="o_autohaus_glossary_letter" t-out="letter"/>
+                                    <div class="o_autohaus_product_glossary_grid">
+                                        <t t-foreach="categories_by_letter[letter]" t-as="category">
+                                            <a t-att-href="'/shop/category/%s' % slug(category)"
+                                               class="o_autohaus_product_glossary_item"
+                                               t-att-aria-label="category.name">
+                                                <span class="o_autohaus_product_glossary_name" t-out="category.name"/>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </section>
+                            </t>
+                        </t>
+                        <t t-if="categories_by_letter.get('#')">
+                            <section id="letra-num" class="o_autohaus_glossary_section">
+                                <h2 class="o_autohaus_glossary_letter">#</h2>
+                                <div class="o_autohaus_product_glossary_grid">
+                                    <t t-foreach="categories_by_letter['#']" t-as="category">
+                                        <a t-att-href="'/shop/category/%s' % slug(category)"
+                                           class="o_autohaus_product_glossary_item"
+                                           t-att-aria-label="category.name">
+                                            <span class="o_autohaus_product_glossary_name" t-out="category.name"/>
+                                        </a>
+                                    </t>
+                                </div>
+                            </section>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
 </odoo>

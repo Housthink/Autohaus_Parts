@@ -196,3 +196,21 @@ class Website(models.Model):
                 first_letter = '#'
             grouped.setdefault(first_letter, []).append(product)
         return grouped
+
+    def get_all_categories_grouped(self):
+        """Devuelve categorias publicas con productos publicados, agrupadas
+        por letra inicial y ordenadas alfabeticamente."""
+        Category = self.env['product.public.category'].sudo()
+        categories = Category.search([]).filtered(
+            lambda category: category.has_published_products
+        )
+        categories = categories.sorted(
+            key=lambda category: (category.name or '').strip().upper()
+        )
+        grouped = {}
+        for category in categories:
+            first_letter = (category.name or '').strip().upper()[:1]
+            if not first_letter.isalpha():
+                first_letter = '#'
+            grouped.setdefault(first_letter, []).append(category)
+        return grouped
