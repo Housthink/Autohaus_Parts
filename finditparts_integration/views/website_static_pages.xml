@@ -19,17 +19,66 @@
         </t>
     </template>
 
-    <template id="cores_page" name="Cores">
+    <template id="cores_page" name="Política de CORE y devolución de piezas usadas">
         <t t-call="website.layout">
             <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
-                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Cores</span></nav>
-                <header class="o_autohaus_info_header"><h1>Cores</h1><p>Información sobre cargos, devoluciones y créditos de núcleos.</p></header>
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Política de CORE</span></nav>
+                <header class="o_autohaus_info_header"><h1>Política de CORE y devolución de piezas usadas</h1><p>Autohaus Parts | Panamá</p></header>
                 <section class="o_autohaus_info_content">
-                    <h2>¿Qué es un core?</h2>
-                    <p>Un core es una pieza usada que puede devolverse para ser reconstruida. Algunos productos incluyen un cargo de núcleo que se acredita cuando recibimos la pieza elegible.</p>
-                    <h2>Cómo funciona</h2>
-                    <ol><li>Revisa si el producto tiene cargo de core al realizar tu pedido.</li><li>Conserva la pieza original y envíala siguiendo las instrucciones de devolución.</li><li>Inspeccionamos la pieza y procesamos el crédito correspondiente.</li></ol>
-                    <p>La pieza debe ser del tipo correcto, estar completa y no presentar daños que impidan su reconstrucción. Para confirmar la elegibilidad, <a href="/contactus">contáctanos</a>.</p>
+                    <h2>1. ¿Qué es un cargo CORE?</h2>
+                    <p>Algunas piezas remanufacturadas incluyen un cargo adicional denominado CORE, correspondiente al valor recuperable de una pieza usada que puede ser reacondicionada por el fabricante.</p>
+                    <p>Este cargo podrá ser recuperable únicamente en aquellos productos donde Autohaus Parts ofrezca expresamente un programa de devolución de CORE.</p>
+
+                    <h2>2. Condiciones del cargo CORE</h2>
+                    <p>Autohaus Parts comercializa piezas importadas y remanufacturadas provenientes de proveedores internacionales.</p>
+                    <p>Debido a las condiciones logísticas de nuestra operación, los productos podrán presentar una de las siguientes modalidades:</p>
+                    <ul>
+                        <li><strong>CORE sin devolución disponible:</strong> el cargo forma parte del precio final de venta y no existe un programa de recuperación de la pieza usada.</li>
+                        <li><strong>CORE con devolución disponible:</strong> el cliente podrá solicitar la recuperación del depósito conforme a los requisitos y condiciones informados antes de realizar su compra.</li>
+                    </ul>
+                    <p>La modalidad aplicable, el precio total y las condiciones de devolución serán comunicados antes de confirmar el pedido.</p>
+
+                    <h2>3. Solicitud y autorización de devolución</h2>
+                    <p>Para los productos con devolución habilitada:</p>
+                    <ol>
+                        <li>El cliente deberá solicitar la devolución dentro del plazo específico indicado en su compra.</li>
+                        <li>Autohaus Parts verificará la elegibilidad de la pieza usada y la viabilidad del transporte internacional.</li>
+                        <li>Toda devolución deberá contar con una autorización previa (RMA).</li>
+                        <li>El cliente recibirá las instrucciones de embalaje y envío correspondientes.</li>
+                    </ol>
+                    <p>No se aceptarán devoluciones enviadas sin autorización previa.</p>
+
+                    <h2>4. Condiciones de aceptación de las piezas usadas</h2>
+                    <p>Las piezas deberán presentar condiciones normales de desgaste y cumplir con los requisitos del fabricante.</p>
+                    <p>No serán elegibles para crédito las piezas que presenten:</p>
+                    <ul>
+                        <li>Carcasas agrietadas, ejes partidos o daños estructurales importantes.</li>
+                        <li>Componentes faltantes o incompatibles con la referencia requerida.</li>
+                        <li>Daños que impidan su reacondicionamiento.</li>
+                        <li>Incumplimiento de los requisitos de limpieza, embalaje o identificación.</li>
+                    </ul>
+                    <p>Las piezas deberán estar drenadas de aceites y otros fluidos, razonablemente limpias y debidamente embaladas, preferiblemente en su empaque original.</p>
+
+                    <h2>5. Transporte y costos asociados</h2>
+                    <p>Cuando exista un programa de devolución habilitado, el cliente será responsable de los costos de transporte correspondientes a la devolución voluntaria del CORE, según las condiciones comunicadas antes de la compra.</p>
+                    <p>Estos costos pueden incluir transporte local, envío internacional, trámites aduaneros y cargos logísticos necesarios.</p>
+                    <p>Si el fabricante aplica cargos por manipulación debido a líquidos residuales, embalaje inadecuado u otras condiciones previamente informadas, estos podrán descontarse del crédito cuando estén documentados y legalmente corresponda.</p>
+                    <p>Ninguna pieza deberá enviarse directamente al fabricante o proveedor sin instrucciones expresas de Autohaus Parts.</p>
+
+                    <h2>6. Evaluación y reembolso</h2>
+                    <p>La devolución del depósito estará sujeta al cumplimiento de las condiciones del programa y a la evaluación técnica de la pieza recibida.</p>
+                    <p>El proceso internacional de evaluación y acreditación puede tomar aproximadamente 45 días desde la recepción de la pieza en el centro autorizado, sin perjuicio de los derechos y plazos establecidos por la legislación aplicable.</p>
+                    <p>Una vez aprobada la devolución, Autohaus Parts gestionará el reembolso correspondiente, descontando únicamente los cargos válidamente aplicables e informados.</p>
+                    <p>El reembolso se realizará mediante el método de pago original cuando sea posible o mediante otro mecanismo legalmente admisible.</p>
+
+                    <h2>7. Restricciones logísticas</h2>
+                    <p>Por tratarse de mercancías importadas, la devolución internacional de piezas usadas puede estar sujeta a restricciones de transporte, aduanas y regulaciones ambientales.</p>
+                    <p>Por este motivo, Autohaus Parts únicamente ofrecerá recuperación del depósito CORE en los productos expresamente identificados como elegibles antes de la compra.</p>
+
+                    <h2>8. Garantías y derechos del consumidor</h2>
+                    <p>Esta política regula exclusivamente los cargos CORE y los programas voluntarios de recuperación de piezas usadas.</p>
+                    <p>No sustituye ni limita las garantías de los productos, los derechos del consumidor ni las obligaciones de Autohaus Parts conforme a la legislación vigente en la República de Panamá.</p>
+                    <p>Autohaus Parts se compromete a comunicar claramente las condiciones aplicables antes de procesar cada pedido.</p>
                 </section>
             </div></div>
         </t>
