@@ -144,9 +144,5 @@
                   sequence="45"
                   groups="base.group_user"/>
 
-        <!-- Remove the temporary backend shortcut; keep the logistics dashboard. -->
-        <delete model="ir.ui.menu" id="menu_finditparts_sale_orders"/>
-        <delete model="ir.actions.act_window" id="action_finditparts_sale_orders"/>
-
     </data>
 </odoo>
