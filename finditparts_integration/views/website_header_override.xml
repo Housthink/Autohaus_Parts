@@ -4,7 +4,7 @@
          Autohaus Parts header
          Injects the branded header markup inside <header> (stable hook) and
          hides Odoo's default navbar via CSS (.o_autohaus_default_nav).
-         Layout: [logo] [big search bar] [Soporte] [Mis cotizaciones] [cart]
+         Layout: [logo] [big search bar] [Soporte] [cart]
          ================================================================== -->
     <template id="autohaus_header"
               inherit_id="portal.frontend_layout"
@@ -69,10 +69,6 @@
                         <a class="o_autohaus_action" href="/contactus">
                             <i class="fa fa-life-ring o_autohaus_action_icon"/>
                             <span>Soporte</span>
-                        </a>
-                        <a class="o_autohaus_action" href="#">
-                            <i class="fa fa-file-text-o o_autohaus_action_icon"/>
-                            <span>Mis cotizaciones</span>
                         </a>
                         <a class="o_autohaus_cart" href="/shop/cart" title="Carrito" aria-label="Carrito">
                             <i class="fa fa-shopping-cart"/>
