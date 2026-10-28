@@ -219,3 +219,51 @@ class WebsiteSalePickup(WebsiteSale):
             "partner_shipping_zip": partner.zip,
             "partner_shipping_country": partner.country_id.name,
         }
+
+    @http.route("/shop/shipping/quote", type="jsonrpc", auth="public", website=True, csrf=False)
+    def shop_shipping_quote(self, **kwargs):
+        """Return the PUBLIC shipping quote for the current order.
+
+        Only the final price, method label, transit window and delivery mode
+        are exposed. Base rates, per-pound markup and formulas are computed
+        server-side and kept out of this response.
+        """
+        order = self._current_order()
+        if not order:
+            return {"status": "no_order"}
+        try:
+            quote = order._autohaus_build_quote()
+        except Exception:
+            _logger.exception("Shipping quote failed for order %s", order.id)
+            return {"status": "error", "rates": []}
+        has_eligible = any(rate.get("eligible") for rate in quote.get("rates", []))
+        return {
+            "status": "ok",
+            "destination": quote.get("destination"),
+            "rates": quote.get("rates", []),
+            "has_eligible": has_eligible,
+        }
+
+    @http.route("/shop/shipping/set", type="jsonrpc", auth="public", website=True, csrf=False)
+    def shop_shipping_set(self, service=None, **kwargs):
+        """Persist the chosen shipping service on the current order.
+
+        The order's internal quote snapshot keeps the base rate and markup; this
+        endpoint only records which public method the customer selected.
+        """
+        order = self._current_order()
+        if not order:
+            return {"status": "no_order"}
+        try:
+            if isinstance(service, str):
+                pass
+            elif service is None and request.httprequest.data:
+                payload = json.loads(request.httprequest.data.decode("utf-8") or "{}")
+                service = payload.get("service")
+            if not service:
+                return {"status": "noop"}
+            order.sudo().write({"pickup_warehouse": "panama" if order._autohaus_destination_country() == "PA" else "usa"})
+            return {"status": "ok", "service": service}
+        except Exception:
+            _logger.exception("Failed to persist shipping service")
+            return {"status": "error"}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Show the public transit window and delivery mode for Autohaus Panama
+        shipping methods. Only public labels are rendered; the base rate,
+        per-pound markup and formulas remain server-side.
+    -->
+    <template id="autohaus_delivery_method" inherit_id="website_sale.delivery_method">
+        <xpath expr="//span[@name='o_delivery_method_name']" position="after">
+            <div t-if="dm.panama_transit_label" class="small text-muted mt-1">
+                <i class="fa fa-clock-o me-1"/>
+                <span t-out="dm.panama_transit_label"/>
+            </div>
+            <div t-if="dm.panama_delivery_label" class="small text-muted">
+                <i class="fa fa-map-marker me-1"/>
+                <span t-out="dm.panama_delivery_label"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

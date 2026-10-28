@@ -2,6 +2,8 @@ from datetime import timedelta
 
 from odoo import api, fields, models
 
+from .delivery_carrier import PANAMA_AIR_SERVICES, PANAMA_SERVICE_DEFS
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -113,3 +115,127 @@ class SaleOrder(models.Model):
             "miami_date": self.estimated_delivery_miami,
             "panama_date": self.estimated_delivery_panama,
         }
+
+    # ----------------------------------------------------------------------
+    # Autohaus shipping quoting engine (weight-only, no dimensions from API)
+    # ----------------------------------------------------------------------
+
+    def _autohaus_config(self):
+        """Return the active FinditParts config (internal, sudo)."""
+        return self.env["finditparts.config"].sudo().get_active_config()
+
+    def _autohaus_markup_per_lb(self):
+        config = self._autohaus_config()
+        if config:
+            return config.panama_markup_per_lb
+        param = self.env["ir.config_parameter"].sudo().get_param(
+            "autohaus_shipping.markup_per_lb", "2.50"
+        )
+        try:
+            return float(param)
+        except (TypeError, ValueError):
+            return 2.50
+
+    def _autohaus_cart_weight_lb(self):
+        """Total real weight of the order in pounds (rounded up)."""
+        self.ensure_one()
+        carrier = self.env["delivery.carrier"]
+        total = 0.0
+        for line in self.order_line:
+            if line.state == "cancel":
+                continue
+            if not line.product_id or line.is_delivery:
+                continue
+            if line.product_id.type in {"service", "combo"}:
+                continue
+            qty = line.product_uom_id._compute_quantity(
+                line.product_uom_qty, line.product_id.uom_id
+            )
+            total += carrier._convert_weight(
+                line.product_id.weight or 0.0,
+                line.product_id.shipping_weight_unit,
+                "lb",
+            ) * qty
+        return carrier._round_weight_for_delivery(total, "lb")
+
+    def _autohaus_destination_country(self):
+        """Return the ISO country code of the final delivery destination.
+
+        The warehouse selection made at checkout is the primary signal: the
+        USA hub means a domestic US delivery, Panama means the international
+        destination. Falls back to the partner country when no warehouse was
+        selected yet.
+        """
+        self.ensure_one()
+        if self.pickup_warehouse == "panama":
+            return "PA"
+        if self.pickup_warehouse == "usa":
+            return "US"
+        partner = self.partner_shipping_id or self.partner_id
+        if partner and partner.country_id:
+            return partner.country_id.code or ""
+        return "US"
+
+    def _autohaus_enabled_panama_services(self):
+        """Return the enabled Panama service codes (internal)."""
+        config = self._autohaus_config()
+        enabled = []
+        if config:
+            flags = {
+                "ground": config.enable_shipping_ground,
+                "rapido": config.enable_shipping_rapido,
+                "flash": config.enable_shipping_flash,
+                "lcl": config.enable_shipping_lcl,
+            }
+        else:
+            Param = self.env["ir.config_parameter"].sudo()
+            flags = {
+                "ground": Param.get_param("autohaus_shipping.enable_panama_ground", "True") == "True",
+                "rapido": Param.get_param("autohaus_shipping.enable_panama_rapido", "True") == "True",
+                "flash": Param.get_param("autohaus_shipping.enable_panama_flash", "True") == "True",
+                "lcl": Param.get_param("autohaus_shipping.enable_panama_lcl", "False") == "True",
+            }
+        return [code for code, is_enabled in flags.items() if is_enabled]
+
+    def _autohaus_build_quote(self):
+        """Build the PUBLIC shipping quote (safe for the customer).
+
+        The FinditParts API does not return a base rate yet, so the Panama air
+        price is the markup per pound times the billable weight in pounds
+        (rounded up). Only the final price, method label, transit window and
+        delivery mode are exposed; the markup rate is never sent to the
+        frontend.
+        """
+        self.ensure_one()
+        dest_country = self._autohaus_destination_country()
+        if dest_country != "PA":
+            return {"destination": "usa", "rates": []}
+
+        weight_lb = self._autohaus_cart_weight_lb()
+        total = self._autohaus_markup_per_lb() * weight_lb
+
+        rates = []
+        for service in self._autohaus_enabled_panama_services():
+            definition = PANAMA_SERVICE_DEFS.get(service, {})
+            eligible = service in PANAMA_AIR_SERVICES
+            rates.append({
+                "service": service,
+                "label": definition.get("label", service),
+                "transit": definition.get("transit", ""),
+                "delivery": definition.get("delivery", ""),
+                "eligible": eligible,
+                "total": total if eligible else None,
+            })
+        return {"destination": "panama", "rates": rates}
+
+    def _get_delivery_methods(self):
+        """Filter delivery methods by destination and enabled services."""
+        carriers = super()._get_delivery_methods()
+        dest_country = self._autohaus_destination_country()
+        if dest_country == "PA":
+            enabled = set(self._autohaus_enabled_panama_services())
+            return carriers.filtered(
+                lambda c: c.panama_service_type in PANAMA_AIR_SERVICES
+                and c.panama_service_type in enabled
+            )
+        return carriers.filtered(lambda c: not c.panama_service_type)

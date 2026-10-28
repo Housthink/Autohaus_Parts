@@ -67,6 +67,22 @@ class FindinPartConfig(models.Model):
                                        help='Shipping address in the United States')
     shipping_address_panama = fields.Text('Shipping Address (Panama)', default='Address example #123',
                                           help='Shipping address in Panama')
+
+    # Panama shipping commercial markup and service toggles. These are the only
+    # figures that may be hardcoded/configurable; the base rate always comes
+    # from the FinditParts API.
+    panama_markup_per_lb = fields.Float(
+        'Panama Air Markup (USD/lb)', default=2.50,
+        help='Commercial markup applied per billable pound on top of the '
+             'FinditParts base rate for Panama air services (Ground, Rápido, '
+             'Flash). Internal only; never shown to the customer.')
+    enable_shipping_ground = fields.Boolean('Enable Ground', default=True)
+    enable_shipping_rapido = fields.Boolean('Enable Rápido', default=True)
+    enable_shipping_flash = fields.Boolean('Enable Flash', default=True)
+    enable_shipping_lcl = fields.Boolean(
+        'Enable Marítimo LCL', default=False,
+        help='LCL is quoted manually because the FinditParts API does not '
+             'provide product dimensions, so there is no billable volume.')
     
 
     auto_confirm_orders = fields.Boolean('Auto Confirm Orders', default=False)
