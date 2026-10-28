@@ -1,204 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="returns_page" name="Política de Devoluciones">
+    <template id="returns_page" name="Política de Devoluciones y Reembolsos">
         <t t-call="website.layout">
             <div id="wrap" class="o_autohaus_returns_wrap oe_website_sale">
                 <div class="container py-4 py-lg-5">
-
                     <nav class="o_autohaus_returns_breadcrumb" aria-label="breadcrumb">
                         <a href="/">Inicio</a>
                         <span class="o_autohaus_returns_sep">/</span>
-                        <span>Devoluciones y Garantías</span>
+                        <span>Devoluciones y Reembolsos</span>
                     </nav>
-
                     <header class="o_autohaus_returns_header">
-                        <h1>Política de Devoluciones</h1>
-                        <p>Todo lo que necesitas saber sobre devoluciones, reembolsos y garantías.</p>
+                        <h1>Política de Devoluciones y Reembolsos</h1>
+                        <p>Autohaus Parts</p>
                     </header>
-
                     <section class="o_autohaus_returns_content">
-                        <h2>Política de Devoluciones</h2>
-                        <p>
-                            Entendemos que a veces las cosas no salen como se espera, por eso mantenemos una
-                            política de devolución diseñada para apoyar las necesidades de nuestros clientes.
-                            Salvo que se indique lo contrario más abajo, los productos elegibles son
-                            retornables y nos esforzamos por procesar los créditos más rápido que nadie en la
-                            industria. <strong>Los principios clave de esta política son:</strong>
-                        </p>
+                        <p>En Autohaus Parts nos comprometemos a ofrecer repuestos de calidad y una experiencia de compra confiable. Sabemos que elegir el repuesto correcto es fundamental, especialmente cuando se trata de motores diésel, vehículos comerciales y maquinaria pesada.</p>
+                        <p>Por eso, hemos establecido una política que permite a nuestros clientes solicitar devoluciones de manera clara, sencilla y transparente.</p>
+                        <h2>1. Plazo para solicitar una devolución</h2>
+                        <p>Los clientes podrán presentar una solicitud de devolución dentro de los 30 días calendario posteriores a la recepción de su pedido, siempre que el producto cumpla con las condiciones establecidas en esta política.</p>
+                        <p>Las solicitudes realizadas después de este período estarán sujetas a evaluación individual, sin perjuicio de los derechos de garantía establecidos por la legislación aplicable.</p>
+                        <h2>2. Condiciones para aceptar una devolución</h2>
+                        <p>Para que una devolución voluntaria pueda ser aprobada, el producto deberá cumplir con los siguientes requisitos:</p>
                         <ul>
-                            <li>
-                                Todos los productos, excepto las piezas no retornables, pueden devolverse por
-                                cualquier motivo, siempre que la solicitud de devolución se inicie dentro de
-                                los 30 días posteriores a la fecha de entrega.
-                            </li>
-                            <li>
-                                El crédito se procesa dentro de 3 a 5 días hábiles a partir de la fecha en que
-                                se recibe la pieza, usando nuestra etiqueta de envío de devolución. Los
-                                artículos de alto valor (más de $1,000) requieren verificación adicional y
-                                pueden estar sujetos a revisión por parte del fabricante original.
-                            </li>
-                            <li>
-                                Las devoluciones pueden iniciarse directamente desde nuestro sitio web o
-                                escribiendo a support@finditparts.com.
-                            </li>
+                            <li>Encontrarse nuevo, sin utilizar y en condiciones adecuadas para su comercialización.</li>
+                            <li>Conservar su empaque original, etiquetas y accesorios.</li>
+                            <li>No haber sido instalado, alterado, modificado ni desarmado.</li>
+                            <li>No presentar daños ocasionados por manipulación inadecuada.</li>
+                            <li>Contar con su factura o número de pedido.</li>
+                            <li>Haber recibido aprobación previa de Autohaus Parts para realizar el retorno.</li>
                         </ul>
-
-                        <h2>Elegibilidad para Devoluciones</h2>
-                        <p>Para calificar para una devolución, se deben cumplir las siguientes condiciones:</p>
+                        <p>Todos los productos devueltos estarán sujetos a inspección antes de confirmar el reembolso o cambio correspondiente.</p>
+                        <h2>3. Productos con restricciones de devolución</h2>
+                        <p>Por sus características técnicas, ciertas piezas pueden tener restricciones para devoluciones voluntarias:</p>
                         <ul>
-                            <li>
-                                La solicitud de devolución se inicia dentro de los 30 días posteriores a la
-                                fecha de entrega. Las solicitudes enviadas después de 30 días de la fecha de
-                                entrega no serán aceptadas.
-                            </li>
-                            <li>El producto está nuevo, en condición vendible y en su empaque original.</li>
-                            <li>
-                                La pieza no ha sido instalada ni modificada. <strong>Las piezas que han sido
-                                instaladas o modificadas no pueden devolverse.</strong>
-                            </li>
-                            <li>
-                                El artículo está clasificado como no retornable. Ciertas categorías de piezas
-                                no son retornables, incluyendo, entre otras, componentes eléctricos y
-                                electrónicos, módulos de control, sensores, juntas y sistemas de sellado,
-                                herramientas de diagnóstico y artículos de pedido especial. Nos reservamos el
-                                derecho de designar artículos adicionales como no retornables y de evaluar las
-                                devoluciones caso por caso.
-                            </li>
+                            <li>Componentes eléctricos y electrónicos.</li>
+                            <li>Módulos de control, computadoras y sensores.</li>
+                            <li>Empaques, juntas, sellos y retenes.</li>
+                            <li>Piezas instaladas o utilizadas.</li>
+                            <li>Productos fabricados o modificados bajo especificaciones especiales.</li>
+                            <li>Repuestos adquiridos mediante pedidos especiales expresamente identificados como no retornables antes de la compra.</li>
                         </ul>
-
-                        <h2>Cómo Iniciar una Devolución</h2>
-                        <p>
-                            Todas las devoluciones deben contar con una Autorización de Devolución de Mercancía
-                            (RMA, por sus siglas en inglés) antes de ser enviadas de vuelta.
-                        </p>
+                        <p>La elegibilidad de estos productos será informada cuando corresponda y se evaluará de acuerdo con sus condiciones de venta.</p>
+                        <p>Estas restricciones no aplican para impedir reclamaciones por errores de despacho, defectos de fabricación o garantías legalmente exigibles.</p>
+                        <h2>4. ¿Cómo solicitar una devolución?</h2>
+                        <p>Para iniciar una devolución, el cliente deberá enviar una solicitud a nuestro equipo de operaciones.</p>
+                        <p>Correo electrónico: <a href="mailto:operaciones@autohauspart.com">operaciones@autohauspart.com</a></p>
+                        <p>La solicitud deberá incluir:</p>
                         <ol>
-                            <li>
-                                Solicita tu RMA en línea a través de nuestra página de seguimiento de pedidos,
-                                o escribiendo a support@finditparts.com. Se asigna un número de RMA
-                                específicamente a tu devolución y se utiliza para fines de seguimiento
-                                interno. Los números de RMA siguen el formato R123456789.
-                            </li>
-                            <li>
-                                Recibirás un número de RMA, una etiqueta de envío de devolución prepagada e
-                                instrucciones de devolución.
-                            </li>
-                            <li>
-                                Coloca la etiqueta de devolución en el paquete y entrégalo al transportista
-                                indicado. Nosotros nos encargamos del resto.
-                            </li>
+                            <li>Número de pedido o factura.</li>
+                            <li>Nombre del cliente.</li>
+                            <li>Número de parte (SKU) del producto.</li>
+                            <li>Motivo de la devolución.</li>
+                            <li>Fotografías del producto y su empaque, cuando corresponda.</li>
                         </ol>
-
-                        <h2>Créditos y Reembolsos</h2>
-
-                        <h3>Cómo se Calculan los Créditos</h3>
-                        <p>
-                            Emitiremos un crédito por el precio total de la pieza comprada, menos las
-                            siguientes deducciones:
-                        </p>
+                        <p>Nuestro equipo revisará la información y responderá indicando si la solicitud ha sido aprobada, si requiere información adicional o si no cumple las condiciones de devolución voluntaria.</p>
+                        <p>Una vez aprobada, el cliente recibirá por correo electrónico las instrucciones para retornar el producto, incluida la dirección de entrega o el procedimiento de transporte correspondiente.</p>
+                        <p><strong>Importante:</strong> No deben enviarse productos a nuestras instalaciones o almacenes internacionales sin instrucciones previas de Autohaus Parts.</p>
+                        <h2>5. Responsabilidad por los costos de devolución</h2>
+                        <p>Los gastos de devolución dependerán del motivo de la solicitud.</p>
+                        <h3>Cuando el error es de Autohaus Parts</h3>
+                        <p>Si Autohaus Parts despacha un producto incorrecto, una cantidad equivocada o una pieza distinta a la indicada en el pedido confirmado, Autohaus Parts asumirá el costo total del flete de retorno.</p>
+                        <p>En estos casos:</p>
                         <ul>
-                            <li>
-                                El cargo de flete original de salida en el que incurrimos, si pagamos el
-                                flete en el pedido inicial.
-                            </li>
-                            <li>El costo de la etiqueta de devolución prepagada proporcionada con el RMA.</li>
-                            <li>Una tarifa de reposición del 20%.</li>
+                            <li>El cliente no tendrá que pagar el transporte de devolución organizado por Autohaus Parts.</li>
+                            <li>No se aplicarán cargos administrativos ni penalizaciones por reposición.</li>
+                            <li>Gestionaremos el envío de la pieza correcta o el reembolso correspondiente.</li>
+                            <li>En caso de reembolso, se devolverán los importes que legalmente correspondan, incluidos los gastos de envío cobrados que resulten atribuibles al error.</li>
                         </ul>
-                        <p>Los cargos de flete y manejo pagados por el cliente no son reembolsables.</p>
-
-                        <h3>Tiempo y Método de Reembolso</h3>
-                        <p>
-                            Los reembolsos se procesan dentro de 3 a 5 días hábiles a partir de la fecha en
-                            que envías la devolución, siempre que uses la etiqueta de devolución que
-                            proporcionamos. Una vez emitido, un reembolso puede tardar de 48 a 72 horas
-                            hábiles en reflejarse en tu estado de cuenta, dependiendo de tu banco. Te
-                            notificaremos por correo electrónico una vez que tu reembolso haya sido
-                            procesado. Los créditos se emiten al método de pago original (por ejemplo, la
-                            tarjeta de crédito o la cuenta de PayPal) proporcionado al momento de realizar el
-                            pedido.
-                        </p>
-
-                        <h2>Devoluciones para Panamá</h2>
-                        <p>
-                            Los pedidos internacionales pueden devolverse. Todos los gastos de envío de
-                            devolución son responsabilidad del cliente, y las solicitudes de devolución
-                            internacional deben iniciarse dentro de los 30 días posteriores a la fecha de
-                            entrega.
-                        </p>
-                        <p>Si el pago se realizó mediante transferencia bancaria internacional o ACH, se aplican los siguientes términos de reembolso:</p>
+                        <p>El cliente deberá seguir las instrucciones de transporte proporcionadas por nuestro equipo para facilitar el retorno de la mercancía.</p>
+                        <h3>Cuando la devolución es por decisión o error del cliente</h3>
+                        <p>Si el cliente solicita una devolución por haber seleccionado una referencia incorrecta, cambiar de opinión o no necesitar el producto, siempre que el error no sea atribuible a Autohaus Parts:</p>
                         <ul>
-                            <li>
-                                <strong>Moneda y tipo de cambio:</strong> Todas las transacciones se realizan
-                                en dólares estadounidenses (USD). En consecuencia, todos los reembolsos se
-                                procesan exclusivamente en dólares estadounidenses (USD).
-                            </li>
-                            <li>
-                                <strong>Fluctuaciones del tipo de cambio:</strong> No somos responsables de
-                                ninguna fluctuación en el tipo de cambio que ocurra entre el momento de la
-                                compra y el momento del reembolso. El tipo de cambio aplicado durante el
-                                proceso de reembolso lo determinan nuestros socios de procesamiento de pagos y
-                                puede diferir del tipo de cambio al momento de la compra.
-                            </li>
+                            <li>El cliente asumirá los costos de transporte de retorno.</li>
+                            <li>El flete original y los servicios logísticos ya prestados no serán reembolsables, salvo disposición legal aplicable.</li>
+                            <li>Se podrá aplicar un cargo de reposición del 20% del valor del producto, informado al cliente antes de confirmar su devolución.</li>
+                            <li>Si el producto requiere un retorno internacional, los costos correspondientes serán comunicados previamente.</li>
                         </ul>
-
-                        <h2>Devoluciones Grandes y de Carga</h2>
-                        <p>
-                            Para devoluciones grandes, como un pallet de producto, comunícate con nuestro
-                            centro de llamadas para recibir asistencia.
-                        </p>
-
-                        <h2>Devoluciones de Núcleo (Core)</h2>
-                        <p>
-                            Nuestra política completa de devolución de núcleos se puede encontrar en nuestra
-                            página de Devoluciones de Núcleo.
-                        </p>
-
-                        <h2>Preguntas Frecuentes</h2>
-                        <ul class="o_autohaus_returns_faq">
-                            <li>
-                                <strong>¿Qué es un número de Autorización de Devolución de Mercancía (RMA)?</strong>
-                                <p>
-                                    Un RMA es un número asignado específicamente a tu devolución y se utiliza
-                                    para fines de seguimiento interno. Los números de RMA tienen este formato:
-                                    R123456789.
-                                </p>
-                            </li>
-                            <li>
-                                <strong>¿Qué tan pronto recibiré mi reembolso?</strong>
-                                <p>
-                                    Los reembolsos se emiten dentro de 3 a 5 días hábiles a partir de la fecha
-                                    en que envías la devolución cuando usas la etiqueta de devolución que
-                                    proporcionamos. Una vez emitido, el reembolso puede tardar de 48 a 72
-                                    horas hábiles adicionales en aparecer en tu estado de cuenta, dependiendo
-                                    de tu banco.
-                                </p>
-                            </li>
-                            <li>
-                                <strong>¿Qué pasa si nos equivocamos y enviamos la pieza incorrecta?</strong>
-                                <p>
-                                    Si el error fue nuestro o de nuestro proveedor o socio, acreditaremos el
-                                    monto total que pagaste: precio de la pieza, impuestos y cualquier flete o
-                                    manejo, y te proporcionaremos una etiqueta de devolución prepagada sin
-                                    costo.
-                                </p>
-                            </li>
-                            <li>
-                                <strong>¿Se pueden devolver los pedidos internacionales?</strong>
-                                <p>
-                                    Sí. Los pedidos internacionales pueden devolverse, con todos los gastos de
-                                    envío de devolución pagados por el cliente. Las solicitudes de devolución
-                                    internacional deben iniciarse dentro de los 30 días posteriores a la fecha
-                                    de entrega.
-                                </p>
-                            </li>
-                            <li>
-                                <strong>¿Qué pasa si mi devolución es muy grande, como un pallet de producto?</strong>
-                                <p>
-                                    Para devoluciones grandes, comunícate con nuestro centro de llamadas.
-                                </p>
-                            </li>
+                        <p>Ningún producto deberá enviarse antes de recibir las instrucciones de devolución.</p>
+                        <h2>6. Repuestos importados y pedidos especiales</h2>
+                        <p>Autohaus Parts comercializa repuestos disponibles en Panamá y productos importados de proveedores internacionales.</p>
+                        <p>En el caso de piezas importadas especialmente para un cliente, las posibilidades de devolución voluntaria pueden variar según el tipo de producto, sus condiciones de adquisición y los compromisos logísticos asumidos.</p>
+                        <p>Cuando existan restricciones de devolución para una pieza solicitada bajo pedido especial, estas deberán comunicarse antes de confirmar la compra.</p>
+                        <p>Para devoluciones aprobadas de productos importados, Autohaus Parts coordinará directamente el procedimiento correspondiente.</p>
+                        <p>El cliente no necesitará comunicarse con nuestros proveedores internacionales.</p>
+                        <p>Los gastos de transporte internacional asociados a una devolución voluntaria serán responsabilidad del cliente cuando así se haya informado y aceptado previamente.</p>
+                        <h2>7. Productos dañados, defectuosos o incorrectos</h2>
+                        <p>Si al recibir un pedido el cliente identifica daños visibles, piezas faltantes o productos distintos a los adquiridos, deberá comunicarse con nosotros a: <a href="mailto:operaciones@autohauspart.com">operaciones@autohauspart.com</a></p>
+                        <p>Recomendamos inspeccionar la mercancía al momento de la entrega, conservar su empaque y documentar cualquier irregularidad con fotografías.</p>
+                        <p>Para daños visibles de transporte, recomendamos informar el inconveniente dentro de las primeras 48 horas para facilitar las gestiones con el transportista. Este plazo es una recomendación operativa y no limita los derechos legales del consumidor.</p>
+                        <p>Cuando el inconveniente sea consecuencia de un error de Autohaus Parts, coordinaremos la devolución sin costo de flete para el cliente y la solución correspondiente.</p>
+                        <p>Cuando se trate de una posible falla de fabricación, el caso será atendido mediante el procedimiento de garantía.</p>
+                        <h2>8. Inspección y aprobación de devoluciones</h2>
+                        <p>Una vez recibido el producto, nuestro equipo verificará su condición y la correspondencia con la solicitud aprobada.</p>
+                        <p>Durante esta revisión se comprobará:</p>
+                        <ul>
+                            <li>Que el producto sea el originalmente suministrado.</li>
+                            <li>Que no presente señales de instalación o uso incompatibles con una devolución voluntaria.</li>
+                            <li>Que conserve sus componentes y accesorios.</li>
+                            <li>Que cumpla con las condiciones previamente acordadas.</li>
                         </ul>
+                        <p>Si el producto no cumple las condiciones de una devolución voluntaria, Autohaus Parts comunicará al cliente los resultados y las opciones disponibles.</p>
+                        <p>En caso de rechazo, se coordinará la recuperación del producto. Los reclamos de garantía se evaluarán conforme a sus propias condiciones y la legislación vigente.</p>
+                        <h2>9. Reembolsos</h2>
+                        <p>Después de recibir e inspeccionar el producto y aprobar definitivamente su devolución, Autohaus Parts iniciará el proceso de reembolso.</p>
+                        <p>Nuestro plazo objetivo de procesamiento es de 3 a 5 días hábiles posteriores a la aprobación final.</p>
+                        <p>Una vez procesado, el tiempo necesario para que el dinero se refleje en la cuenta del cliente dependerá del banco o proveedor del método de pago.</p>
+                        <p>Los reembolsos se efectuarán preferentemente mediante el método de pago utilizado en la compra o por otro medio acordado que respete los derechos del cliente.</p>
+                        <p>Los importes se procesarán en dólares estadounidenses (USD).</p>
+                        <p>En las devoluciones voluntarias podrán deducirse los cargos previamente informados y aceptados que resulten aplicables.</p>
+                        <p>Si el motivo de devolución es un error atribuible a Autohaus Parts, no se aplicará el cargo de reposición del 20% ni se descontará el flete de retorno.</p>
+                        <h2>10. Devolución de componentes de gran tamaño</h2>
+                        <p>Las devoluciones de motores, transmisiones, diferenciales, componentes pesados, pallets o mercancía de gran volumen requieren coordinación especial.</p>
+                        <p>Antes de efectuar el retorno, el cliente deberá contactar a nuestro equipo para recibir instrucciones relacionadas con el embalaje, transporte y entrega.</p>
+                        <p>La responsabilidad sobre los gastos logísticos se determinará según el motivo de la devolución y las condiciones establecidas en esta política.</p>
+                        <h2>11. Piezas reconstruidas y depósitos CORE</h2>
+                        <p>Determinadas piezas reconstruidas o remanufacturadas pueden incluir un depósito denominado CORE, correspondiente al valor recuperable de un componente usado.</p>
+                        <p>La devolución de estos componentes estará sujeta a condiciones particulares de aceptación, estado físico, embalaje y transporte.</p>
+                        <p>Para obtener información adicional, el cliente podrá consultar nuestra <a href="/cores">Política de CORE</a> o comunicarse con <a href="mailto:operaciones@autohauspart.com">operaciones@autohauspart.com</a>.</p>
+                        <h2>12. Garantías</h2>
+                        <p>Las solicitudes relacionadas con defectos de fabricación o fallas de funcionamiento se atenderán conforme a las condiciones de garantía aplicables y a la legislación de la República de Panamá.</p>
+                        <p>Las limitaciones de devoluciones voluntarias contempladas en esta política no restringen los derechos legales de garantía.</p>
+                        <p>Autohaus Parts gestionará directamente las solicitudes de sus clientes, incluso cuando la evaluación técnica requiera coordinación con un fabricante o proveedor internacional.</p>
+                        <h2>13. Preguntas frecuentes</h2>
+                        <h3>¿Cuántos días tengo para devolver un producto?</h3>
+                        <p>Puedes presentar una solicitud de devolución voluntaria dentro de los 30 días calendario posteriores a la recepción del pedido, siempre que el producto sea elegible.</p>
+                        <h3>¿Qué sucede si Autohaus Parts me envía una pieza equivocada?</h3>
+                        <p>Nos encargaremos de coordinar el retorno y asumiremos el costo del flete de devolución. También gestionaremos la corrección del pedido o el reembolso correspondiente.</p>
+                        <h3>¿Qué pasa si compré una pieza incorrecta?</h3>
+                        <p>Puedes presentar una solicitud de devolución. Si la pieza cumple con las condiciones establecidas y su devolución es aprobada, asumirás los gastos de retorno y los cargos comerciales previamente informados que resulten aplicables.</p>
+                        <h3>¿Puedo devolver una pieza que ya instalé?</h3>
+                        <p>Las piezas instaladas no son elegibles para devoluciones voluntarias. Si el producto presenta una falla cubierta por garantía, puedes presentar una reclamación para su evaluación.</p>
+                        <h3>¿Puedo devolver un producto importado?</h3>
+                        <p>Dependerá de las condiciones de venta de la pieza y del motivo de la devolución. Nuestro equipo verificará su elegibilidad y te indicará el procedimiento correspondiente.</p>
+                        <h3>¿Cuánto tiempo tarda mi reembolso?</h3>
+                        <p>Nuestro objetivo es procesarlo entre 3 y 5 días hábiles después de la aprobación final. La acreditación bancaria puede requerir tiempo adicional.</p>
+                        <h3>¿Dónde debo enviar mi devolución?</h3>
+                        <p>Nuestro equipo te indicará la dirección o procedimiento correspondiente después de aprobar tu solicitud. No debes enviar mercancía sin instrucciones previas.</p>
+                        <h2>14. Contacto</h2>
+                        <p>Nuestro equipo está disponible para atender consultas relacionadas con pedidos, devoluciones y garantías.</p>
+                        <p><strong>Autohaus Parts</strong></p>
+                        <ul>
+                            <li>Correo: <a href="mailto:operaciones@autohauspart.com">operaciones@autohauspart.com</a></li>
+                            <li>Sitio web: <a href="https://autohauspart.com">https://autohauspart.com</a></li>
+                            <li>Ubicación: República de Panamá</li>
+                        </ul>
+                        <p>Toda solicitud deberá canalizarse mediante nuestros medios oficiales.</p>
+                        <h2>Disposiciones finales</h2>
+                        <p>Esta política establece las condiciones comerciales de Autohaus Parts para devoluciones voluntarias y el procedimiento de atención de reclamos. Se aplicará sin perjuicio de los derechos y garantías reconocidos por la legislación vigente de la República de Panamá.</p>
                     </section>
-
                 </div>
             </div>
         </t>
