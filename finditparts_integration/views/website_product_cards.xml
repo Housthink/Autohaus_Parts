@@ -72,8 +72,14 @@
                     </t>
                     <t t-else="">
                         <t t-set="best_price" t-value="product.finditparts_sale_price or product.list_price"/>
+                        <t t-set="compare_price" t-value="product.compare_list_price or 0"/>
+                        <t t-set="show_price_compare" t-value="compare_price and compare_price &gt; best_price"/>
                         <span t-out="best_price"
                               t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <del t-if="show_price_compare" class="o_autohaus_bs_old_price">
+                            <t t-out="compare_price"
+                               t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        </del>
                         <span t-if="product.finditparts_discount_percent &gt; 0" class="o_autohaus_discount_badge">-<t t-out="int(round(product.finditparts_discount_percent))"/>%</span>
                     </t>
                 </div>
