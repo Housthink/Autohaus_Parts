@@ -4,11 +4,9 @@
    [logo] [big search bar] [Soporte] [Mis cotizaciones] [cart]
    ========================================================================== */
 
-/* Hide Odoo's default navbar on desktop only (mobile keeps the stock menu) */
-@media (min-width: 992px) {
-    header > nav.navbar {
-        display: none !important;
-    }
+/* The custom header provides the navigation on every viewport. */
+header > nav.navbar {
+    display: none !important;
 }
 
 /* Keep the header in the normal document flow (no sticky/fixed on scroll). */
@@ -74,6 +72,76 @@
     color: #ee5a24;
     text-transform: uppercase;
     margin-top: 0.15rem;
+}
+
+/* --- Catalog hamburger menu ------------------------------------------- */
+.o_autohaus_catalog_menu {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.o_autohaus_catalog_menu_toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 42px;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d8dde3;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #123a5f;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 700;
+    list-style: none;
+    white-space: nowrap;
+}
+
+.o_autohaus_catalog_menu_toggle::-webkit-details-marker { display: none; }
+.o_autohaus_catalog_menu_toggle::marker { content: ''; }
+.o_autohaus_catalog_menu_toggle i { color: #ee5a24; font-size: 1.15rem; }
+.o_autohaus_catalog_menu_toggle:hover,
+.o_autohaus_catalog_menu[open] .o_autohaus_catalog_menu_toggle {
+    border-color: #ee5a24;
+    background: #fdf1ec;
+}
+
+.o_autohaus_catalog_menu_panel {
+    position: absolute;
+    z-index: 1060;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    min-width: 205px;
+    padding: 0.45rem;
+    border: 1px solid #d8dde3;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(18, 58, 95, 0.16);
+}
+
+.o_autohaus_catalog_menu_link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.7rem 0.75rem;
+    border-radius: 5px;
+    color: #123a5f;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.o_autohaus_catalog_menu_link i {
+    width: 1.1rem;
+    color: #ee5a24;
+    text-align: center;
+}
+
+.o_autohaus_catalog_menu_link:hover,
+.o_autohaus_catalog_menu_link:focus {
+    background: #fdf1ec;
+    color: #123a5f;
+    text-decoration: none;
 }
 
 /* --- Search bar -------------------------------------------------------- */
@@ -293,6 +361,9 @@ button[aria-controls="o_wsale_tags_option_inner"] b::after {
 }
 
 @media (max-width: 575.98px) {
+    .o_autohaus_catalog_menu_toggle span { display: none; }
+    .o_autohaus_catalog_menu_toggle { padding: 0.55rem 0.65rem; }
+
     .o_autohaus_brand_name {
         font-size: 1.35rem;
     }

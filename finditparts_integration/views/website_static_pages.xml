@@ -19,17 +19,66 @@
         </t>
     </template>
 
-    <template id="cores_page" name="Cores">
+    <template id="cores_page" name="Política de CORE y devolución de piezas usadas">
         <t t-call="website.layout">
             <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
-                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Cores</span></nav>
-                <header class="o_autohaus_info_header"><h1>Cores</h1><p>Información sobre cargos, devoluciones y créditos de núcleos.</p></header>
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Política de CORE</span></nav>
+                <header class="o_autohaus_info_header"><h1>Política de CORE y devolución de piezas usadas</h1><p>Autohaus Parts | Panamá</p></header>
                 <section class="o_autohaus_info_content">
-                    <h2>¿Qué es un core?</h2>
-                    <p>Un core es una pieza usada que puede devolverse para ser reconstruida. Algunos productos incluyen un cargo de núcleo que se acredita cuando recibimos la pieza elegible.</p>
-                    <h2>Cómo funciona</h2>
-                    <ol><li>Revisa si el producto tiene cargo de core al realizar tu pedido.</li><li>Conserva la pieza original y envíala siguiendo las instrucciones de devolución.</li><li>Inspeccionamos la pieza y procesamos el crédito correspondiente.</li></ol>
-                    <p>La pieza debe ser del tipo correcto, estar completa y no presentar daños que impidan su reconstrucción. Para confirmar la elegibilidad, <a href="/contactus">contáctanos</a>.</p>
+                    <h2>1. ¿Qué es un cargo CORE?</h2>
+                    <p>Algunas piezas remanufacturadas incluyen un cargo adicional denominado CORE, correspondiente al valor recuperable de una pieza usada que puede ser reacondicionada por el fabricante.</p>
+                    <p>Este cargo podrá ser recuperable únicamente en aquellos productos donde Autohaus Parts ofrezca expresamente un programa de devolución de CORE.</p>
+
+                    <h2>2. Condiciones del cargo CORE</h2>
+                    <p>Autohaus Parts comercializa piezas importadas y remanufacturadas provenientes de proveedores internacionales.</p>
+                    <p>Debido a las condiciones logísticas de nuestra operación, los productos podrán presentar una de las siguientes modalidades:</p>
+                    <ul>
+                        <li><strong>CORE sin devolución disponible:</strong> el cargo forma parte del precio final de venta y no existe un programa de recuperación de la pieza usada.</li>
+                        <li><strong>CORE con devolución disponible:</strong> el cliente podrá solicitar la recuperación del depósito conforme a los requisitos y condiciones informados antes de realizar su compra.</li>
+                    </ul>
+                    <p>La modalidad aplicable, el precio total y las condiciones de devolución serán comunicados antes de confirmar el pedido.</p>
+
+                    <h2>3. Solicitud y autorización de devolución</h2>
+                    <p>Para los productos con devolución habilitada:</p>
+                    <ol>
+                        <li>El cliente deberá solicitar la devolución dentro del plazo específico indicado en su compra.</li>
+                        <li>Autohaus Parts verificará la elegibilidad de la pieza usada y la viabilidad del transporte internacional.</li>
+                        <li>Toda devolución deberá contar con una autorización previa (RMA).</li>
+                        <li>El cliente recibirá las instrucciones de embalaje y envío correspondientes.</li>
+                    </ol>
+                    <p>No se aceptarán devoluciones enviadas sin autorización previa.</p>
+
+                    <h2>4. Condiciones de aceptación de las piezas usadas</h2>
+                    <p>Las piezas deberán presentar condiciones normales de desgaste y cumplir con los requisitos del fabricante.</p>
+                    <p>No serán elegibles para crédito las piezas que presenten:</p>
+                    <ul>
+                        <li>Carcasas agrietadas, ejes partidos o daños estructurales importantes.</li>
+                        <li>Componentes faltantes o incompatibles con la referencia requerida.</li>
+                        <li>Daños que impidan su reacondicionamiento.</li>
+                        <li>Incumplimiento de los requisitos de limpieza, embalaje o identificación.</li>
+                    </ul>
+                    <p>Las piezas deberán estar drenadas de aceites y otros fluidos, razonablemente limpias y debidamente embaladas, preferiblemente en su empaque original.</p>
+
+                    <h2>5. Transporte y costos asociados</h2>
+                    <p>Cuando exista un programa de devolución habilitado, el cliente será responsable de los costos de transporte correspondientes a la devolución voluntaria del CORE, según las condiciones comunicadas antes de la compra.</p>
+                    <p>Estos costos pueden incluir transporte local, envío internacional, trámites aduaneros y cargos logísticos necesarios.</p>
+                    <p>Si el fabricante aplica cargos por manipulación debido a líquidos residuales, embalaje inadecuado u otras condiciones previamente informadas, estos podrán descontarse del crédito cuando estén documentados y legalmente corresponda.</p>
+                    <p>Ninguna pieza deberá enviarse directamente al fabricante o proveedor sin instrucciones expresas de Autohaus Parts.</p>
+
+                    <h2>6. Evaluación y reembolso</h2>
+                    <p>La devolución del depósito estará sujeta al cumplimiento de las condiciones del programa y a la evaluación técnica de la pieza recibida.</p>
+                    <p>El proceso internacional de evaluación y acreditación puede tomar aproximadamente 45 días desde la recepción de la pieza en el centro autorizado, sin perjuicio de los derechos y plazos establecidos por la legislación aplicable.</p>
+                    <p>Una vez aprobada la devolución, Autohaus Parts gestionará el reembolso correspondiente, descontando únicamente los cargos válidamente aplicables e informados.</p>
+                    <p>El reembolso se realizará mediante el método de pago original cuando sea posible o mediante otro mecanismo legalmente admisible.</p>
+
+                    <h2>7. Restricciones logísticas</h2>
+                    <p>Por tratarse de mercancías importadas, la devolución internacional de piezas usadas puede estar sujeta a restricciones de transporte, aduanas y regulaciones ambientales.</p>
+                    <p>Por este motivo, Autohaus Parts únicamente ofrecerá recuperación del depósito CORE en los productos expresamente identificados como elegibles antes de la compra.</p>
+
+                    <h2>8. Garantías y derechos del consumidor</h2>
+                    <p>Esta política regula exclusivamente los cargos CORE y los programas voluntarios de recuperación de piezas usadas.</p>
+                    <p>No sustituye ni limita las garantías de los productos, los derechos del consumidor ni las obligaciones de Autohaus Parts conforme a la legislación vigente en la República de Panamá.</p>
+                    <p>Autohaus Parts se compromete a comunicar claramente las condiciones aplicables antes de procesar cada pedido.</p>
                 </section>
             </div></div>
         </t>
@@ -170,12 +219,176 @@
         </t>
     </template>
 
-    <template id="terms_page" name="Términos de uso">
+    <template id="terms_page" name="Términos y condiciones">
         <t t-call="website.layout">
             <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
-                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Términos de uso</span></nav>
-                <header class="o_autohaus_info_header"><h1>Términos de uso</h1><p>Condiciones para utilizar nuestro sitio y realizar compras.</p></header>
-                <section class="o_autohaus_info_content"><h2>Uso del sitio</h2><p>Al utilizar este sitio aceptas usarlo de forma lícita y proporcionar información correcta para procesar tus pedidos.</p><h2>Productos y precios</h2><p>La disponibilidad, los precios y las fechas estimadas pueden cambiar sin previo aviso. Confirmaremos cualquier condición aplicable antes del despacho.</p><h2>Pedidos</h2><p>Nos reservamos el derecho de revisar o cancelar pedidos cuando exista un error evidente, falta de disponibilidad o información incompleta.</p><h2>Contacto</h2><p>Para preguntas sobre estos términos, <a href="/contactus">contáctanos</a>.</p></section>
+                <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Términos y condiciones</span></nav>
+                <header class="o_autohaus_info_header">
+                    <h1>TÉRMINOS Y CONDICIONES DE USO</h1>
+                    <p>Autohaus Parts · Última actualización: 22 de octubre de 2026</p>
+                </header>
+                <section class="o_autohaus_info_content">
+                    <h2>AUTOHAUS PARTS</h2>
+                    <p><strong>Última actualización:</strong> 22 de octubre de 2026</p>
+                    <p><strong>Sitio web:</strong> <a href="https://autohauspart.com">https://autohauspart.com</a></p>
+
+                    <h2>1. Introducción</h2>
+                    <p>Bienvenido a Autohaus Parts.</p>
+                    <p>Los presentes Términos y Condiciones regulan el acceso, navegación y utilización del sitio web de Autohaus Parts, así como las transacciones comerciales realizadas mediante nuestra plataforma.</p>
+                    <p>Autohaus Parts es una empresa establecida en la República de Panamá, dedicada a la comercialización e importación de repuestos, componentes y accesorios para motores diésel, vehículos comerciales, camiones, maquinaria pesada y equipos industriales.</p>
+                    <p>Al registrarse o realizar una compra en nuestro sitio web, el usuario reconoce haber tenido acceso a estos términos y acepta las condiciones aplicables a su transacción.</p>
+                    <p>Si no está de acuerdo con estas disposiciones, deberá abstenerse de realizar compras a través de la plataforma.</p>
+
+                    <h2>2. Uso del sitio web</h2>
+                    <p>Nuestro sitio web está destinado a clientes particulares, talleres, empresas y profesionales que requieran adquirir repuestos y componentes.</p>
+                    <p>Los usuarios se comprometen a utilizar la plataforma de manera responsable, proporcionando información verídica y respetando las leyes aplicables.</p>
+                    <p>Queda prohibido:</p>
+                    <ul>
+                        <li>Utilizar el sitio para realizar actividades fraudulentas o ilegales.</li>
+                        <li>Proporcionar información falsa durante el registro o proceso de compra.</li>
+                        <li>Intentar acceder sin autorización a nuestros sistemas.</li>
+                        <li>Utilizar herramientas automatizadas para extraer información comercial sin autorización.</li>
+                        <li>Copiar o distribuir contenido protegido de Autohaus Parts sin consentimiento.</li>
+                        <li>Realizar actividades que comprometan la seguridad o funcionamiento del sitio.</li>
+                    </ul>
+                    <p>Autohaus Parts podrá restringir el acceso a usuarios que incumplan estas disposiciones, sin perjuicio de los derechos legales relacionados con transacciones previamente realizadas.</p>
+
+                    <h2>3. Información y características de los productos</h2>
+                    <p>Autohaus Parts comercializa productos de diferentes fabricantes y proveedores nacionales e internacionales.</p>
+                    <p>Nuestro catálogo puede incluir repuestos originales, alternativos y remanufacturados, según la descripción de cada producto.</p>
+                    <p>La información publicada puede contener números de pieza, fotografías, marcas, aplicaciones, especificaciones técnicas, disponibilidad y precios.</p>
+                    <p>Procuramos mantener esta información actualizada. Sin embargo, los fabricantes y proveedores pueden modificar características, referencias o presentaciones sin previo aviso.</p>
+                    <p>Las imágenes utilizadas en nuestro sitio web pueden ser ilustrativas y presentar diferencias respecto al producto físico.</p>
+                    <h3>Compatibilidad de productos</h3>
+                    <p>Es importante que el cliente verifique la compatibilidad del repuesto con su vehículo, motor o equipo antes de realizar la compra.</p>
+                    <p>Recomendamos comprobar el número de pieza original, modelo, año, número de serie y demás especificaciones aplicables.</p>
+                    <p>En caso de dudas, el cliente puede solicitar asistencia a nuestro equipo antes de confirmar su pedido.</p>
+                    <p>Autohaus Parts atenderá las reclamaciones relacionadas con errores de identificación o información atribuibles a nuestra empresa de acuerdo con la legislación aplicable.</p>
+
+                    <h2>4. Disponibilidad de inventario</h2>
+                    <p>Autohaus Parts trabaja con inventario propio y con inventarios de proveedores y distribuidores externos.</p>
+                    <p>Algunos productos pueden encontrarse disponibles para entrega local, mientras que otros pueden requerir adquisición o importación desde almacenes internacionales.</p>
+                    <p>La disponibilidad mostrada en nuestra plataforma puede cambiar debido a ventas simultáneas, actualizaciones de inventario o modificaciones realizadas por nuestros proveedores.</p>
+                    <p>Por lo tanto, la disponibilidad de un artículo estará sujeta a confirmación al procesar el pedido.</p>
+                    <p>Si un producto adquirido no se encuentra disponible, Autohaus Parts informará al cliente y ofrecerá las alternativas correspondientes, incluyendo esperar reposición, seleccionar otro artículo con su consentimiento o recibir el reembolso aplicable.</p>
+                    <p>No realizaremos sustituciones ni cargos adicionales sin autorización del cliente.</p>
+
+                    <h2>5. Precios y cargos</h2>
+                    <p>Todos los precios publicados en nuestro sitio web se expresan en dólares estadounidenses (USD), salvo que se indique expresamente otra moneda.</p>
+                    <p>Los precios podrán actualizarse debido a cambios de proveedores, costos de adquisición, condiciones comerciales o promociones.</p>
+                    <p>Antes de confirmar su compra, el cliente podrá visualizar el importe total correspondiente, incluyendo los impuestos, cargos de transporte y otros conceptos aplicables.</p>
+                    <p>Los productos que requieran cargos adicionales, como depósitos CORE, deberán identificarlos antes de confirmar el pedido.</p>
+                    <p>Autohaus Parts se reserva el derecho de corregir errores de publicación, respetando las compras aceptadas y los derechos establecidos por la legislación de protección al consumidor.</p>
+
+                    <h2>6. Pedidos y confirmación de compras</h2>
+                    <p>Para realizar una compra, el cliente deberá seleccionar los productos deseados y completar la información solicitada durante el proceso de pago.</p>
+                    <p>El cliente es responsable de verificar que los datos de facturación, contacto y entrega sean correctos.</p>
+                    <p>La recepción de un pedido no garantiza automáticamente su aceptación definitiva.</p>
+                    <p>Las órdenes estarán sujetas a la validación del pago, la disponibilidad del producto y las verificaciones comerciales razonablemente necesarias.</p>
+                    <p>Una vez confirmado el pedido, el cliente recibirá la información correspondiente mediante los canales de comunicación proporcionados.</p>
+                    <p>Si Autohaus Parts no puede completar una orden, informará al cliente y gestionará las alternativas o reembolsos correspondientes.</p>
+
+                    <h2>7. Pagos y seguridad de las transacciones</h2>
+                    <p>Autohaus Parts pone a disposición de sus clientes los métodos de pago que se encuentren habilitados en el sitio web.</p>
+                    <p>Las transacciones electrónicas podrán procesarse mediante entidades financieras o proveedores externos especializados en servicios de pago.</p>
+                    <p>Nos comprometemos a adoptar medidas razonables para proteger la seguridad y confidencialidad de las operaciones.</p>
+                    <p>Por motivos de prevención de fraude, determinadas transacciones podrán requerir verificaciones adicionales antes de su procesamiento.</p>
+                    <p>Autohaus Parts no solicitará contraseñas bancarias ni códigos confidenciales de autenticación mediante comunicaciones no autorizadas.</p>
+
+                    <h2>8. Envíos y entregas</h2>
+                    <p>Autohaus Parts ofrece servicios de despacho y entrega de productos de acuerdo con la disponibilidad, ubicación del inventario y destino del pedido.</p>
+                    <p>Los tiempos estimados, costos de transporte, condiciones de entrega y procedimientos relacionados con envíos se encuentran detallados en nuestra <a href="/envios">Política de Envíos</a>.</p>
+                    <p>Recomendamos al cliente consultar dicha política antes de finalizar su compra.</p>
+                    <p>Las condiciones de envío aplicables a cada pedido serán las informadas y aceptadas durante el proceso de compra, conforme a la legislación vigente.</p>
+
+                    <h2>9. Devoluciones y reembolsos</h2>
+                    <p>Autohaus Parts dispone de un procedimiento para atender solicitudes de devolución, cambios y reembolsos.</p>
+                    <p>Los requisitos, plazos, condiciones de elegibilidad y procedimientos se encuentran establecidos en nuestra <a href="/devoluciones">Política de Devoluciones y Reembolsos</a>.</p>
+                    <p>El cliente podrá consultar esta política en nuestro sitio web o comunicarse con nuestro equipo de atención para recibir asistencia.</p>
+                    <p>Los derechos legales del consumidor prevalecerán sobre cualquier disposición comercial que resulte incompatible con la legislación aplicable.</p>
+
+                    <h2>10. Productos remanufacturados y cargos CORE</h2>
+                    <p>Determinados productos remanufacturados pueden estar sujetos a un depósito CORE, asociado al valor recuperable del componente usado.</p>
+                    <p>Cuando un producto incluya este cargo, se informará al cliente antes de confirmar la compra.</p>
+                    <p>Los procedimientos para devolver componentes usados, requisitos de aceptación y condiciones para recibir el crédito correspondiente se encuentran establecidos en nuestra <a href="/cores">Política CORE</a>.</p>
+                    <p>Recomendamos revisar dicha política antes de adquirir productos sujetos a estos depósitos.</p>
+
+                    <h2>11. Garantías</h2>
+                    <p>Los productos comercializados por Autohaus Parts estarán sujetos a las garantías legales aplicables y, cuando corresponda, a las garantías comerciales adicionales ofrecidas por fabricantes o distribuidores.</p>
+                    <p>Las condiciones de garantía pueden variar según el fabricante, el tipo de producto y las características de la compra, sin perjuicio de las protecciones mínimas establecidas por la legislación vigente.</p>
+                    <p>Los clientes podrán comunicarse con nuestro equipo para solicitar asistencia relacionada con una garantía.</p>
+                    <p>Autohaus Parts atenderá los reclamos correspondientes de conformidad con la normativa de protección al consumidor aplicable.</p>
+
+                    <h2>12. Cuentas de usuario</h2>
+                    <p>Los clientes que creen una cuenta en Autohaus Parts deberán proporcionar información correcta y mantener la confidencialidad de sus credenciales.</p>
+                    <p>El titular de la cuenta deberá informar oportunamente cualquier acceso no autorizado o actividad sospechosa.</p>
+                    <p>Autohaus Parts podrá implementar procedimientos de verificación y seguridad para proteger la información de los usuarios.</p>
+                    <p>Las cuentas utilizadas para actividades fraudulentas o ilegales podrán ser suspendidas, respetando las obligaciones legales relacionadas con pedidos y transacciones pendientes.</p>
+
+                    <h2>13. Propiedad intelectual</h2>
+                    <p>El contenido propio de Autohaus Parts, incluyendo textos, diseño, elementos gráficos, logotipos y funcionalidades, se encuentra protegido por las leyes aplicables de propiedad intelectual.</p>
+                    <p>Las marcas comerciales, imágenes y referencias de productos pertenecientes a fabricantes o terceros conservarán los derechos de sus respectivos titulares.</p>
+                    <p>La publicación de marcas o referencias en nuestro catálogo no implica necesariamente una relación de representación exclusiva con sus fabricantes.</p>
+                    <p>Está prohibida la reproducción o explotación comercial no autorizada del contenido protegido de nuestro sitio web.</p>
+
+                    <h2>14. Servicios y enlaces externos</h2>
+                    <p>Nuestra plataforma puede integrar servicios proporcionados por terceros, incluyendo procesadores de pago, empresas transportistas y sistemas de información de proveedores.</p>
+                    <p>También pueden existir enlaces hacia páginas externas.</p>
+                    <p>Autohaus Parts no controla el contenido ni el funcionamiento de todos los servicios externos.</p>
+                    <p>Sin embargo, la participación de un tercero no elimina las obligaciones que legalmente correspondan a Autohaus Parts frente a sus clientes.</p>
+
+                    <h2>15. Protección de datos personales</h2>
+                    <p>Autohaus Parts reconoce la importancia de proteger los datos personales de sus clientes.</p>
+                    <p>La información recopilada mediante nuestro sitio web será tratada de conformidad con la legislación panameña aplicable, incluyendo la Ley 81 de 2019 sobre Protección de Datos Personales.</p>
+                    <p>Los datos podrán utilizarse para gestionar pedidos, procesar pagos, coordinar entregas, atender solicitudes y cumplir obligaciones legales.</p>
+                    <p>Para conocer las finalidades del tratamiento, los derechos de los titulares de datos y los mecanismos disponibles para ejercerlos, consulte nuestra <a href="/politica-de-privacidad">Política de Privacidad</a>.</p>
+
+                    <h2>16. Funcionamiento y disponibilidad del sitio</h2>
+                    <p>Autohaus Parts procura mantener su sitio web disponible y funcionando correctamente.</p>
+                    <p>No obstante, podrán producirse interrupciones temporales debido a mantenimiento, actualizaciones, problemas técnicos o fallas de servicios externos.</p>
+                    <p>La empresa adoptará medidas razonables para corregir los inconvenientes que afecten el funcionamiento de la plataforma.</p>
+                    <p>Ninguna disposición de estos términos excluirá responsabilidades que legalmente correspondan a Autohaus Parts.</p>
+
+                    <h2>17. Cancelación de pedidos</h2>
+                    <p>Los clientes podrán solicitar la cancelación o modificación de un pedido a través de nuestros canales oficiales de atención.</p>
+                    <p>Las solicitudes serán evaluadas de acuerdo con el estado de procesamiento de la orden y las condiciones comerciales informadas al momento de la compra.</p>
+                    <p>Cuando corresponda realizar una devolución de dinero, se aplicarán los procedimientos y derechos establecidos en nuestra <a href="/devoluciones">Política de Devoluciones y Reembolsos</a> y en la legislación vigente.</p>
+
+                    <h2>18. Legislación aplicable y resolución de controversias</h2>
+                    <p>Los presentes Términos y Condiciones se regirán e interpretarán conforme a las leyes de la República de Panamá, sin perjuicio de otras normas imperativas que pudieran resultar aplicables.</p>
+                    <p>Autohaus Parts procurará resolver las consultas y reclamaciones comerciales mediante comunicación directa con el cliente.</p>
+                    <p>Cuando no sea posible alcanzar una solución, los consumidores podrán acudir a la Autoridad de Protección al Consumidor y Defensa de la Competencia (ACODECO) o a las instancias legalmente competentes.</p>
+                    <p>Estos términos no limitan los derechos irrenunciables de los consumidores reconocidos por la legislación vigente.</p>
+
+                    <h2>19. Modificaciones de los términos</h2>
+                    <p>Autohaus Parts podrá actualizar estos Términos y Condiciones para reflejar cambios operativos, comerciales, tecnológicos o legales.</p>
+                    <p>Las modificaciones se publicarán en nuestro sitio web junto con su fecha de actualización.</p>
+                    <p>Los cambios no alterarán retroactivamente las condiciones de las compras previamente confirmadas, salvo acuerdo válido entre las partes o disposición legal aplicable.</p>
+
+                    <h2>20. Políticas complementarias</h2>
+                    <p>Los presentes Términos y Condiciones forman parte del marco de información y contratación de Autohaus Parts.</p>
+                    <p>Para facilitar la comprensión de nuestros servicios, contamos con políticas independientes que regulan aspectos específicos de las operaciones comerciales:</p>
+                    <ul>
+                        <li><a href="/envios">Política de Envíos</a>: condiciones de procesamiento, transporte y entrega.</li>
+                        <li><a href="/devoluciones">Política de Devoluciones y Reembolsos</a>: requisitos y procedimientos para solicitar devoluciones.</li>
+                        <li><a href="/cores">Política CORE</a>: condiciones aplicables a depósitos y devoluciones de componentes usados.</li>
+                        <li><a href="/politica-de-privacidad">Política de Privacidad</a>: tratamiento y protección de datos personales.</li>
+                    </ul>
+                    <p>Cada documento podrá consultarse individualmente desde nuestro sitio web.</p>
+                    <p>En los asuntos específicos regulados por estas políticas, se aplicarán sus disposiciones correspondientes, siempre que no contradigan la legislación vigente ni los derechos reconocidos al consumidor.</p>
+
+                    <h2>21. Información de contacto</h2>
+                    <p>Para consultas relacionadas con pedidos, productos, pagos, uso del sitio web o estos Términos y Condiciones, puede comunicarse con nosotros mediante nuestros canales oficiales.</p>
+                    <p><strong>Autohaus Parts</strong></p>
+                    <p><strong>Sitio web:</strong> <a href="https://autohauspart.com">https://autohauspart.com</a><br/>
+                        <strong>Correo electrónico:</strong> <a href="mailto:operaciones@autohauspart.com">operaciones@autohauspart.com</a><br/>
+                        <strong>Teléfono de atención:</strong> <a href="tel:+50761003445">+507 6100-3445</a><br/>
+                        <strong>Ubicación:</strong> República de Panamá</p>
+                    <p>Nuestro equipo de atención estará disponible para recibir y gestionar las solicitudes mediante nuestros canales oficiales.</p>
+
+                    <hr/>
+                    <p>© 2026 Autohaus Parts. Todos los derechos reservados.</p>
+                </section>
             </div></div>
         </t>
     </template>
@@ -305,6 +518,68 @@
                                            class="o_autohaus_product_glossary_item"
                                            t-att-aria-label="product.name">
                                             <span class="o_autohaus_product_glossary_name" t-out="product.name"/>
+                                        </a>
+                                    </t>
+                                </div>
+                            </section>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="category_glossary_page" name="Glosario de categorías">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_autohaus_info_page o_autohaus_glossary_page">
+                <div class="container py-4 py-lg-5">
+                    <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Categorías</span></nav>
+                    <header class="o_autohaus_info_header">
+                        <h1>Glosario de categorías</h1>
+                        <p>Explora nuestro catálogo por categoría. Haz clic en una categoría para ver sus productos.</p>
+                    </header>
+
+                    <t t-set="alphabet" t-value="['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']"/>
+                    <nav class="o_autohaus_glossary_alpha" aria-label="Índice alfabético">
+                        <t t-foreach="alphabet" t-as="letter">
+                            <t t-if="categories_by_letter.get(letter)">
+                                <a t-attf-href="#letra-{{ letter }}" class="o_autohaus_glossary_alpha_link" t-out="letter"/>
+                            </t>
+                            <t t-else="">
+                                <span class="o_autohaus_glossary_alpha_link o_autohaus_glossary_alpha_link_disabled" t-out="letter"/>
+                            </t>
+                        </t>
+                        <t t-if="categories_by_letter.get('#')">
+                            <a href="#letra-num" class="o_autohaus_glossary_alpha_link">#</a>
+                        </t>
+                    </nav>
+
+                    <div class="o_autohaus_glossary_sections">
+                        <t t-foreach="alphabet" t-as="letter">
+                            <t t-if="categories_by_letter.get(letter)">
+                                <section t-attf-id="letra-{{ letter }}" class="o_autohaus_glossary_section">
+                                    <h2 class="o_autohaus_glossary_letter" t-out="letter"/>
+                                    <div class="o_autohaus_product_glossary_grid">
+                                        <t t-foreach="categories_by_letter[letter]" t-as="category">
+                                            <a t-att-href="'/shop/category/%s' % slug(category)"
+                                               class="o_autohaus_product_glossary_item"
+                                               t-att-aria-label="category.name">
+                                                <span class="o_autohaus_product_glossary_name" t-out="category.name"/>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </section>
+                            </t>
+                        </t>
+                        <t t-if="categories_by_letter.get('#')">
+                            <section id="letra-num" class="o_autohaus_glossary_section">
+                                <h2 class="o_autohaus_glossary_letter">#</h2>
+                                <div class="o_autohaus_product_glossary_grid">
+                                    <t t-foreach="categories_by_letter['#']" t-as="category">
+                                        <a t-att-href="'/shop/category/%s' % slug(category)"
+                                           class="o_autohaus_product_glossary_item"
+                                           t-att-aria-label="category.name">
+                                            <span class="o_autohaus_product_glossary_name" t-out="category.name"/>
                                         </a>
                                     </t>
                                 </div>

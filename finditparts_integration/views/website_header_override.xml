@@ -12,7 +12,7 @@
               priority="40">
 
         <xpath expr="//header" position="inside">
-            <nav class="o_autohaus_header d-none d-lg-block" aria-label="Autohaus header">
+            <nav class="o_autohaus_header" aria-label="Autohaus header">
                 <t t-set="autohaus_cart_qty" t-value="request.session.get('website_sale_cart_quantity', request.cart.cart_quantity) or 0"/>
                 <div class="o_autohaus_header_inner">
 
@@ -27,6 +27,27 @@
                             <span class="o_autohaus_brand_sub">Parts</span>
                         </span>
                     </a>
+
+                    <details class="o_autohaus_catalog_menu">
+                        <summary class="o_autohaus_catalog_menu_toggle" aria-label="Abrir menú del catálogo">
+                            <i class="fa fa-bars" aria-hidden="true"/>
+                            <span>Catálogo</span>
+                        </summary>
+                        <div class="o_autohaus_catalog_menu_panel">
+                            <a href="/categorias" class="o_autohaus_catalog_menu_link">
+                                <i class="fa fa-folder-o" aria-hidden="true"/>
+                                <span>Categorías</span>
+                            </a>
+                            <a href="/marcas" class="o_autohaus_catalog_menu_link">
+                                <i class="fa fa-tags" aria-hidden="true"/>
+                                <span>Marcas</span>
+                            </a>
+                            <a href="/productos" class="o_autohaus_catalog_menu_link">
+                                <i class="fa fa-cubes" aria-hidden="true"/>
+                                <span>Productos</span>
+                            </a>
+                        </div>
+                    </details>
 
                     <!-- Search -->
                     <div class="o_autohaus_search_wrap">
