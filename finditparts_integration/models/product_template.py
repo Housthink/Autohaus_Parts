@@ -26,6 +26,11 @@ class ProductTemplate(models.Model):
         help='Discount reported by FinditParts during the last synchronization.',
     )
 
+    finditparts_sale_price = fields.Float(
+        string='FinditParts Sale Price',
+        help='Final sale price reported by FinditParts including the configured margin.',
+    )
+
     finditparts_part_number = fields.Char(
         string='FinditParts Part Number',
         compute='_compute_finditparts_part_number',

@@ -293,6 +293,7 @@ class FindinPartProduct(models.Model):
                     'sale_ok': sale_allowed,
                     'purchase_ok': True,
                     'best_seller': self.best_seller,
+                    'finditparts_sale_price': list_price_value,
                 }
                 if 'sale_delay' in self.env['product.template']._fields:
                     product_vals['sale_delay'] = sale_delay
@@ -407,6 +408,7 @@ class FindinPartProduct(models.Model):
                     'weight': self.weight or 0.0,
                     'sale_ok': sale_allowed,
                     'best_seller': self.best_seller,
+                    'finditparts_sale_price': list_price_value,
                 })
                 if 'sale_delay' in self.env['product.template']._fields:
                     update_vals['sale_delay'] = sale_delay
@@ -491,6 +493,7 @@ class FindinPartProduct(models.Model):
             self.sync_errors = False
             self.update_stock_status()
             self._link_alternative_products()
+            self._apply_discount_pricelist()
             
             return True
             
@@ -500,6 +503,105 @@ class FindinPartProduct(models.Model):
             self.sync_errors = str(e)
             return False
     
+    def _apply_discount_pricelist(self):
+        """Apply the FinditParts discount through a website pricelist.
+
+        When enabled in the configuration, the product's list price is set to
+        the MSRP (the original/comparable price) and a pricelist rule reduces it
+        to the final sale price (with margin). This lets Odoo natively render the
+        strikethrough price and the discount percentage on the /shop and product
+        pages, without requiring the "Comparison Price" setting.
+
+        Falls back to the regular sale price when there is no MSRP or no actual
+        discount, and removes any stale pricelist rule in that case.
+        """
+        self.ensure_one()
+        odoo_product = self.odoo_product_id
+        if not odoo_product:
+            return
+
+        try:
+            config = self.env['finditparts.config'].get_active_config()
+            if not config or not config.apply_discount_as_pricelist:
+                return
+
+            sale_price = self.sale_price_with_margin or self._get_odoo_sale_price()
+            base_price = self.msrp_price or 0.0
+
+            pricelist = config.discount_pricelist_id or self._get_or_create_discount_pricelist()
+
+            if not pricelist or not (base_price > sale_price > 0):
+                # No discount to apply: restore the regular sale price and drop
+                # any stale rule left over from a previous synchronization.
+                odoo_product.sudo().write({'list_price': sale_price})
+                if pricelist:
+                    self.env['product.pricelist.item'].sudo().search([
+                        ('pricelist_id', '=', pricelist.id),
+                        ('applied_on', '=', '1_product'),
+                        ('product_tmpl_id', '=', odoo_product.id),
+                    ]).unlink()
+                return
+
+            # Use the MSRP as the crossed-out base price and reduce it via pricelist.
+            odoo_product.sudo().write({'list_price': base_price})
+
+            effective_discount = 100.0 * (1.0 - (sale_price / base_price))
+
+            Item = self.env['product.pricelist.item'].sudo()
+            item = Item.search([
+                ('pricelist_id', '=', pricelist.id),
+                ('applied_on', '=', '1_product'),
+                ('product_tmpl_id', '=', odoo_product.id),
+            ], limit=1)
+
+            item_vals = {
+                'pricelist_id': pricelist.id,
+                'applied_on': '1_product',
+                'product_tmpl_id': odoo_product.id,
+                'compute_price': 'percentage',
+                'percent_price': effective_discount,
+            }
+            if item:
+                item.write(item_vals)
+            else:
+                Item.create(item_vals)
+        except Exception as exc:
+            _logger.warning(
+                'Could not apply discount pricelist for %s: %s',
+                self.sku, exc,
+            )
+
+    def _get_or_create_discount_pricelist(self):
+        """Return (or create) the selectable pricelist used to apply discounts.
+
+        A generic (no website) selectable pricelist named "Descuento Público" is
+        reused when it already exists. It is made the default pricelist for
+        anonymous website visitors via the public user property.
+        """
+        Pricelist = self.env['product.pricelist'].sudo()
+        pricelist = Pricelist.search([('name', '=', 'Descuento Público')], limit=1)
+        if pricelist:
+            return pricelist
+
+        website = self.env['website'].sudo().search([], limit=1)
+        currency = (website and website.currency_id) or self.env.company.currency_id
+        pricelist = Pricelist.create({
+            'name': 'Descuento Público',
+            'selectable': True,
+            'sequence': -1,
+            'currency_id': currency.id,
+        })
+
+        # Make it the default pricelist for anonymous website visitors.
+        for website in self.env['website'].sudo().search([]):
+            public_partner = website.user_id.partner_id
+            if public_partner:
+                public_partner.sudo().write({
+                    'property_product_pricelist': pricelist.id,
+                })
+
+        return pricelist
+
     def _link_alternative_products(self):
         """Vincula productos alternativos (relacionados) al producto de Odoo.
 

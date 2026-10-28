@@ -43,6 +43,23 @@
     </template>
 
     <!-- ==================================================================
+         Autohaus Parts - Ficha de producto: badge de porcentaje de descuento
+         junto al precio (se apoya en el descuento aplicado por la pricelist).
+         ================================================================== -->
+    <template id="autohaus_product_discount_badge"
+              inherit_id="website_sale.product_price"
+              name="Autohaus Product Discount Badge"
+              priority="44">
+        <xpath expr="//span[@name='product_list_price']" position="after">
+            <t t-if="combination_info.get('has_discounted_price') and combination_info.get('list_price') and combination_info.get('price')">
+                <t t-set="product_discount_pct" t-value="int(round(100.0 * (1.0 - combination_info['price'] / combination_info['list_price'])))"/>
+                <span t-if="product_discount_pct &gt; 0"
+                      class="o_autohaus_discount_badge o_autohaus_discount_badge_product">-<t t-out="product_discount_pct"/>%</span>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ==================================================================
          Autohaus Parts - Ficha de producto: Consultar compatibilidad
          y fila de beneficios (debajo del boton de compra).
          La seccion de Compatibilidad no se agrega.

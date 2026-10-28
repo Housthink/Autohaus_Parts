@@ -48,6 +48,19 @@ class FindinPartConfig(models.Model):
     # Pricing Configuration
     price_margin_percent = fields.Float('Price Margin (%)', default=10.0,
                                        help='Percentage to add to FinditParts prices when creating products in Odoo (e.g., 10 for 10%)')
+
+    # Discount via Pricelist
+    apply_discount_as_pricelist = fields.Boolean(
+        'Apply Discount via Pricelist', default=False,
+        help='When enabled, the discount reported by FinditParts is applied through '
+             'a website pricelist so Odoo natively shows the original price with a '
+             'strikethrough and the discount percentage on the eCommerce.',
+    )
+    discount_pricelist_id = fields.Many2one(
+        'product.pricelist', 'Discount Pricelist',
+        help='Pricelist used to apply the discount. Leave empty to automatically '
+             'find or create a selectable pricelist for the website.',
+    )
     
     # Shipping Addresses
     shipping_address_usa = fields.Text('Shipping Address (USA)', default='Address example #123',

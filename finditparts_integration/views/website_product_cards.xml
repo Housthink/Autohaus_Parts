@@ -43,26 +43,38 @@
                         <t t-if="product_price" t-out="product_price"/>
                         <t t-else="">
                             <t t-set="template_price_vals" t-value="get_product_prices(product)"/>
+                            <t t-set="discount_pct" t-value="0"/>
+                            <t t-if="'base_price' in template_price_vals and template_price_vals['base_price'] &gt; template_price_vals['price_reduce'] and template_price_vals['price_reduce']">
+                                <t t-set="discount_pct" t-value="int(round(100.0 * (1.0 - template_price_vals['price_reduce'] / template_price_vals['base_price'])))"/>
+                            </t>
                             <span t-out="template_price_vals['price_reduce']"
                                   t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
-                            <del t-if="'base_price' in template_price_vals and (template_price_vals['base_price'] &gt; template_price_vals['price_reduce']) and (template_price_vals['price_reduce'] or not website.prevent_zero_price_sale)"
+                            <del t-if="discount_pct &gt; 0"
                                  class="o_autohaus_bs_old_price">
                                 <t t-out="template_price_vals['base_price']"
                                    t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
                             </del>
+                            <span t-if="discount_pct &gt; 0" class="o_autohaus_discount_badge">-<t t-out="discount_pct"/>%</span>
                         </t>
                     </t>
                     <t t-elif="card_mode == 'related'">
+                        <t t-set="related_discount_pct" t-value="0"/>
+                        <t t-if="data.get('has_discounted_price') and data.get('list_price') and data.get('price')">
+                            <t t-set="related_discount_pct" t-value="int(round(100.0 * (1.0 - data['price'] / data['list_price'])))"/>
+                        </t>
                         <span t-out="data['price']"
                               t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
-                        <del t-if="data.get('has_discounted_price')" class="o_autohaus_bs_old_price">
+                        <del t-if="related_discount_pct &gt; 0" class="o_autohaus_bs_old_price">
                             <t t-out="data['list_price']"
                                t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
                         </del>
+                        <span t-if="related_discount_pct &gt; 0" class="o_autohaus_discount_badge">-<t t-out="related_discount_pct"/>%</span>
                     </t>
                     <t t-else="">
-                        <span t-field="product.list_price"
+                        <t t-set="best_price" t-value="product.finditparts_sale_price or product.list_price"/>
+                        <span t-out="best_price"
                               t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <span t-if="product.finditparts_discount_percent &gt; 0" class="o_autohaus_discount_badge">-<t t-out="int(round(product.finditparts_discount_percent))"/>%</span>
                     </t>
                 </div>
 

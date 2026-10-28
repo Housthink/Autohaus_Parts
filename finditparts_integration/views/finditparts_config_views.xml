@@ -52,6 +52,9 @@
                             </group>
                             <group string="Pricing">
                                 <field name="price_margin_percent"/>
+                                <field name="apply_discount_as_pricelist"/>
+                                <field name="discount_pricelist_id"
+                                       invisible="not apply_discount_as_pricelist"/>
                             </group>
                         </group>
                         
