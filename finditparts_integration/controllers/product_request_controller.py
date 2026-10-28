@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class ProductRequestController(http.Controller):
     """Controller to handle product availability requests from website"""
     
-    @http.route('/shop/product/request_availability', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/shop/product/request_availability', type='jsonrpc', auth='public', methods=['POST'], csrf=False)
     def request_product_availability(self, product_id, email, message, **kwargs):
         """
         Create a CRM lead when a customer requests information about an out-of-stock product

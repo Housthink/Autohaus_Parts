@@ -16,7 +16,7 @@
             <h4 class="o_autohaus_alt_title">Productos relacionados</h4>
         </xpath>
 
-        <xpath expr="//section[hasclass('o_wsale_alternative_products')]//p[@class='lead']"
+        <xpath expr="//section[hasclass('o_wsale_alternative_products')]//p[hasclass('lead')]"
               position="replace">
             <p class="o_autohaus_alt_sub o_not_editable">
                 Estos productos tambien pueden interesarte

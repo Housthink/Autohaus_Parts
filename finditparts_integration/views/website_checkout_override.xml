@@ -4,10 +4,10 @@
     <template id="finditparts_checkout_address_presets" inherit_id="website_sale.address">
 
         <!-- Hide default "Edit address" title and warning alert -->
-        <xpath expr="//h4[contains(@class,'mb-3')]" position="attributes">
+        <xpath expr="//h4[hasclass('mb-3')]" position="attributes">
             <attribute name="style">display:none!important;</attribute>
         </xpath>
-        <xpath expr="//div[contains(@class,'alert-warning')]" position="attributes">
+        <xpath expr="//div[hasclass('alert-warning')]" position="attributes">
             <attribute name="style">display:none!important;</attribute>
         </xpath>
 

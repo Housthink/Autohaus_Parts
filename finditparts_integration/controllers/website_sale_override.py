@@ -182,7 +182,7 @@ class WebsiteSalePickup(WebsiteSale):
                     partner.write({"name": warehouse_name})
         return partner_id
 
-    @http.route("/shop/pickup/set", type="json", auth="public", website=True, csrf=False)
+    @http.route("/shop/pickup/set", type="jsonrpc", auth="public", website=True, csrf=False)
     def shop_pickup_set(self, warehouse=None, **kwargs):
         """
         Persist the pickup warehouse on the current sale order from the frontend JS.
@@ -201,7 +201,7 @@ class WebsiteSalePickup(WebsiteSale):
             return {"status": "error"}
         return {"status": "noop"}
 
-    @http.route("/shop/pickup/info", type="json", auth="public", website=True, csrf=False)
+    @http.route("/shop/pickup/info", type="jsonrpc", auth="public", website=True, csrf=False)
     def shop_pickup_info(self, **kwargs):
         """Small debug helper to inspect current order and shipping partner."""
         order = self._current_order()
