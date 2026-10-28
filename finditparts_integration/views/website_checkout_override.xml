@@ -51,7 +51,7 @@
                                 <t t-if="fip_addr_pa and fip_addr_pa != 'Address example #123'">
                                     <div class="small text-body mb-3" t-esc="fip_addr_pa"/>
                                 </t>
-                                <p class="text-warning small mb-3">Los envíos a Panamá tardan 2 días adicionales.</p>
+                                <p class="text-muted small mb-3">Los plazos de entrega para Panamá se muestran al cotizar el envío.</p>
                                 <button type="button" class="btn btn-outline-secondary w-100 btn-warehouse" data-warehouse="panama">Pickup in Panama</button>
                             </div>
                         </div>

@@ -72,6 +72,19 @@
                                 <field name="max_log_entries"/>
                             </group>
                         </group>
+
+                        <group string="Panamá Shipping (Autohaus)">
+                            <group>
+                                <field name="panama_markup_per_lb"
+                                       help="Recargo comercial en USD por libra facturable, aplicado sobre la tarifa base de FinditParts para los servicios aéreos de Panamá. Dato interno: no se muestra al cliente."/>
+                            </group>
+                            <group>
+                                <field name="enable_shipping_ground"/>
+                                <field name="enable_shipping_rapido"/>
+                                <field name="enable_shipping_flash"/>
+                                <field name="enable_shipping_lcl"/>
+                            </group>
+                        </group>
                         
                         <group>
                             <field name="active"/>

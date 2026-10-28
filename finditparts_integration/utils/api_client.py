@@ -693,6 +693,65 @@ class FindinPartAPIClient:
         except Exception as e:
             _logger.error(f"Failed to get tracking for order {order_id}: {str(e)}")
             return None
+
+    def get_shipping_rates(self, dest_country, dest_zip=None, cart_items=None,
+                           service_types=None):
+        """Get shipping rates reported by FinditParts for a destination.
+
+        The endpoint and payload are best-effort: the provider's shipping API
+        must be confirmed with FinditParts before production. When the API is
+        unavailable or does not return valid rates, this method returns an
+        empty list so the caller can flag the method as "pending quote" instead
+        of showing a ficticious price.
+
+        Returns a list of normalized rate dictionaries:
+            [{'service': 'ground', 'base_rate': 18.0, 'currency': 'USD',
+              'transit': '6-7', 'eligible': True}, ...]
+        """
+        if not dest_country:
+            return []
+
+        payload = {
+            'country': dest_country,
+            'items': cart_items or [],
+        }
+        if dest_zip:
+            payload['postal_code'] = dest_zip
+        if service_types:
+            payload['service_types'] = service_types
+
+        try:
+            response = self._make_request('POST', '/api/v1/shipping/rates', data=payload)
+        except Exception as e:
+            _logger.info(
+                "FinditParts shipping rates unavailable for %s: %s",
+                dest_country, str(e),
+            )
+            return []
+
+        if not response or not isinstance(response, dict):
+            return []
+
+        raw_rates = response.get('rates') or response.get('shipping_rates') or []
+        normalized = []
+        for raw in raw_rates:
+            if not isinstance(raw, dict):
+                continue
+            base_rate = raw.get('rate') or raw.get('price') or raw.get('base_rate')
+            if base_rate is None:
+                continue
+            try:
+                base_rate = float(base_rate)
+            except (TypeError, ValueError):
+                continue
+            normalized.append({
+                'service': raw.get('service') or raw.get('service_code') or '',
+                'base_rate': base_rate,
+                'currency': raw.get('currency') or 'USD',
+                'transit': raw.get('transit') or raw.get('estimated_days') or '',
+                'eligible': bool(raw.get('eligible', True)),
+            })
+        return normalized
     
     def search_products(self, query, filters=None, page=1, limit=100):
         """Search products with advanced filters"""

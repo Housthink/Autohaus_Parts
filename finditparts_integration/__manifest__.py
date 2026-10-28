@@ -1,6 +1,6 @@
 {
     'name': 'FindinPart API Integration',
-    'version': '19.0.1.27.0',
+    'version': '19.0.1.28.0',
     'category': 'Inventory/Purchase',
     'summary': 'Integration with FindinPart API for diesel engine parts catalog and order management',
     'description': """
@@ -31,6 +31,7 @@
         'security/finditparts_security.xml',
         'security/ir.model.access.csv',
         'data/finditparts_data.xml',
+        'data/shipping_data.xml',
         'views/finditparts_config_views.xml',
         'views/finditparts_product_views.xml',
         'views/finditparts_order_views.xml',
@@ -43,6 +44,7 @@
         'views/website_product_cards.xml',
         'views/website_product_templates.xml',
         'views/website_checkout_override.xml',
+        'views/website_delivery_method.xml',
         'views/website_header_override.xml',
         'views/website_footer_override.xml',
         'views/website_shop_hero.xml',

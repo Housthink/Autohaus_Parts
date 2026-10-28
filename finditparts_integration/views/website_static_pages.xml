@@ -84,75 +84,54 @@
         </t>
     </template>
 
-    <template id="shipping_page" name="Información de envíos">
+    <template id="shipping_page" name="Política de envíos y entregas">
         <t t-call="website.layout">
             <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
                 <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Envíos</span></nav>
-                <header class="o_autohaus_info_header"><h1>Información de envíos</h1><p>Envío gratis, opciones de entrega, tiempos estimados y seguimiento de pedidos.</p></header>
+                <header class="o_autohaus_info_header"><h1>Política de envíos y entregas</h1><p>Autohaus Parts · Información de envíos</p></header>
                 <section class="o_autohaus_info_content">
+                    <p>En Autohaus Parts gestionamos la venta e importación de repuestos diésel. Los costos y tiempos de entrega dependen del destino, el servicio de transporte seleccionado y las características de cada pedido.</p>
 
-                    <div class="o_autohaus_shipping_banner">
-                        <i class="fa fa-truck"/>
-                        <strong>Envío terrestre gratis</strong>
-                        <span>en pedidos elegibles superiores a $499</span>
-                    </div>
+                    <h2>Procesamiento y tiempos de entrega</h2>
+                    <p>Los pedidos se procesan de acuerdo con los horarios operativos y la disponibilidad de nuestros proveedores y transportistas. Las órdenes realizadas fuera del horario de atención, en fines de semana o en días feriados pueden comenzar a procesarse el siguiente día hábil.</p>
+                    <p>Los plazos indicados son estimados en días hábiles (de lunes a viernes, excluyendo feriados aplicables). Para los envíos a Panamá, el tiempo de tránsito estimado comienza una vez confirmado el despacho de la mercancía. La preparación previa del pedido, las inspecciones aduaneras y otras incidencias pueden modificar la fecha final de entrega.</p>
 
-                    <h2>Envíos y procesamiento de pedidos</h2>
-                    <ul>
-                        <li>No procesamos ni enviamos pedidos los fines de semana ni en días festivos.</li>
-                        <li>Todos los tiempos de envío y entrega mostrados en el sitio se refieren únicamente a días hábiles (de lunes a viernes, excluyendo festivos).</li>
-                        <li>Los pedidos realizados fuera del horario laboral, en fines de semana o en festivos comenzarán a procesarse el siguiente día hábil. Las estimaciones de entrega pueden variar según las operaciones del transportista, el clima, los días festivos u otros retrasos imprevistos.</li>
-                        <li>Los pedidos normalmente se envían el mismo día si se realizan antes de las 12:00 p.m. (hora del Este).</li>
-                    </ul>
-                    <p><strong>Importante:</strong> al recibir una entrega, inspecciona el producto en busca de daños visibles antes de firmar el recibo de entrega. Sigue estas buenas prácticas en caso de que el artículo llegue dañado:</p>
-                    <ul>
-                        <li><strong>Inspecciona a fondo:</strong> revisa todos los lados del paquete y del producto en busca de daños, incluyendo abolladuras, rasgaduras o grietas.</li>
-                        <li><strong>Documenta el daño:</strong> toma fotos claras del daño desde varios ángulos, incluyendo tanto el empaque como el producto.</li>
-                        <li><strong>Notifica al transportista:</strong> si el daño es evidente, anótalo de inmediato en el recibo de entrega. Esta documentación es fundamental para nuestros registros.</li>
-                        <li><strong>Envíanos la evidencia:</strong> envíanos las fotos y una descripción detallada del daño lo antes posible. Esto nos ayudará a agilizar cualquier reclamo o asistencia que necesites.</li>
-                    </ul>
-                    <p>No firmes un aviso de entrega sin inspeccionar el producto. Al momento de la entrega, el transportista puede requerir asistencia para descargar el producto (muelle, montacargas, etc.). Si el transportista aplica cargos adicionales por estos servicios, el cliente es totalmente responsable de aceptarlos o pagarlos, o puede rechazar el envío.</p>
+                    <h2>Entregas en Panamá</h2>
+                    <p>Ofrecemos diferentes alternativas de transporte desde el proveedor hasta Panamá. El método disponible y el precio final se muestran al cotizar el envío de tu pedido.</p>
+                    <p>El precio total de envío disponible para tu pedido se mostrará en dólares estadounidenses (US$) antes de confirmar el pago.</p>
 
-                    <h2>Métodos de envío y tiempo estimado de entrega</h2>
-                    <p>Los siguientes tiempos de entrega aplican una vez procesado el pedido, recibido por el almacén que lo despacha y creada la etiqueta de envío.</p>
-                    <ul>
-                        <li>Envío terrestre (Ground): 3–5 días hábiles</li>
-                        <li>Aéreo segundo día (Second Day Air): 2 días hábiles</li>
-                        <li>Aéreo al día siguiente (Next Day Air): 1 día hábil</li>
-                    </ul>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><th>Método</th><th>Costo de envío</th><th>Tiempo estimado</th><th>Entrega</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Ground · aéreo</td><td>Se calcula al cotizar</td><td>6–7 días hábiles</td><td>Retiro en nuestro local</td></tr>
+                            <tr><td>Rápido · aéreo</td><td>Se calcula al cotizar</td><td>4–5 días hábiles</td><td>Retiro en nuestro local</td></tr>
+                            <tr><td>Flash · aéreo</td><td>Se calcula al cotizar</td><td>2–3 días hábiles</td><td>Según confirmación del pedido</td></tr>
+                            <tr><td>Marítimo · LCL</td><td>Se calcula al cotizar</td><td>10–15 días hábiles</td><td>Según confirmación del pedido</td></tr>
+                        </tbody>
+                    </table>
 
-                    <h2>Tarifas estándar de envío</h2>
-                    <ul>
-                        <li>Pedidos menores a $499 (sin incluir impuestos): tarifas variables pagadas por el cliente, según el método de envío elegido en el checkout y las dimensiones o el peso del paquete.</li>
-                        <li>Pedidos de $499 o más en piezas marcadas como "elegibles para envío gratis" (sin incluir impuestos): envío terrestre gratis. Aplican tarifas variables para métodos de envío alternativos.</li>
-                        <li>Los artículos sobredimensionados o con sobrepeso están sujetos a tarifas de envío adicionales y no califican para envío gratis.</li>
-                    </ul>
+                    <h2>Costo de envío</h2>
+                    <p>El costo de envío depende del destino, el método seleccionado y las características de la mercancía. El importe total de cada opción disponible se calculará para tu pedido y se mostrará antes de confirmar el pago.</p>
+                    <p>Algunos productos pesados, voluminosos o que requieran manejo especial podrían necesitar una cotización personalizada. En esos casos, te informaremos el importe correspondiente antes de completar tu compra.</p>
 
-                    <h2>Elegibilidad para envío gratis</h2>
-                    <ul>
-                        <li>El envío gratis está disponible para pedidos que contengan al menos $499 (sin incluir impuestos) en piezas identificadas como "elegibles para envío gratis". Algunos productos selectos están marcados como elegibles para envío gratis sin requisito de compra mínima.</li>
-                        <li>Las piezas deben enviarse dentro de los 48 estados contiguos de EE. UU., a una sola dirección.</li>
-                        <li>Los pedidos de carga (LTL) no son elegibles, salvo que se indique lo contrario.</li>
-                        <li>El envío gratis no aplica a productos considerados sobredimensionados (OS) por UPS (por ejemplo: tambores de freno, parachoques, paneles de carrocería, capós, tanques de combustible, etc.).</li>
-                        <li>Si un pedido califica para envío gratis pero también contiene artículos no elegibles, se aplicarán tarifas de envío variables solo a esos artículos no elegibles.</li>
-                        <li>Cualquier artículo individual que supere las 40 lb, o un pedido total superior a 150 lb, queda excluido de las promociones de envío gratis. Estos artículos se enviarán mediante carga LTL y/o pueden incluir recargos de envío según las tarifas publicadas de UPS.</li>
-                    </ul>
+                    <h2>Entregas en Estados Unidos</h2>
+                    <p>Para entregas dentro de Estados Unidos, las opciones de transporte, sus tarifas y los plazos estimados corresponden a los servicios disponibles para ese pedido y dirección, según la información de los proveedores y transportistas correspondientes.</p>
+                    <p>Las promociones, tarifas especiales y opciones de envío gratuito solo aplican cuando estén expresamente disponibles y confirmadas en la cotización del pedido. Las tarifas adicionales de transporte e importación hacia Panamá no se aplican a pedidos cuya entrega final sea en Estados Unidos.</p>
 
-                    <h2>Política de envío internacional</h2>
-                    <ul>
-                        <li>Todos los pedidos internacionales por paquetería pasan por nuestro almacén en Ohio antes del envío final. Una vez que el pedido llega a Ohio, se prepara para la entrega internacional y se despacha en un día hábil.</li>
-                        <li>Los pedidos internacionales de carga (LTL) se entregan únicamente en nuestro almacén de Ohio. El cliente es responsable de coordinar el retiro desde esa ubicación; no coordinamos el transporte internacional más allá de la entrega en el almacén de Ohio.</li>
-                    </ul>
-                    <p>Los siguientes métodos de envío están disponibles para pedidos internacionales, y las estimaciones de entrega comienzan una vez que el pedido sale de nuestro almacén de Ohio:</p>
-                    <ul>
-                        <li>UPS Worldwide Expedited: hasta 10 días hábiles</li>
-                        <li>UPS Worldwide Saver: hasta 7 días hábiles</li>
-                        <li>UPS Worldwide Express (entrega en la mañana): hasta 7 días hábiles</li>
-                    </ul>
-                    <p>Los tiempos de entrega pueden variar según el destino, el proceso de aduanas y las condiciones del transportista. El cliente es responsable de todos los aranceles, impuestos, tarifas de gestión aduanal y cargos de importación aplicables impuestos por el país de destino. La información de seguimiento se proporciona una vez que el pedido sale de nuestro almacén de Ohio.</p>
+                    <h2>Seguimiento y retiro de pedidos</h2>
+                    <p>Compartiremos la información de seguimiento cuando esté disponible. En pedidos con varios artículos, los productos pueden despacharse por separado y contar con diferentes números de seguimiento.</p>
+                    <p>En los envíos Ground y Rápido hacia Panamá, la entrega se realizará en nuestro local, donde te notificaremos cuando el pedido esté listo para retirar. Para Flash y transporte marítimo, el lugar o modalidad de entrega se indicará expresamente al confirmar la cotización y el pedido.</p>
 
-                    <h2>¿Necesitas ayuda?</h2>
-                    <p><a href="/contactus">Contáctanos</a> antes de completar la compra si necesitas confirmar una ruta o una entrega especial.</p>
+                    <h2>Recepción de mercancía y daños de transporte</h2>
+                    <p>Al recibir tu pedido, revisa que el embalaje y las piezas no presenten golpes, roturas ni señales de daños. Cuando el transportista lo permita, realiza esta inspección antes de firmar la constancia de entrega.</p>
+                    <p>Si detectas alguna irregularidad, deja constancia con el transportista, toma fotografías del empaque y de la pieza y repórtala a Autohaus Parts lo antes posible mediante nuestros canales oficiales. Conserva el empaque y la documentación hasta recibir instrucciones.</p>
+
+                    <h2>Consideraciones importantes</h2>
+                    <p>Los tiempos pueden variar por disponibilidad de inventario, feriados, condiciones meteorológicas, inspecciones aduaneras, restricciones de transporte o situaciones ajenas a nuestro control.</p>
+                    <p>Algunos productos voluminosos, pesados o que requieren manejo especial pueden tener cargos o restricciones adicionales. Los impuestos, aranceles u otros conceptos aplicables se informarán según corresponda antes de que el cliente confirme los importes definitivos de la compra.</p>
+                    <p>Para consultas sobre entregas y seguimiento, contáctanos a través de los canales oficiales disponibles en autohauspart.com. Las devoluciones y cambios se rigen por la política correspondiente de Autohaus Parts.</p>
                 </section>
             </div></div>
         </t>
