@@ -1,6 +1,6 @@
 import math
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 # Internal service definitions for Panama shipping. These are used by the
@@ -122,12 +122,6 @@ class DeliveryCarrier(models.Model):
         self = self.sudo()
         order = order.sudo()
 
-        # Panama air services quote as: FinditParts base rate + Autohaus markup
-        # (USD per billable pound). LCL is not auto-quoted because the API does
-        # not provide dimensions, so there is no billable volume.
-        if self.panama_service_type in PANAMA_AIR_SERVICES:
-            return self._autohaus_panama_air_price(order)
-
         total = weight = volume = quantity = wv = 0
         for line in order.order_line:
             if line.state == "cancel":
@@ -159,58 +153,9 @@ class DeliveryCarrier(models.Model):
         weight = self._round_weight_for_delivery(weight, self.weight_unit)
         return self._get_price_from_picking(total, weight, volume, quantity, wv=wv)
 
-    def _autohaus_panama_air_price(self, order):
-        """Compute the Panama air shipping price from the base rate + markup.
-
-        Price = FinditParts base rate + (markup per pound * billable weight).
-
-        The base rate comes from the order's stored quote snapshot when
-        available; otherwise it is fetched from the API and cached on the
-        order. Returns False when there is no valid base rate, so the method is
-        reported as "not available" instead of showing a ficticious US$0.
-        """
-        self.ensure_one()
-        base_rate = order._autohaus_get_base_rate(self.panama_service_type)
-        if base_rate is None:
-            order._autohaus_refresh_base_rates()
-            base_rate = order._autohaus_get_base_rate(self.panama_service_type)
-        if base_rate is None:
-            return False
-        billable_weight_lb = order._autohaus_cart_weight_lb()
-        markup_per_lb = order._autohaus_markup_per_lb()
-        return base_rate + (markup_per_lb * billable_weight_lb)
-
-    def fixed_rate_shipment(self, order):
-        """Override the fixed-price carrier rate for Panama air services.
-
-        The FinditParts base rate plus the Autohaus markup are computed
-        server-side; only the final price is returned. The internal breakdown
-        stays in the order's restricted quote snapshot.
-        """
-        if self.panama_service_type in PANAMA_AIR_SERVICES:
-            price = self._autohaus_panama_air_price(order)
-            if price is False:
-                return {
-                    "success": False,
-                    "price": 0.0,
-                    "error_message": _(
-                        "Cotización pendiente: no fue posible obtener la tarifa "
-                        "base del transportista para este método."
-                    ),
-                    "warning_message": False,
-                }
-            return {
-                "success": True,
-                "price": price,
-                "error_message": False,
-                "warning_message": False,
-            }
-        return super().fixed_rate_shipment(order)
-
     def _is_available_for_order(self, order):
-        """Ensure only quotable Panama methods are offered at checkout.
+        """Panama air services are available when a price rule can be matched.
 
-        Air methods are available only when a valid base rate can be quoted.
         LCL is never auto-quoted because the API provides no dimensions, so
         there is no billable volume. The destination check is handled by
         ``sale.order._get_delivery_methods``, so the native country matching is
@@ -218,8 +163,7 @@ class DeliveryCarrier(models.Model):
         partner country, determines the final destination).
         """
         if self.panama_service_type in PANAMA_AIR_SERVICES:
-            order._autohaus_refresh_base_rates()
-            return order._autohaus_get_base_rate(self.panama_service_type) is not None
+            return True
         if self.panama_service_type == "lcl":
             return False
         return super()._is_available_for_order(order)

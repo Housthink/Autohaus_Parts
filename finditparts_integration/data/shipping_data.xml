@@ -2,67 +2,104 @@
 <odoo>
     <data noupdate="1">
         <!--
-            Autohaus Panama shipping methods.
+            Autohaus Panama shipping methods (weight-based rules).
 
-            Base rates always come from the FinditParts API at quote time; the
-            records below only carry the service type and a zero fixed price.
-            The commercial markup (USD per billable pound) is read from the
-            active finditparts.config (or the matching ir.config_parameter) and
-            applied by the quoting engine. These are internal records: the
-            markup and base rate are never exposed to the customer.
+            The price is computed by rule from the cart weight in pounds
+            (rounded up): base rate (0 while the FinditParts API does not
+            return one) + markup per billable pound. The commercial markup is
+            read from the active finditparts.config (or the matching
+            ir.config_parameter). These are internal records: the markup is
+            never exposed to the customer.
+
+            No country_ids are set because the checkout warehouse selection
+            (not the partner country) determines the destination; filtering is
+            handled by sale.order._get_delivery_methods.
         -->
 
         <!-- Ground · aéreo -->
         <record id="carrier_panama_ground" model="delivery.carrier">
             <field name="name">Ground · aéreo (Panamá)</field>
-            <field name="delivery_type">fixed</field>
-            <field name="fixed_price">0.0</field>
+            <field name="delivery_type">base_on_rule</field>
             <field name="sequence">10</field>
             <field name="panama_service_type">ground</field>
             <field name="weight_unit">lb</field>
             <field name="is_published">True</field>
             <field name="product_id" ref="delivery.product_product_delivery"/>
-            <field name="country_ids" eval="[(4, ref('base.pa'))]"/>
         </record>
 
         <!-- Rápido · aéreo -->
         <record id="carrier_panama_rapido" model="delivery.carrier">
             <field name="name">Rápido · aéreo (Panamá)</field>
-            <field name="delivery_type">fixed</field>
-            <field name="fixed_price">0.0</field>
+            <field name="delivery_type">base_on_rule</field>
             <field name="sequence">20</field>
             <field name="panama_service_type">rapido</field>
             <field name="weight_unit">lb</field>
             <field name="is_published">True</field>
             <field name="product_id" ref="delivery.product_product_delivery"/>
-            <field name="country_ids" eval="[(4, ref('base.pa'))]"/>
         </record>
 
         <!-- Flash · aéreo -->
         <record id="carrier_panama_flash" model="delivery.carrier">
             <field name="name">Flash · aéreo (Panamá)</field>
-            <field name="delivery_type">fixed</field>
-            <field name="fixed_price">0.0</field>
+            <field name="delivery_type">base_on_rule</field>
             <field name="sequence">30</field>
             <field name="panama_service_type">flash</field>
             <field name="weight_unit">lb</field>
             <field name="is_published">True</field>
             <field name="product_id" ref="delivery.product_product_delivery"/>
-            <field name="country_ids" eval="[(4, ref('base.pa'))]"/>
         </record>
 
         <!-- Marítimo · LCL (quoted manually: no dimensions from API) -->
         <record id="carrier_panama_lcl" model="delivery.carrier">
             <field name="name">Marítimo · LCL (Panamá)</field>
-            <field name="delivery_type">fixed</field>
-            <field name="fixed_price">0.0</field>
+            <field name="delivery_type">base_on_rule</field>
             <field name="sequence">40</field>
             <field name="panama_service_type">lcl</field>
             <field name="weight_unit">lb</field>
             <field name="is_published">True</field>
             <field name="active" eval="False"/>
             <field name="product_id" ref="delivery.product_product_delivery"/>
-            <field name="country_ids" eval="[(4, ref('base.pa'))]"/>
+        </record>
+
+        <!--
+            Reglas de precio por peso (USD por libra facturable).
+
+            Precio = list_base_price + list_price * peso (en lb). La tarifa base
+            de FinditParts se toma como 0 hasta que la API la devuelva, por lo
+            que el precio es US$2.50 por cada libra facturable (redondeada hacia
+            arriba por el motor de envío).
+        -->
+        <record id="price_rule_panama_ground" model="delivery.price.rule">
+            <field name="carrier_id" ref="carrier_panama_ground"/>
+            <field name="sequence">10</field>
+            <field name="variable">weight</field>
+            <field name="operator">&gt;=</field>
+            <field name="max_value">0</field>
+            <field name="list_base_price">0.0</field>
+            <field name="list_price">2.50</field>
+            <field name="variable_factor">weight</field>
+        </record>
+
+        <record id="price_rule_panama_rapido" model="delivery.price.rule">
+            <field name="carrier_id" ref="carrier_panama_rapido"/>
+            <field name="sequence">10</field>
+            <field name="variable">weight</field>
+            <field name="operator">&gt;=</field>
+            <field name="max_value">0</field>
+            <field name="list_base_price">0.0</field>
+            <field name="list_price">2.50</field>
+            <field name="variable_factor">weight</field>
+        </record>
+
+        <record id="price_rule_panama_flash" model="delivery.price.rule">
+            <field name="carrier_id" ref="carrier_panama_flash"/>
+            <field name="sequence">10</field>
+            <field name="variable">weight</field>
+            <field name="operator">&gt;=</field>
+            <field name="max_value">0</field>
+            <field name="list_base_price">0.0</field>
+            <field name="list_price">2.50</field>
+            <field name="variable_factor">weight</field>
         </record>
 
         <!--

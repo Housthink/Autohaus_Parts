@@ -1,6 +1,6 @@
 {
     'name': 'FindinPart API Integration',
-    'version': '19.0.1.28.0',
+    'version': '19.0.1.31.0',
     'category': 'Inventory/Purchase',
     'summary': 'Integration with FindinPart API for diesel engine parts catalog and order management',
     'description': """

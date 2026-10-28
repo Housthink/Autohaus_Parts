@@ -38,7 +38,6 @@ def migrate(cr, version):
 
     Carrier = env["delivery.carrier"].sudo()
     delivery_product = env.ref("delivery.product_product_delivery", raise_if_not_found=False)
-    country_pa = env.ref("base.pa", raise_if_not_found=False)
 
     created = 0
     for service, name, sequence, active in _SERVICES:
@@ -59,8 +58,6 @@ def migrate(cr, version):
         }
         if delivery_product:
             values["product_id"] = delivery_product.id
-        if country_pa:
-            values["country_ids"] = [(4, country_pa.id)]
         Carrier.create(values)
         created += 1
 
