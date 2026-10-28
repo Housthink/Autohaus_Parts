@@ -1084,8 +1084,11 @@ class FindinPartProduct(models.Model):
         Tag = self.env['product.tag'].sudo()
         tag = Tag.search([('name', '=ilike', normalized)], limit=1)
         if not tag:
-            tag = Tag.create({'name': normalized})
+            tag = Tag.create({'name': normalized, 'visible_to_customers': True})
             _logger.info(f"Created product.tag for brand: {normalized}")
+        elif not tag.visible_to_customers:
+            tag.write({'visible_to_customers': True})
+            _logger.info(f"Marked product.tag visible for brand: {normalized}")
         return tag
 
     def _get_or_create_category_path(self, names, model):
