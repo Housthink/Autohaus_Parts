@@ -15,8 +15,8 @@
         <xpath expr="//form[contains(@action,'/shop/address')]|//form[@id='address_form']" position="before">
             <t t-set="sale_order" t-value="request.session.get('sale_order_id') and request.env['sale.order'].sudo().browse(request.session.get('sale_order_id')) or False"/>
             <t t-set="fip_config" t-value="request.env['finditparts.config'].sudo().search([('active','=',True)], limit=1)"/>
-            <t t-set="fip_addr_usa" t-value="fip_config and fip_config.shipping_address_usa or 'Address example #123'"/>
-            <t t-set="fip_addr_pa" t-value="fip_config and fip_config.shipping_address_panama or 'Address example #123'"/>
+            <t t-set="fip_addr_usa" t-value="fip_config and fip_config.shipping_address_usa or ''"/>
+            <t t-set="fip_addr_pa" t-value="fip_config and fip_config.shipping_address_panama or ''"/>
 
             <div class="o_wsale_preset_addresses mb-4">
                 <h4 class="mb-3">Choose your pickup point</h4>
@@ -33,7 +33,9 @@
                                     <h5 class="mb-0">USA Warehouse</h5>
                                 </div>
                                 <p class="text-muted small mb-3">Pickup/ship via our USA hub.</p>
-                                <div class="small text-body mb-3" t-esc="fip_addr_usa"/>
+                                <t t-if="fip_addr_usa and fip_addr_usa != 'Address example #123'">
+                                    <div class="small text-body mb-3" t-esc="fip_addr_usa"/>
+                                </t>
                                 <button type="button" class="btn btn-outline-secondary w-100 btn-warehouse" data-warehouse="usa">Pickup in USA</button>
                             </div>
                         </div>
@@ -46,7 +48,10 @@
                                     <h5 class="mb-0">Panama Warehouse</h5>
                                 </div>
                                 <p class="text-muted small mb-3">Pickup/ship via our Panama hub.</p>
-                                <div class="small text-body mb-3" t-esc="fip_addr_pa"/>
+                                <t t-if="fip_addr_pa and fip_addr_pa != 'Address example #123'">
+                                    <div class="small text-body mb-3" t-esc="fip_addr_pa"/>
+                                </t>
+                                <p class="text-warning small mb-3">Los envíos a Panamá tardan 2 días adicionales.</p>
                                 <button type="button" class="btn btn-outline-secondary w-100 btn-warehouse" data-warehouse="panama">Pickup in Panama</button>
                             </div>
                         </div>
@@ -68,6 +73,13 @@
         <!-- Small style + JS to toggle selection and set the hidden field -->
         <xpath expr="//form[contains(@action,'/shop/address')]|//form[@id='address_form']" position="after">
             <style>
+                .o_wsale_preset_addresses .card-body {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .o_wsale_preset_addresses .btn-warehouse {
+                    margin-top: auto;
+                }
                 .o_wsale_preset_addresses .card.is-selected {
                     border-color: #198754 !important;
                     box-shadow: 0 0 0 2px rgba(25,135,84,0.12);
