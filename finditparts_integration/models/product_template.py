@@ -2,6 +2,14 @@ from odoo import models, fields, api
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
+
+    shipping_weight_unit = fields.Selection(
+        selection=[('lb', 'lb'), ('kg', 'kg')],
+        string='Shipping Weight Unit',
+        default='lb',
+        required=True,
+        help='Unit used by the stored product weight when calculating delivery prices.',
+    )
     
     finditparts_stock = fields.Float(
         string='FinditParts Stock',
@@ -24,6 +32,11 @@ class ProductTemplate(models.Model):
     finditparts_discount_percent = fields.Float(
         string='FinditParts Discount (%)',
         help='Discount reported by FinditParts during the last synchronization.',
+    )
+
+    finditparts_sale_price = fields.Float(
+        string='FinditParts Sale Price',
+        help='Final sale price reported by FinditParts including the configured margin.',
     )
 
     finditparts_part_number = fields.Char(

@@ -24,8 +24,155 @@
 .o_autohaus_faq_content details { padding: 0.95rem 0; border-bottom: 1px solid #eef0f3; }
 .o_autohaus_faq_content details:last-child { border-bottom: 0; }
 .o_autohaus_faq_content summary { cursor: pointer; color: #123a5f; font-weight: 800; }
+
+/* --- Glosario de marcas -------------------------------------------------- */
+.o_autohaus_glossary_page .o_autohaus_info_header { margin-bottom: 1rem; }
+
+.o_autohaus_glossary_alpha {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 1.75rem;
+    padding: 0.75rem 0;
+    background: #f6f7f9;
+    border-bottom: 1px solid #e3e6ea;
+}
+
+.o_autohaus_glossary_alpha_link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 0.4rem;
+    color: #123a5f;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.o_autohaus_glossary_alpha_link:hover,
+.o_autohaus_glossary_alpha_link:focus {
+    background: #123a5f;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.o_autohaus_glossary_alpha_link_disabled {
+    color: #c3cad3;
+    cursor: default;
+}
+
+.o_autohaus_glossary_alpha_link_disabled:hover {
+    background: transparent;
+    color: #c3cad3;
+}
+
+.o_autohaus_glossary_sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+}
+
+.o_autohaus_glossary_section {
+    scroll-margin-top: 90px;
+}
+
+.o_autohaus_glossary_letter {
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    color: #ee5a24;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-bottom: 2px solid #eef0f3;
+}
+
+.o_autohaus_glossary_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.9rem;
+}
+
+.o_autohaus_glossary_brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.6rem 0.85rem;
+    background: #ffffff;
+    border: 1px solid #e3e6ea;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.o_autohaus_glossary_brand:hover,
+.o_autohaus_glossary_brand:focus {
+    border-color: #ee5a24;
+    box-shadow: 0 4px 12px rgba(238, 90, 36, 0.15);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.o_autohaus_glossary_brand_name {
+    color: #4a4a4a;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.o_autohaus_glossary_brand:hover .o_autohaus_glossary_brand_name {
+    color: #123a5f;
+}
+
+/* --- Glosario de productos (solo texto) --------------------------------- */
+.o_autohaus_product_glossary_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.5rem;
+}
+
+.o_autohaus_product_glossary_item {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0.45rem 0.85rem;
+    background: #ffffff;
+    border: 1px solid #e3e6ea;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.o_autohaus_product_glossary_item:hover,
+.o_autohaus_product_glossary_item:focus {
+    border-color: #ee5a24;
+    box-shadow: 0 2px 8px rgba(238, 90, 36, 0.12);
+    text-decoration: none;
+}
+
+.o_autohaus_product_glossary_name {
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.o_autohaus_product_glossary_item:hover .o_autohaus_product_glossary_name {
+    color: #123a5f;
+}
+
 @media (max-width: 700px) {
     .o_autohaus_info_header h1 { font-size: 1.65rem; }
     .o_autohaus_info_content { padding: 1.25rem; }
     .o_autohaus_blog_grid { grid-template-columns: 1fr; }
+    .o_autohaus_glossary_grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .o_autohaus_product_glossary_grid { grid-template-columns: 1fr; }
 }

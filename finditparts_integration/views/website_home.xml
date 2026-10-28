@@ -167,7 +167,12 @@
                     <t t-set="home_brands" t-value="request.env['website'].sudo().get_current_website().get_home_brands()"/>
                     <section t-if="home_brands" class="o_autohaus_home_brands" aria-label="Marcas líderes">
                         <div class="o_autohaus_home_container">
-                            <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
+                            <div class="o_autohaus_home_brands_head">
+                                <h2 class="o_autohaus_home_brands_title">Marcas líderes</h2>
+                                <a href="/marcas" class="o_autohaus_home_brands_link">
+                                    Ver todas las marcas <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                </a>
+                            </div>
                             <div class="o_autohaus_home_brands_grid">
                                 <t t-foreach="home_brands" t-as="brand">
                                     <a t-att-href="'/shop?tags=%s' % brand['tag'].id"

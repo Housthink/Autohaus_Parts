@@ -176,6 +176,25 @@
     text-decoration: line-through;
 }
 
+.o_autohaus_discount_badge {
+    display: inline-block;
+    margin-left: 0.35rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    background: #ee5a24;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.4;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.o_autohaus_discount_badge_product {
+    font-size: 0.85rem;
+    padding: 0.15rem 0.55rem;
+}
+
 /* --- Add to cart / wishlist -------------------------------------------- */
 .o_autohaus_bs_actions {
     display: flex;

@@ -313,6 +313,34 @@
     color: #ee5a24;
 }
 
+/* --- Métodos de pago ----------------------------------------------------- */
+.o_autohaus_payment_methods {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid #eceff2;
+}
+
+.o_autohaus_payment_label {
+    color: #6c757d;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-right: 0.15rem;
+    white-space: nowrap;
+}
+
+.o_autohaus_payment_icon {
+    height: 40px;
+    width: auto;
+    max-width: 76px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: #ffffff;
+}
+
 @media (max-width: 575.98px) {
     .o_autohaus_prod_benefits {
         grid-template-columns: minmax(0, 1fr);
@@ -320,6 +348,11 @@
 
     .o_autohaus_prod_info_cards {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .o_autohaus_payment_label {
+        width: 100%;
+        margin-bottom: 0.15rem;
     }
 }
 /* ==========================================================================

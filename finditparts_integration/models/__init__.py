@@ -6,6 +6,7 @@ from . import finditparts_sync_cron
 from . import product_template
 from . import product_public_category
 from . import sale_order
+from . import delivery_carrier
 from . import website
 from . import customer_request
 from . import res_config_settings

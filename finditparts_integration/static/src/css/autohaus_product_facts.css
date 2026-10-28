@@ -147,6 +147,62 @@
     word-break: break-word;
 }
 
+/* --- Manufacturer Information -------------------------------------------- */
+.o_autohaus_manufacturer {
+    padding: 0.75rem 1rem;
+}
+
+.o_autohaus_manufacturer_logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid #f0f2f4;
+    border-radius: 8px;
+    background: #fafbfc;
+}
+
+.o_autohaus_manufacturer_logo img {
+    max-height: 4.5rem;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.o_autohaus_manufacturer_info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.o_autohaus_manufacturer_name {
+    color: #123a5f;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.o_autohaus_manufacturer_name:hover,
+.o_autohaus_manufacturer_name:focus {
+    color: #ee5a24;
+    text-decoration: underline;
+}
+
+.o_autohaus_manufacturer_desc {
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.o_autohaus_manufacturer_desc p {
+    margin: 0;
+}
+
+.o_autohaus_manufacturer_info .o_autohaus_facts_more {
+    display: inline-block;
+    margin: 0;
+}
+
 /* --- Enlaces de compatibilidad ------------------------------------------ */
 .o_autohaus_compat_link {
     color: #ee5a24;

@@ -42,6 +42,20 @@
                                     <i class="fa fa-chevron-right o_autohaus_cat_chevron" aria-hidden="true"/>
                                 </span>
                             </a>
+                            <t t-set="subcategories" t-value="c.child_id.filtered('has_published_products')"/>
+                            <div t-if="subcategories"
+                                 class="o_autohaus_cat_dropdown"
+                                 role="menu"
+                                 t-att-aria-label="'Subcategorías de ' + c.name">
+                                <ul class="o_autohaus_cat_dropdown_list" role="presentation">
+                                    <li t-foreach="subcategories" t-as="sub" role="presentation">
+                                        <a t-att-href="keep('%s/category/%s' % (shop_path, slug(sub)))"
+                                           class="o_autohaus_cat_dropdown_link"
+                                           role="menuitem"
+                                           t-out="sub.name"/>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>

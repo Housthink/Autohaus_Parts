@@ -14,7 +14,31 @@ DEFAULT_IMAGE_URL = '/finditparts_integration/static/img/default_product.png'
 BEST_SELLER_LIMIT = 100
 BEST_SELLER_CACHE_TTL = 3600  # seconds
 
+_MANUFACTURER_DESCRIPTIONS_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'data', 'manufacturer_descriptions.json',
+)
+_manufacturer_descriptions = None
+
 _logger = logging.getLogger(__name__)
+
+
+def _get_manufacturer_description(manufacturer_name):
+    """Return the curated description for a manufacturer, if any."""
+    global _manufacturer_descriptions
+    if _manufacturer_descriptions is None:
+        try:
+            with open(_MANUFACTURER_DESCRIPTIONS_PATH, 'r', encoding='utf-8') as fh:
+                _manufacturer_descriptions = json.load(fh)
+        except (OSError, ValueError):
+            _logger.warning(
+                "Could not load manufacturer descriptions from %s",
+                _MANUFACTURER_DESCRIPTIONS_PATH,
+            )
+            _manufacturer_descriptions = {}
+    return (_manufacturer_descriptions or {}).get(
+        (manufacturer_name or '').strip().upper(), ''
+    )
 
 
 class FindinPartProduct(models.Model):
@@ -28,11 +52,14 @@ class FindinPartProduct(models.Model):
     brand = fields.Char('Brand')
     manufacturer = fields.Char('Manufacturer')
     part_number = fields.Char('Part Number')
+    manufacturer_image = fields.Char('Manufacturer Image')
+    product_url = fields.Char('Product URL')
     
     name = fields.Char('Product Name', required=True)
     description = fields.Text('Description')
     long_description = fields.Html('Long Description')
     specifications = fields.Text('Technical Specifications')
+    pies_data_json = fields.Text('PIES Data (JSON)')
     
     category_id = fields.Many2one('product.category', 'Category')
     subcategory_id = fields.Many2one('product.category', 'Subcategory')
@@ -81,7 +108,7 @@ class FindinPartProduct(models.Model):
     datasheet_url = fields.Char('Datasheet URL')
     video_url = fields.Char('Video URL')
     
-    weight = fields.Float('Weight (kg)')
+    weight = fields.Float('Weight (lbs)')
     length = fields.Float('Length (cm)')
     width = fields.Float('Width (cm)')
     height = fields.Float('Height (cm)')
@@ -266,6 +293,7 @@ class FindinPartProduct(models.Model):
                     'sale_ok': sale_allowed,
                     'purchase_ok': True,
                     'best_seller': self.best_seller,
+                    'finditparts_sale_price': list_price_value,
                 }
                 if 'sale_delay' in self.env['product.template']._fields:
                     product_vals['sale_delay'] = sale_delay
@@ -380,6 +408,7 @@ class FindinPartProduct(models.Model):
                     'weight': self.weight or 0.0,
                     'sale_ok': sale_allowed,
                     'best_seller': self.best_seller,
+                    'finditparts_sale_price': list_price_value,
                 })
                 if 'sale_delay' in self.env['product.template']._fields:
                     update_vals['sale_delay'] = sale_delay
@@ -464,6 +493,7 @@ class FindinPartProduct(models.Model):
             self.sync_errors = False
             self.update_stock_status()
             self._link_alternative_products()
+            self._apply_discount_pricelist()
             
             return True
             
@@ -473,6 +503,105 @@ class FindinPartProduct(models.Model):
             self.sync_errors = str(e)
             return False
     
+    def _apply_discount_pricelist(self):
+        """Apply the FinditParts discount through a website pricelist.
+
+        When enabled in the configuration, the product's list price is set to
+        the MSRP (the original/comparable price) and a pricelist rule reduces it
+        to the final sale price (with margin). This lets Odoo natively render the
+        strikethrough price and the discount percentage on the /shop and product
+        pages, without requiring the "Comparison Price" setting.
+
+        Falls back to the regular sale price when there is no MSRP or no actual
+        discount, and removes any stale pricelist rule in that case.
+        """
+        self.ensure_one()
+        odoo_product = self.odoo_product_id
+        if not odoo_product:
+            return
+
+        try:
+            config = self.env['finditparts.config'].get_active_config()
+            if not config or not config.apply_discount_as_pricelist:
+                return
+
+            sale_price = self.sale_price_with_margin or self._get_odoo_sale_price()
+            base_price = self.msrp_price or 0.0
+
+            pricelist = config.discount_pricelist_id or self._get_or_create_discount_pricelist()
+
+            if not pricelist or not (base_price > sale_price > 0):
+                # No discount to apply: restore the regular sale price and drop
+                # any stale rule left over from a previous synchronization.
+                odoo_product.sudo().write({'list_price': sale_price})
+                if pricelist:
+                    self.env['product.pricelist.item'].sudo().search([
+                        ('pricelist_id', '=', pricelist.id),
+                        ('applied_on', '=', '1_product'),
+                        ('product_tmpl_id', '=', odoo_product.id),
+                    ]).unlink()
+                return
+
+            # Use the MSRP as the crossed-out base price and reduce it via pricelist.
+            odoo_product.sudo().write({'list_price': base_price})
+
+            effective_discount = 100.0 * (1.0 - (sale_price / base_price))
+
+            Item = self.env['product.pricelist.item'].sudo()
+            item = Item.search([
+                ('pricelist_id', '=', pricelist.id),
+                ('applied_on', '=', '1_product'),
+                ('product_tmpl_id', '=', odoo_product.id),
+            ], limit=1)
+
+            item_vals = {
+                'pricelist_id': pricelist.id,
+                'applied_on': '1_product',
+                'product_tmpl_id': odoo_product.id,
+                'compute_price': 'percentage',
+                'percent_price': effective_discount,
+            }
+            if item:
+                item.write(item_vals)
+            else:
+                Item.create(item_vals)
+        except Exception as exc:
+            _logger.warning(
+                'Could not apply discount pricelist for %s: %s',
+                self.sku, exc,
+            )
+
+    def _get_or_create_discount_pricelist(self):
+        """Return (or create) the selectable pricelist used to apply discounts.
+
+        A generic (no website) selectable pricelist named "Descuento Público" is
+        reused when it already exists. It is made the default pricelist for
+        anonymous website visitors via the public user property.
+        """
+        Pricelist = self.env['product.pricelist'].sudo()
+        pricelist = Pricelist.search([('name', '=', 'Descuento Público')], limit=1)
+        if pricelist:
+            return pricelist
+
+        website = self.env['website'].sudo().search([], limit=1)
+        currency = (website and website.currency_id) or self.env.company.currency_id
+        pricelist = Pricelist.create({
+            'name': 'Descuento Público',
+            'selectable': True,
+            'sequence': -1,
+            'currency_id': currency.id,
+        })
+
+        # Make it the default pricelist for anonymous website visitors.
+        for website in self.env['website'].sudo().search([]):
+            public_partner = website.user_id.partner_id
+            if public_partner:
+                public_partner.sudo().write({
+                    'property_product_pricelist': pricelist.id,
+                })
+
+        return pricelist
+
     def _link_alternative_products(self):
         """Vincula productos alternativos (relacionados) al producto de Odoo.
 
@@ -580,12 +709,16 @@ class FindinPartProduct(models.Model):
         Muestra la informacion separada por pestanas (tabs):
           - Descripcion
           - Especificaciones
-          - Compatibilidad
+          - Ficha tecnica
+          - Informacion del fabricante
+          - Referencias cruzadas
+          - Entrega e informacion de envio
           - Garantia y Devoluciones
 
-        Las tres primeras se alimentan de los datos del producto; la ultima es
-        contenido estatico traducido. El estilo vive en el CSS del modulo
-        (autohaus_product_facts.css); aqui solo se genera el HTML semantico.
+        Todas se alimentan de los datos del producto, salvo la de Garantia y
+        Devoluciones que es contenido estatico traducido. El estilo vive en el
+        CSS del modulo (autohaus_product_facts.css); aqui solo se genera el
+        HTML semantico.
         """
         attribute_pairs = attribute_pairs or []
         sections = []
@@ -730,7 +863,64 @@ class FindinPartProduct(models.Model):
                 quick_facts_rows.append((label, value))
         quick_facts_content = build_rows(quick_facts_rows)
 
-        # --- Compatibilidad (referencias equivalentes) -------------------
+        # --- Información del fabricante ------------------------------------
+        manufacturer_name = product_data.get('manufacturer') or product_data.get('brand') or ''
+        manufacturer_image = product_data.get('manufacturer_image') or ''
+
+        brand_href = (
+            '/shop?search=%s' % requests.utils.quote(manufacturer_name)
+            if manufacturer_name else ''
+        )
+
+        mfr_logo = ''
+        if manufacturer_image:
+            mfr_logo = (
+                "<div class='o_autohaus_manufacturer_logo'>"
+                f"<img src='{format_text(manufacturer_image)}' "
+                f"alt='{format_text(manufacturer_name or 'Fabricante')}' loading='lazy' />"
+                "</div>"
+            )
+
+        mfr_name = ''
+        if manufacturer_name:
+            if brand_href:
+                mfr_name = (
+                    f"<a class='o_autohaus_manufacturer_name' href='{brand_href}'>"
+                    f"{format_text(manufacturer_name)}</a>"
+                )
+            else:
+                mfr_name = (
+                    f"<span class='o_autohaus_manufacturer_name'>"
+                    f"{format_text(manufacturer_name)}</span>"
+                )
+
+        mfr_actions = []
+        if brand_href:
+            mfr_actions.append(
+                f"<a class='o_autohaus_facts_more' href='{brand_href}'>"
+                "Ver todos los productos de esta marca</a>"
+            )
+
+        mfr_desc_html = ''
+        mfr_description = _get_manufacturer_description(manufacturer_name)
+        if mfr_description:
+            mfr_desc_html = (
+                "<div class='o_autohaus_manufacturer_desc'>"
+                f"<p>{format_text(mfr_description)}</p>"
+                "</div>"
+            )
+
+        mfr_info = (
+            "<div class='o_autohaus_manufacturer_info'>"
+            f"{mfr_name}{mfr_desc_html}{''.join(mfr_actions)}"
+            "</div>"
+        ) if (mfr_name or mfr_desc_html or mfr_actions) else ''
+
+        manufacturer_content = (
+            f"<div class='o_autohaus_manufacturer'>{mfr_logo}{mfr_info}</div>"
+        ) if (mfr_logo or mfr_info) else ''
+
+        # --- Referencias cruzadas (part_interchanges) ----------------------
         compat_rows = []
         for interchange in pies_data.get('part_interchanges') or []:
             part_number = interchange.get('part_number')
@@ -739,6 +929,12 @@ class FindinPartProduct(models.Model):
             brand = interchange.get('brand_label') or interchange.get('brand_aaiaid') or ''
             compat_rows.append((brand or 'OEM', part_number))
         compat_content = build_rows(compat_rows, as_links=True)
+        if not compat_content:
+            compat_content = (
+                "<div class='o_autohaus_facts_prose'>"
+                "<p>No hay referencias cruzadas disponibles para este producto.</p>"
+                "</div>"
+            )
 
         # --- Garantia y Devoluciones (estatico, traducido) ----------------
         warranty_content = (
@@ -769,8 +965,9 @@ class FindinPartProduct(models.Model):
             sections.append(('o_autohaus_pane_specs', 'Especificaciones técnicas', specs_content))
         if quick_facts_content:
             sections.append(('o_autohaus_pane_quick_facts', 'Ficha técnica', quick_facts_content))
-        if compat_content:
-            sections.append(('o_autohaus_pane_compat', 'Compatibilidad', compat_content))
+        if manufacturer_content:
+            sections.append(('o_autohaus_pane_manufacturer', 'Información del fabricante', manufacturer_content))
+        sections.append(('o_autohaus_pane_compat', 'Referencias cruzadas', compat_content))
         if shipping_info_content:
             sections.append(('o_autohaus_pane_shipping', 'Entrega e información de envío', shipping_info_content))
         sections.append(('o_autohaus_pane_warranty', 'Garantía y Devoluciones', warranty_content))
@@ -875,15 +1072,20 @@ class FindinPartProduct(models.Model):
         """Find or create a product.tag record for the product brand.
 
         Returns the tag recordset (empty if the product has no brand).
+        El nombre de marca se normaliza antes de buscar/crear para que las
+        variantes textuales (p. ej. "CATERPILLAR-REPLACEMENT") no generen
+        tags duplicados.
         """
         brand_name = (brand_name or self.manufacturer or self.brand or '').strip()
         if not brand_name:
             return self.env['product.tag']
+        from .website import normalize_brand_name
+        normalized = normalize_brand_name(brand_name)
         Tag = self.env['product.tag'].sudo()
-        tag = Tag.search([('name', '=ilike', brand_name)], limit=1)
+        tag = Tag.search([('name', '=ilike', normalized)], limit=1)
         if not tag:
-            tag = Tag.create({'name': brand_name})
-            _logger.info(f"Created product.tag for brand: {brand_name}")
+            tag = Tag.create({'name': normalized})
+            _logger.info(f"Created product.tag for brand: {normalized}")
         return tag
 
     def _get_or_create_category_path(self, names, model):
@@ -1150,6 +1352,8 @@ class FindinPartProduct(models.Model):
                 'long_description': product_data.get('long_description', ''),
                 'manufacturer': manufacturer,
                 'brand': manufacturer,
+                'manufacturer_image': product_data.get('manufacturer_image', ''),
+                'product_url': product_data.get('product_url', ''),
             }
             
             # Handle pricing from current variant
@@ -1231,7 +1435,7 @@ class FindinPartProduct(models.Model):
             if product_data.get('weight'):
                 try:
                     weight_lbs = float(product_data['weight'])
-                    vals['weight'] = weight_lbs * 0.453592
+                    vals['weight'] = weight_lbs
                 except (ValueError, TypeError):
                     vals['weight'] = 0.0
             
@@ -1275,6 +1479,8 @@ class FindinPartProduct(models.Model):
             for desc in pies_descriptions:
                 if desc.get('description_code') == 'KEY' and desc.get('value'):
                     seo_keywords.append(desc.get('value'))
+            if pies_data:
+                vals['pies_data_json'] = json.dumps(pies_data)
             
             html_description = self._build_html_description(product_data, attribute_pairs, related_parts)
             if html_description:
