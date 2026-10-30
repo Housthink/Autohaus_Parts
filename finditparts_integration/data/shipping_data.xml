@@ -5,11 +5,11 @@
             Autohaus Panama shipping methods (weight-based rules).
 
             The price is computed by rule from the cart weight in pounds
-            (rounded up): base rate (0 while the FinditParts API does not
-            return one) + markup per billable pound. The commercial markup is
-            read from the active finditparts.config (or the matching
-            ir.config_parameter). These are internal records: the markup is
-            never exposed to the customer.
+            (rounded up): the FinditParts domestic US rate (the base) plus a
+            markup per billable pound. The commercial markup is read from the
+            active finditparts.config (or the matching ir.config_parameter).
+            These are internal records: the markup is never exposed to the
+            customer.
 
             No country_ids are set because the checkout warehouse selection
             (not the partner country) determines the destination; filtering is
@@ -65,9 +65,11 @@
             Reglas de precio por peso (USD por libra facturable).
 
             Precio = list_base_price + list_price * peso (en lb). La tarifa base
-            de FinditParts se toma como 0 hasta que la API la devuelva, por lo
-            que el precio es US$2.50 por cada libra facturable (redondeada hacia
-            arriba por el motor de envío).
+            es la tarifa de envío doméstico dentro de Estados Unidos que reporta
+            FinditParts y se inyecta dinámicamente por el motor de cotización
+            (list_base_price queda en 0 aquí). El markup comercial es de
+            US$3.75 por cada libra facturable (redondeada hacia arriba por el
+            motor de envío).
         -->
         <record id="price_rule_panama_ground" model="delivery.price.rule">
             <field name="carrier_id" ref="carrier_panama_ground"/>
@@ -76,7 +78,7 @@
             <field name="operator">&gt;=</field>
             <field name="max_value">0</field>
             <field name="list_base_price">0.0</field>
-            <field name="list_price">2.50</field>
+            <field name="list_price">3.75</field>
             <field name="variable_factor">weight</field>
         </record>
 
@@ -87,7 +89,7 @@
             <field name="operator">&gt;=</field>
             <field name="max_value">0</field>
             <field name="list_base_price">0.0</field>
-            <field name="list_price">2.50</field>
+            <field name="list_price">3.75</field>
             <field name="variable_factor">weight</field>
         </record>
 
@@ -98,7 +100,7 @@
             <field name="operator">&gt;=</field>
             <field name="max_value">0</field>
             <field name="list_base_price">0.0</field>
-            <field name="list_price">2.50</field>
+            <field name="list_price">3.75</field>
             <field name="variable_factor">weight</field>
         </record>
 
@@ -109,7 +111,7 @@
         -->
         <record id="config_markup_per_lb" model="ir.config_parameter">
             <field name="key">autohaus_shipping.markup_per_lb</field>
-            <field name="value">2.50</field>
+            <field name="value">3.75</field>
         </record>
         <record id="config_enable_ground" model="ir.config_parameter">
             <field name="key">autohaus_shipping.enable_panama_ground</field>
