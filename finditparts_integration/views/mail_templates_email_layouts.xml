@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================================================================
+         AutoHaus Parts - email layout y footers de marca
+
+         * autohaus_mail_layout: layout de correo con header/footer con la
+           identidad del website (azul marino #0f2c4d + naranja #ee5a24).
+           Se aplica a los correos de venta (cotizacion, proforma,
+           confirmacion, pago) mediante email_layout_xmlid en
+           data/mail_templates_autohaus.xml.
+
+         * Reemplaza el cuerpo completo de los layouts de notificacion
+           estandar (mail_notification_layout y mail_notification_light) con
+           la misma identidad de marca, quitando el pie "Powered by Odoo".
+
+         Se conservan los elementos (id="mail_unfollow", o_signature,
+         div[@t-out='message.body'], table[@width='590']) que otras vistas de
+         Odoo (mail, sign, knowledge, spreadsheet_edition) esperan encontrar.
+         ================================================================== -->
+
+    <template id="autohaus_mail_layout" name="Autohaus Parts Email Layout">
+        <html t-att-lang="lang">
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </head>
+            <body style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#454748;margin:0;padding:0;background-color:#f4f4f4;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f4;">
+                    <tr>
+                        <td align="center" style="padding:16px 0;">
+                            <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" style="width:640px;max-width:640px;background-color:#ffffff;border-collapse:collapse;">
+
+                                <!-- HEADER: azul marino + logo -->
+                                <tr>
+                                    <td align="center" style="background-color:#0f2c4d;padding:28px 32px;">
+                                        <img t-if="company and company.logo"
+                                             t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                             style="max-height:56px;width:auto;display:block;"
+                                             t-att-alt="company.name"/>
+                                        <span t-if="company and not company.logo"
+                                              style="color:#ffffff;font-size:24px;font-weight:bold;letter-spacing:1.5px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">AutoHaus Parts</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja superior -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                                <!-- CUERPO -->
+                                <tr>
+                                    <td style="padding:36px 32px 32px 32px;background-color:#ffffff;">
+                                        <t t-out="body"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja inferior -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                                <!-- FOOTER: azul marino + datos de contacto -->
+                                <tr>
+                                    <td style="background-color:#0f2c4d;padding:28px 32px 24px 32px;">
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td>
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td t-if="company and company.logo" valign="middle" style="padding-right:14px;">
+                                                                <img t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                                                     style="max-height:36px;width:auto;display:block;"
+                                                                     t-att-alt="company.name"/>
+                                                            </td>
+                                                            <td valign="middle">
+                                                                <span style="color:#ffffff;font-size:15px;font-weight:bold;letter-spacing:1px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">AutoHaus Parts</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:18px;">
+                                            <tr>
+                                                <td style="border-top:1px solid rgba(255,255,255,0.15);padding-top:16px;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <t t-if="company.phone">
+                                                                <td style="color:#b9cbdc;font-size:12px;line-height:1.6;padding-right:8px;">
+                                                                    <t t-out="company.phone"/>
+                                                                </td>
+                                                            </t>
+                                                            <t t-if="company.phone and company.email">
+                                                                <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                            </t>
+                                                            <t t-if="company.email">
+                                                                <td style="font-size:12px;line-height:1.6;padding-right:8px;">
+                                                                    <span style="color:#ee5a24;">&#9993;&amp;nbsp;</span><a t-att-href="'mailto:%s' % company.email"
+                                                                       style="color:#ee5a24;text-decoration:none;" t-out="company.email"/>
+                                                                </td>
+                                                            </t>
+                                                            <t t-if="company.website and (company.phone or company.email)">
+                                                                <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                            </t>
+                                                            <t t-if="company.website">
+                                                                <td style="font-size:12px;line-height:1.6;">
+                                                                    <a t-att-href="company.website"
+                                                                       style="color:#ee5a24;text-decoration:none;" t-out="company.website"/>
+                                                                </td>
+                                                            </t>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja final -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+        </html>
+    </template>
+
+    <!-- ==================================================================
+         Layout de notificacion estandar rediseñado con identidad de marca
+         ================================================================== -->
+    <template id="autohaus_mail_notification_layout"
+              inherit_id="mail.mail_notification_layout"
+              name="Autohaus Parts Notification Layout"
+              priority="100">
+        <xpath expr="//body" position="replace">
+            <body style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#454748;margin:0;padding:0;background-color:#f4f4f4;">
+                <t t-set="subtype_internal" t-value="subtype and subtype.internal"/>
+                <t t-set="show_header" t-value="email_notification_force_header or (email_notification_allow_header and has_button_access)"/>
+                <t t-set="show_footer" t-value="email_notification_force_footer or (email_notification_allow_footer and show_header and author_user and author_user._is_internal())"/>
+                <t t-call="mail.notification_preview"/>
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f4;">
+                    <tr>
+                        <td align="center" style="padding:16px 0;">
+                            <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" style="width:640px;max-width:640px;background-color:#ffffff;border-collapse:collapse;">
+
+                                <!-- HEADER: azul marino + logo -->
+                                <tr>
+                                    <td align="center" style="background-color:#0f2c4d;padding:28px 32px;">
+                                        <img t-if="company and company.logo"
+                                             t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                             style="max-height:56px;width:auto;display:block;"
+                                             t-att-alt="company.name"/>
+                                        <span t-if="company and not company.logo"
+                                              style="color:#ffffff;font-size:24px;font-weight:bold;letter-spacing:1.5px;">AutoHaus Parts</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja superior -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                                <!-- CONTENIDO -->
+                                <tr>
+                                    <td style="padding:32px;background-color:#ffffff;">
+                                        <div t-if="show_header and has_button_access" itemscope="itemscope" itemtype="http://schema.org/EmailMessage">
+                                            <div itemprop="potentialAction" itemscope="itemscope" itemtype="http://schema.org/ViewAction">
+                                                <link itemprop="target" t-att-href="button_access['url']"/>
+                                                <link itemprop="url" t-att-href="button_access['url']"/>
+                                                <meta itemprop="name" t-att-content="button_access['title']"/>
+                                            </div>
+                                        </div>
+                                        <div t-if="show_header and (subtitles or has_button_access or not is_discussion)"
+                                             summary="o_mail_notification" style="padding:0px;margin-bottom:16px;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td valign="center" style="white-space:nowrap;">
+                                                            <table cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td t-if="has_button_access" style="border-radius:4px;text-align:center;background-color:#ee5a24;">
+                                                                            <a t-att-href="button_access['url']" style="font-size:16px;color:#ffffff;display:block;padding:10px 18px;text-decoration:none!important;font-weight:bold;">
+                                                                                <t t-out="button_access['title']"/>
+                                                                            </a>
+                                                                        </td>
+                                                                        <td t-if="has_button_access">&amp;nbsp;&amp;nbsp;</td>
+                                                                        <td t-if="subtitles" style="font-size:16px;">
+                                                                            <t t-foreach="subtitles" t-as="subtitle">
+                                                                                <span t-attf-style="{{ 'font-weight:bold;' if subtitle_first else '' }}" t-out="subtitle"/>
+                                                                                <br t-if="not subtitle_last"/>
+                                                                            </t>
+                                                                        </td>
+                                                                        <td t-else=""><span style="font-weight:bold;" t-out="record_name or (message.record_name and message.record_name.replace('/','-')) or ''"/><br/></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div t-out="message.body" style="font-size:16px;line-height:1.5;"/>
+                                        <ul t-if="tracking_values">
+                                            <t t-foreach="tracking_values" t-as="tracking">
+                                                <li><t t-out="tracking[0]"/>: <t t-if="tracking[1]" t-out="tracking[1]"/><em t-else="">None</em> &#8594; <t t-if="tracking[2]" t-out="tracking[2]"/><em t-else="">None</em></li>
+                                            </t>
+                                        </ul>
+                                        <t class="o_signature">
+                                            <div t-if="email_add_signature and not is_html_empty(signature)" t-out="signature" class="o_signature" style="font-size:13px;margin-top:16px;"/>
+                                        </t>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja inferior -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                                <!-- FOOTER: azul marino + datos de contacto -->
+                                <tr t-if="show_footer">
+                                    <td style="background-color:#0f2c4d;padding:28px 32px 24px 32px;">
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td>
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td t-if="company and company.logo" valign="middle" style="padding-right:14px;">
+                                                                <img t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                                                     style="max-height:36px;width:auto;display:block;"
+                                                                     t-att-alt="company.name"/>
+                                                            </td>
+                                                            <td valign="middle">
+                                                                <span style="color:#ffffff;font-size:15px;font-weight:bold;letter-spacing:1px;">AutoHaus Parts</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div style="margin-top:16px;">
+                                            <hr width="100%" style="background-color:rgba(255,255,255,0.15);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:0px 0px 14px 0px;"/>
+                                            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                <tr>
+                                                    <t t-if="company.phone">
+                                                        <td style="color:#b9cbdc;font-size:12px;line-height:1.6;padding-right:8px;">
+                                                            <t t-out="company.phone"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="company.phone and company.email">
+                                                        <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                    </t>
+                                                    <t t-if="company.email">
+                                                        <td style="font-size:12px;line-height:1.6;padding-right:8px;">
+                                                            <span style="color:#ee5a24;">&#9993;&amp;nbsp;</span><a t-att-href="'mailto:%s' % company.email"
+                                                               style="color:#ee5a24;text-decoration:none;" t-out="company.email"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="company.website and (company.phone or company.email)">
+                                                        <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                    </t>
+                                                    <t t-if="company.website">
+                                                        <td style="font-size:12px;line-height:1.6;">
+                                                            <a t-att-href="company.website"
+                                                               style="color:#ee5a24;text-decoration:none;" t-out="company.website"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div style="color:#b9cbdc;font-size:11px;margin-top:8px;">
+                                            <span t-if="show_unfollow" id="mail_unfollow">
+                                                | <a href="/mail/unfollow" style="text-decoration:none;color:#b9cbdc;">Unfollow</a>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja final -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+        </xpath>
+    </template>
+
+    <!-- ==================================================================
+         Layout de notificacion light rediseñado con identidad de marca
+         ================================================================== -->
+    <template id="autohaus_mail_notification_light"
+              inherit_id="mail.mail_notification_light"
+              name="Autohaus Parts Light Notification Layout"
+              priority="100">
+        <xpath expr="//body" position="replace">
+            <body style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#454748;margin:0;padding:0;background-color:#f4f4f4;">
+                <t t-set="subtype_internal" t-value="False"/>
+                <t t-call="mail.notification_preview"/>
+
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f4f4f4;width:100%;">
+                    <tr>
+                        <td align="center" style="padding:16px 0;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="590" style="width:590px;max-width:590px;background-color:#ffffff;border-collapse:collapse;">
+
+                                <!-- HEADER: azul marino + logo -->
+                                <tr>
+                                    <td align="center" style="background-color:#0f2c4d;padding:24px 32px;">
+                                        <img t-if="company and company.logo"
+                                             t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                             style="max-height:48px;width:auto;display:block;"
+                                             t-att-alt="company.name"/>
+                                        <span t-if="company and not company.logo"
+                                              style="color:#ffffff;font-size:22px;font-weight:bold;letter-spacing:1.5px;">AutoHaus Parts</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja superior -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                                <!-- CONTENIDO -->
+                                <tr>
+                                    <td style="padding:32px;background-color:#ffffff;">
+                                        <div style="font-size:10px;color:#999999;text-transform:uppercase;letter-spacing:1px;">
+                                            <t t-out="model_description or 'document'"/>
+                                        </div>
+                                        <div style="margin-top:4px;">
+                                            <t t-if="has_button_access">
+                                                <a t-att-href="button_access['url']" style="color:#0f2c4d;text-decoration:none;">
+                                                    <span style="font-size:20px;font-weight:bold;color:#0f2c4d;">
+                                                        <t t-out="(record_name or message.record_name or '').replace('/','-')"/>
+                                                    </span>
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="font-size:20px;font-weight:bold;color:#0f2c4d;">
+                                                    <t t-out="(record_name or message.record_name or '').replace('/','-')"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:20px;">
+                                            <tr>
+                                                <td style="border-top:1px solid #e8e8e8;padding-top:20px;">
+                                                    <t t-out="message.body"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja inferior -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                                <!-- FOOTER: azul marino + datos de contacto -->
+                                <tr>
+                                    <td style="background-color:#0f2c4d;padding:24px 32px 20px 32px;">
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td>
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td t-if="company and company.logo" valign="middle" style="padding-right:12px;">
+                                                                <img t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                                                     style="max-height:32px;width:auto;display:block;"
+                                                                     t-att-alt="company.name"/>
+                                                            </td>
+                                                            <td valign="middle">
+                                                                <span style="color:#ffffff;font-size:14px;font-weight:bold;letter-spacing:1px;">AutoHaus Parts</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;">
+                                            <tr>
+                                                <td style="border-top:1px solid rgba(255,255,255,0.15);padding-top:12px;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <t t-if="company.phone">
+                                                                <td style="color:#b9cbdc;font-size:11px;line-height:1.6;padding-right:8px;">
+                                                                    <t t-out="company.phone"/>
+                                                                </td>
+                                                            </t>
+                                                            <t t-if="company.phone and company.email">
+                                                                <td style="color:rgba(255,255,255,0.25);font-size:11px;padding-right:8px;">|</td>
+                                                            </t>
+                                                            <t t-if="company.email">
+                                                                <td style="font-size:11px;line-height:1.6;padding-right:8px;">
+                                                                    <span style="color:#ee5a24;">&#9993;&amp;nbsp;</span><a t-att-href="'mailto:%s' % company.email"
+                                                                       style="color:#ee5a24;text-decoration:none;" t-out="company.email"/>
+                                                                </td>
+                                                            </t>
+                                                            <t t-if="company.website and (company.phone or company.email)">
+                                                                <td style="color:rgba(255,255,255,0.25);font-size:11px;padding-right:8px;">|</td>
+                                                            </t>
+                                                            <t t-if="company.website">
+                                                                <td style="font-size:11px;line-height:1.6;">
+                                                                    <a t-att-href="company.website"
+                                                                       style="color:#ee5a24;text-decoration:none;" t-out="company.website"/>
+                                                                </td>
+                                                            </t>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table t-if="show_unfollow" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;">
+                                            <tr>
+                                                <td style="padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);">
+                                                    <span t-if="show_unfollow" id="mail_unfollow">
+                                                        | <a href="/mail/unfollow" style="text-decoration:none;color:#b9cbdc;font-size:10px;">Unfollow</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Franja naranja final -->
+                                <tr>
+                                    <td style="height:4px;background-color:#ee5a24;font-size:0;line-height:0;">&amp;nbsp;</td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+        </xpath>
+    </template>
+</odoo>

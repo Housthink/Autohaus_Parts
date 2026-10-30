@@ -115,6 +115,4 @@ class CustomerPortal(http.Controller):
         line = request.env["sale.order.line"].sudo().browse(line_id).exists()
         if not line or line.order_id.partner_id.commercial_partner_id != partner:
             raise Forbidden()
-        order = request.website.sale_get_order(force_create=True)
-        order._cart_update(product_id=line.product_id.id, add_qty=line.product_uom_qty or 1)
-        return request.redirect("/shop/cart")
+        return request.redirect(line.product_id.website_url)

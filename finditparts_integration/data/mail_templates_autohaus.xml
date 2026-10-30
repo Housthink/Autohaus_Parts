@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--
+            Aplica el layout de correo con identidad AutoHaus Parts a las
+            plantillas de venta para que el correo de cotizacion (y proforma,
+            confirmacion y pago) sea congruente con el diseno del website.
+
+            Al fijar email_layout_xmlid, Odoo encapsula el cuerpo de la
+            plantilla dentro del layout branded (header #022561 + footer con
+            datos de la compania), quitando el pie "Powered by Odoo".
+        -->
+
+        <!-- Cotizacion -->
+        <record id="sale.email_template_edi_sale" model="mail.template">
+            <field name="email_layout_xmlid">finditparts_integration.autohaus_mail_layout</field>
+        </record>
+
+        <!-- Proforma -->
+        <record id="sale.email_template_proforma" model="mail.template">
+            <field name="email_layout_xmlid">finditparts_integration.autohaus_mail_layout</field>
+        </record>
+
+        <!-- Confirmacion de orden -->
+        <record id="sale.mail_template_sale_confirmation" model="mail.template">
+            <field name="email_layout_xmlid">finditparts_integration.autohaus_mail_layout</field>
+        </record>
+
+        <!-- Pago realizado -->
+        <record id="sale.mail_template_sale_payment_executed" model="mail.template">
+            <field name="email_layout_xmlid">finditparts_integration.autohaus_mail_layout</field>
+        </record>
+    </data>
+</odoo>
