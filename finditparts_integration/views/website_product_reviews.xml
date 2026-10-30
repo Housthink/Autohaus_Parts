@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================================================================
+         Autohaus Parts - Caja de reseñas de clientes
+         Activa la funcionalidad nativa de Odoo ("Discussion and Rating"),
+         que se renderiza después de "Productos relacionados" por el orden
+         de prioridad de herencias (product_comment=15 < alternative_products=16).
+         ================================================================== -->
+
+    <record id="website_sale.product_comment" model="ir.ui.view">
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- Título de la caja de reseñas en español -->
+    <template id="autohaus_product_reviews_title"
+              inherit_id="website_sale.product_comment"
+              name="Autohaus Product Reviews Title"
+              priority="99">
+        <xpath expr="//h2" position="replace">
+            <h2 class="fs-4 mb-0">Reseñas de clientes</h2>
+        </xpath>
+    </template>
+</odoo>
