@@ -72,7 +72,7 @@ class FindinPartConfig(models.Model):
     # figures that may be hardcoded/configurable; the base rate always comes
     # from the FinditParts API.
     panama_markup_per_lb = fields.Float(
-        'Panama Air Markup (USD/lb)', default=2.50,
+        'Panama Air Markup (USD/lb)', default=3.75,
         help='Commercial markup applied per billable pound on top of the '
              'FinditParts base rate for Panama air services (Ground, Rápido, '
              'Flash). Internal only; never shown to the customer.')

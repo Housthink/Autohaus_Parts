@@ -103,9 +103,9 @@ class FindinPartAPIClient:
             if method.upper() == 'GET':
                 response = self.session.get(url, params=params, timeout=timeout)
             elif method.upper() == 'POST':
-                response = self.session.post(url, json=data, timeout=timeout)
+                response = self.session.post(url, params=params, json=data, timeout=timeout)
             elif method.upper() == 'PUT':
-                response = self.session.put(url, json=data, timeout=timeout)
+                response = self.session.put(url, params=params, json=data, timeout=timeout)
             elif method.upper() == 'DELETE':
                 response = self.session.delete(url, timeout=timeout)
             else:
@@ -694,50 +694,92 @@ class FindinPartAPIClient:
             _logger.error(f"Failed to get tracking for order {order_id}: {str(e)}")
             return None
 
-    def get_shipping_rates(self, dest_country, dest_zip=None, cart_items=None,
-                           service_types=None):
-        """Get shipping rates reported by FinditParts for a destination.
+    def _create_cart(self):
+        """Create a new FinditParts cart and return its dict (id + token)."""
+        response = self._make_request('POST', '/api/v1/carts', data={})
+        if not isinstance(response, dict):
+            return None
+        cart = response.get('cart') or response.get('data') or {}
+        if not isinstance(cart, dict):
+            cart = response
+        return cart if cart.get('id') else None
 
-        The endpoint and payload are best-effort: the provider's shipping API
-        must be confirmed with FinditParts before production. When the API is
-        unavailable or does not return valid rates, this method returns an
-        empty list so the caller can flag the method as "pending quote" instead
-        of showing a ficticious price.
+    def _cart_params(self, cart):
+        cart_token = cart.get('cart_token') if isinstance(cart, dict) else None
+        return {'token': cart_token} if cart_token else None
 
-        Returns a list of normalized rate dictionaries:
-            [{'service': 'ground', 'base_rate': 18.0, 'currency': 'USD',
-              'transit': '6-7', 'eligible': True}, ...]
-        """
-        if not dest_country:
-            return []
-
+    def _add_cart_line_item(self, cart, item):
+        cart_id = cart.get('id')
+        params = self._cart_params(cart)
         payload = {
-            'country': dest_country,
-            'items': cart_items or [],
+            'product_id': item.get('product_id'),
+            'quantity': item.get('quantity') or 1,
         }
-        if dest_zip:
-            payload['postal_code'] = dest_zip
-        if service_types:
-            payload['service_types'] = service_types
+        if item.get('variant_id'):
+            payload['variant_id'] = item.get('variant_id')
+        return self._make_request(
+            'POST',
+            f'/api/v1/carts/{cart_id}/line_items',
+            params=params,
+            data=payload,
+        )
 
-        try:
-            response = self._make_request('POST', '/api/v1/shipping/rates', data=payload)
-        except Exception as e:
-            _logger.info(
-                "FinditParts shipping rates unavailable for %s: %s",
-                dest_country, str(e),
+    def _set_cart_shipping_address(self, cart, shipping_address):
+        cart_id = cart.get('id')
+        params = self._cart_params(cart)
+        return self._make_request(
+            'PUT',
+            f'/api/v1/carts/{cart_id}/shipping_address',
+            params=params,
+            data={'address': shipping_address},
+        )
+
+    def _get_cart_shipping_methods(self, cart):
+        cart_id = cart.get('id')
+        params = self._cart_params(cart)
+        return self._make_request(
+            'GET',
+            f'/api/v1/carts/{cart_id}/shipping_methods',
+            params=params,
+        )
+
+    @staticmethod
+    def _normalize_shipping_methods(response):
+        """Normalize the /shipping_methods response into rate dictionaries.
+
+        The provider's exact shape is confirmed through the cart flow. This
+        parser is defensive and accepts the common wrappers and field names so
+        it degrades to an empty list (pending quote) instead of crashing.
+        """
+        if isinstance(response, dict):
+            raw_methods = (
+                response.get('shipping_methods')
+                or response.get('methods')
+                or response.get('rates')
+                or response.get('shipping_rates')
+                or response.get('data')
             )
-            return []
+            if raw_methods is None and 'id' not in response:
+                raw_methods = [response]
+        elif isinstance(response, list):
+            raw_methods = response
+        else:
+            raw_methods = []
 
-        if not response or not isinstance(response, dict):
-            return []
-
-        raw_rates = response.get('rates') or response.get('shipping_rates') or []
         normalized = []
-        for raw in raw_rates:
+        for raw in raw_methods or []:
             if not isinstance(raw, dict):
                 continue
-            base_rate = raw.get('rate') or raw.get('price') or raw.get('base_rate')
+            base_rate = (
+                raw.get('amount_without_promo')
+                or raw.get('amount')
+                or raw.get('price')
+                or raw.get('rate')
+                or raw.get('cost')
+                or raw.get('total')
+                or raw.get('base_rate')
+                or raw.get('shipping_amount')
+            )
             if base_rate is None:
                 continue
             try:
@@ -745,14 +787,76 @@ class FindinPartAPIClient:
             except (TypeError, ValueError):
                 continue
             normalized.append({
-                'service': raw.get('service') or raw.get('service_code') or '',
+                'service': (
+                    raw.get('carrier_type')
+                    or raw.get('service')
+                    or raw.get('service_code')
+                    or raw.get('carrier')
+                    or raw.get('name')
+                    or ''
+                ),
+                'label': raw.get('label') or '',
                 'base_rate': base_rate,
                 'currency': raw.get('currency') or 'USD',
-                'transit': raw.get('transit') or raw.get('estimated_days') or '',
-                'eligible': bool(raw.get('eligible', True)),
+                'transit': raw.get('days_to_deliver') or raw.get('estimated_days') or '',
+                'eligible': bool(raw.get('available', raw.get('eligible', True))),
             })
         return normalized
-    
+
+    def get_shipping_rates(self, dest_country, dest_zip=None, cart_items=None,
+                           service_types=None, weight=None):
+        """Get shipping rates reported by FinditParts for a destination.
+
+        This drives the real cart flow: create a cart, add the line items, set
+        a US shipping address and read the domestic US shipping methods. The
+        ``cart_items`` must be a list of dicts with ``product_id`` (the
+        FinditParts product id) and optionally ``variant_id``. When the API is
+        unavailable or returns no valid rates, an empty list is returned so the
+        caller can fall back to the weight-only markup.
+        weight-only markup.
+
+        Returns a list of normalized rate dictionaries:
+            [{'service': 'ground', 'base_rate': 18.0, 'currency': 'USD',
+              'transit': '6-7', 'eligible': True}, ...]
+        """
+        items = cart_items or []
+        if not items or dest_country != 'US':
+            return []
+
+        try:
+            cart = self._create_cart()
+            if not cart:
+                return []
+            for item in items:
+                self._add_cart_line_item(cart, item)
+            shipping_address = self._us_shipping_address(dest_zip)
+            if shipping_address:
+                self._set_cart_shipping_address(cart, shipping_address)
+            response = self._get_cart_shipping_methods(cart)
+        except Exception as e:
+            _logger.info(
+                "FinditParts shipping rates unavailable for %s: %s",
+                dest_country, str(e),
+            )
+            return []
+
+        return self._normalize_shipping_methods(response)
+
+    @staticmethod
+    def _us_shipping_address(dest_zip=None):
+        """Return the default US warehouse shipping address for rate quoting."""
+        return {
+            'first_name': 'Warehouse',
+            'last_name': 'Pickup',
+            'address1': '123 Warehouse St',
+            'city': 'Miami',
+            'state': 'FL',
+            'zipcode': dest_zip or '33101',
+            'country': 'US',
+            'phone': '5551234567',
+        }
+
+
     def search_products(self, query, filters=None, page=1, limit=100):
         """Search products with advanced filters"""
         params = {

@@ -151,7 +151,10 @@ class DeliveryCarrier(models.Model):
         context_weight = self.env.context.get("order_weight")
         weight = context_weight if context_weight is not None else weight
         weight = self._round_weight_for_delivery(weight, self.weight_unit)
-        return self._get_price_from_picking(total, weight, volume, quantity, wv=wv)
+        price = self._get_price_from_picking(total, weight, volume, quantity, wv=wv)
+        if self.panama_service_type in PANAMA_AIR_SERVICES:
+            price += order._autohaus_usa_base_rate()
+        return price
 
     def _is_available_for_order(self, order):
         """Panama air services are available when a price rule can be matched.

@@ -1,13 +1,11 @@
 import json
 import logging
 import re
-import threading
 import time
 
-from odoo import api, http
+from odoo import http
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 from odoo.http import request
-from odoo.modules.registry import Registry
 
 _logger = logging.getLogger(__name__)
 
@@ -97,17 +95,34 @@ class WebsiteSalePickup(WebsiteSale):
         if not config or not config.auto_create_products:
             return False
 
-        # Run the lookup in a background thread: the FinditParts API call can
-        # take tens of seconds, and doing it synchronously blocks (and can
-        # time out) the /shop request.
-        dbname = request.env.cr.dbname
-        threading.Thread(
-            target=self._sync_part_number_background,
-            args=(dbname, part_number),
-            daemon=True,
-        ).start()
+        # Run the lookup synchronously in the current request transaction. It
+        # has to stay on this cursor because Odoo cursors use REPEATABLE READ:
+        # a product created and committed on a separate cursor/thread would not
+        # be visible to the search that runs right after this call, so the user
+        # would still see no results. Doing it inline blocks the /shop request
+        # for the duration of the API call, which is the intended "wait". The
+        # API client itself caps each request at 30s so this cannot hang forever.
+        try:
+            sync_result = request.env["finditparts.product"].sudo().sync_products_from_api(
+                part_number=part_number,
+                limit=1,
+            )
+        except Exception:
+            _logger.exception(
+                "FinditParts on-demand lookup failed for part number %s",
+                part_number,
+            )
+            return False
 
-        # Remember the lookup so we don't spawn a thread on every search.
+        _logger.info(
+            "FinditParts lookup for %s: %s created, %s updated",
+            part_number,
+            sync_result.get("created", 0),
+            sync_result.get("updated", 0),
+        )
+        imported = bool(sync_result.get("created") or sync_result.get("updated"))
+
+        # Remember the lookup so we don't hit the API on every search.
         lookups = {
             key: value
             for key, value in lookups.items()
@@ -115,29 +130,7 @@ class WebsiteSalePickup(WebsiteSale):
         }
         lookups[part_number] = now
         request.session["autohaus_part_lookups"] = lookups
-        return False
-
-    def _sync_part_number_background(self, dbname, part_number):
-        try:
-            registry = Registry(dbname)
-            with registry.cursor() as cr:
-                env = api.Environment(cr, api.SUPERUSER_ID, {})
-                result = env["finditparts.product"].sync_products_from_api(
-                    part_number=part_number,
-                    limit=1,
-                )
-                cr.commit()
-                _logger.info(
-                    "Background FinditParts lookup for %s: %s created, %s updated",
-                    part_number,
-                    result.get("created", 0),
-                    result.get("updated", 0),
-                )
-        except Exception:
-            _logger.exception(
-                "Background FinditParts lookup failed for part number %s",
-                part_number,
-            )
+        return imported
 
     def _shop_lookup_products(self, options, post, search, website):
         result = super()._shop_lookup_products(options, post, search, website)

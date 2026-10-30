@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Autohaus Parts - Caja de reseñas de clientes
+   ========================================================================== */
+
+/* Ocultar el widget nativo de estrellas bajo el título para evitar
+   duplicación con el rating mostrado en la meta del producto. */
+.o_product_page_reviews_link {
+    display: none !important;
+}
+
+/* Rating dinámico dentro de la meta del producto (enlace a las reseñas) */
+.o_autohaus_prod_rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    color: #f0a30a;
+    text-decoration: none;
+}
+
+.o_autohaus_prod_rating:hover {
+    color: #ee5a24;
+}
+
+.o_autohaus_prod_rating .fa-star-o {
+    color: #cfd6dd;
+}
+
+.o_autohaus_prod_rating small {
+    margin-left: 0.35rem;
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Sección de reseñas (estilos Autohaus sobre la sección nativa) */
+.o_shop_discussion_rating {
+    background: #f5f7f9;
+}
+
+.o_shop_discussion_rating #o_product_page_reviews {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.o_shop_discussion_rating .o_product_page_reviews_title h2 {
+    color: #123a5f;
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.o_shop_discussion_rating .o_product_page_reviews_title .oi {
+    color: #ee5a24;
+}

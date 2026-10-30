@@ -18,14 +18,14 @@
                 </ul>
 
                 <div class="o_autohaus_prod_avail">
-                    <span class="o_autohaus_prod_rating">
-                        <i class="fa fa-star"/>
-                        <i class="fa fa-star"/>
-                        <i class="fa fa-star"/>
-                        <i class="fa fa-star"/>
-                        <i class="fa fa-star o_autohaus_star_off"/>
-                        <em>(12 reseñas)</em>
-                    </span>
+                    <a class="o_autohaus_prod_rating" href="#o_product_page_reviews">
+                        <t t-call="portal_rating.rating_widget_stars_static">
+                            <t t-set="rating_avg" t-value="product.sudo().rating_avg"/>
+                            <t t-set="trans_text_plural">%s reseñas</t>
+                            <t t-set="trans_text_singular">%s reseña</t>
+                            <t t-set="rating_count" t-value="(trans_text_plural if product.rating_count > 1 else trans_text_singular) % product.rating_count"/>
+                        </t>
+                    </a>
                     <span class="o_autohaus_prod_stock">
                         <i class="fa fa-check-circle"/>
                         <t t-if="product.finditparts_has_stock">Disponible</t>
@@ -71,13 +71,6 @@
 
         <xpath expr="//div[hasclass('o_wsale_product_details_content_section_cta')]"
               position="after">
-            <div class="o_autohaus_prod_actions">
-                <a class="o_autohaus_compat_btn" href="/contactus">
-                    <i class="fa fa-cogs"/>
-                    <span>Consultar compatibilidad</span>
-                </a>
-            </div>
-
             <ul class="o_autohaus_prod_benefits">
                 <li>
                     <i class="fa fa-truck"/>
@@ -125,6 +118,23 @@
                 <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/paypal.png" alt="PayPal" loading="lazy"/>
                 <img class="o_autohaus_payment_icon" src="/finditparts_integration/static/img/payment/ach.png" alt="ACH" loading="lazy"/>
             </div>
+
+            <div class="o_autohaus_prod_actions">
+                <a class="o_autohaus_compat_btn" href="/contactus">
+                    <i class="fa fa-cogs"/>
+                    <span>Consultar compatibilidad</span>
+                </a>
+            </div>
         </xpath>
     </template>
+
+    <!-- ==================================================================
+         Autohaus Parts - Desactiva el bloque estandar de Odoo
+         "Terms and Conditions" (terminos, garantia y envio) para que la
+         seccion personalizada (tarjetas de devolucion/envio y metodos de
+         pago) ocupe su lugar justo debajo del boton de compra.
+         ================================================================== -->
+    <record id="website_sale.product_terms_and_conditions" model="ir.ui.view">
+        <field name="active" eval="False"/>
+    </record>
 </odoo>

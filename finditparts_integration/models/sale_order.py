@@ -1,8 +1,12 @@
+import hashlib
+import logging
 from datetime import timedelta
 
 from odoo import api, fields, models
 
 from .delivery_carrier import PANAMA_AIR_SERVICES, PANAMA_SERVICE_DEFS
+
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -68,6 +72,23 @@ class SaleOrder(models.Model):
     estimated_delivery_panama = fields.Date(
         string="Entrega estimada Panamá", compute="_compute_delivery_dates", store=True
     )
+    logistics_usa_base_rate = fields.Float(
+        string="Tarifa base USA cacheada",
+        digits=(10, 2),
+        readonly=True,
+        copy=False,
+        help=(
+            "Tarifa de envío doméstico dentro de Estados Unidos reportada por "
+            "FinditParts para el contenido actual del pedido. Se recalcula solo "
+            "cuando cambian las líneas o el almacén de recogida."
+        ),
+    )
+    logistics_usa_base_rate_hash = fields.Char(
+        string="Hash de tarifa base USA",
+        compute="_compute_logistics_usa_base_rate_hash",
+        store=True,
+        readonly=True,
+    )
 
     @api.depends("date_order", "commitment_date", "order_line.customer_lead", "pickup_warehouse")
     def _compute_delivery_dates(self):
@@ -129,12 +150,140 @@ class SaleOrder(models.Model):
         if config:
             return config.panama_markup_per_lb
         param = self.env["ir.config_parameter"].sudo().get_param(
-            "autohaus_shipping.markup_per_lb", "2.50"
+            "autohaus_shipping.markup_per_lb", "3.75"
         )
         try:
             return float(param)
         except (TypeError, ValueError):
-            return 2.50
+            return 3.75
+
+    def _autohaus_cart_line_items(self):
+        """Build FinditParts cart line items from the order lines.
+
+        Maps each Odoo product to its linked ``finditparts.product`` record so
+        the cart flow can quote the domestic US shipping rate. Lines without a
+        linked FinditParts product are skipped.
+        """
+        self.ensure_one()
+        products = self.order_line.mapped("product_id.product_tmpl_id")
+        fp_products = self.env["finditparts.product"].sudo().search([
+            ("odoo_product_id", "in", products.ids),
+        ])
+        fp_by_product = {fp.odoo_product_id.id: fp for fp in fp_products}
+
+        items = []
+        for line in self.order_line:
+            if line.state == "cancel":
+                continue
+            if not line.product_id or line.is_delivery:
+                continue
+            if line.product_id.type in {"service", "combo"}:
+                continue
+            fp = fp_by_product.get(line.product_id.product_tmpl_id.id)
+            if not fp or not fp.finditparts_id:
+                continue
+            try:
+                quantity = int(line.product_uom_qty) or 1
+            except (TypeError, ValueError):
+                quantity = 1
+            item = {
+                "product_id": fp.finditparts_id,
+                "quantity": quantity,
+            }
+            if fp.variant_id:
+                item["variant_id"] = fp.variant_id
+            items.append(item)
+        return items
+
+    @api.depends(
+        "order_line.product_id",
+        "order_line.product_uom_qty",
+        "pickup_warehouse",
+    )
+    def _compute_logistics_usa_base_rate_hash(self):
+        """Invalidate the cached US base rate when the cart content changes.
+
+        The hash is derived from the FinditParts cart items (product + quantity)
+        and the pickup warehouse. When it changes, the base rate is re-fetched
+        from the API; otherwise the cached value is kept so the checkout does
+        not create a new FinditParts cart on every price computation.
+        """
+        for order in self:
+            items = order._autohaus_cart_line_items()
+            digest = hashlib.md5(
+                repr(
+                    sorted(
+                        (item["product_id"], item["quantity"])
+                        for item in items
+                    )
+                ).encode("utf-8")
+            ).hexdigest()
+            if digest != order.logistics_usa_base_rate_hash:
+                order.logistics_usa_base_rate_hash = digest
+                if order._autohaus_destination_country() == "PA":
+                    rate = order._fetch_usa_base_rate_from_api()
+                    order.logistics_usa_base_rate = rate
+                    if rate == 0.0:
+                        _logger.warning(
+                            "FinditParts US base rate fetch returned 0.0 for "
+                            "order %s (items: %s)",
+                            order.id,
+                            items,
+                        )
+                else:
+                    order.logistics_usa_base_rate = 0.0
+
+    def _fetch_usa_base_rate_from_api(self):
+        """Fetch the domestic US base rate from FinditParts (uncached).
+
+        Creates a FinditParts cart, adds the order items and reads the
+        ``/shipping_methods`` domestic US rates. Returns the ground rate (the
+        base the Panama air quote is built on), or zero when the API does not
+        answer so the quote degrades to the weight-only markup.
+        """
+        self.ensure_one()
+        items = self._autohaus_cart_line_items()
+        if not items:
+            return 0.0
+        config = self._autohaus_config()
+        if not config:
+            return 0.0
+        try:
+            from ..utils.api_client import FindinPartAPIClient
+
+            client = FindinPartAPIClient(config)
+            rates = client.get_shipping_rates("US", cart_items=items)
+        except Exception:
+            _logger.exception("FinditParts US base rate unavailable")
+            return 0.0
+        if not rates:
+            return 0.0
+        ground_rates = [
+            rate
+            for rate in rates
+            if "ground" in (rate.get("label") or "").lower()
+            or "ground" in (rate.get("service") or "").lower()
+        ]
+        chosen = ground_rates or rates
+        return min(float(rate.get("base_rate") or 0.0) for rate in chosen)
+
+    def _autohaus_usa_base_rate(self):
+        """Return the cached US base rate, computing it on first access.
+
+        Uses the stored value computed by ``_compute_logistics_usa_base_rate_hash``
+        so repeated quote/pricing calls reuse a single FinditParts cart instead
+        of creating one per call. A zero base rate for a Panama destination is
+        treated as a stale cache (e.g. a previous failed fetch) and re-fetched.
+        """
+        self.ensure_one()
+        if not self.logistics_usa_base_rate_hash:
+            self._compute_logistics_usa_base_rate_hash()
+        elif (
+            self._autohaus_destination_country() == "PA"
+            and self.logistics_usa_base_rate == 0.0
+        ):
+            self.logistics_usa_base_rate = self._fetch_usa_base_rate_from_api()
+        return self.logistics_usa_base_rate or 0.0
 
     def _autohaus_cart_weight_lb(self):
         """Total real weight of the order in pounds (rounded up)."""
@@ -200,11 +349,11 @@ class SaleOrder(models.Model):
     def _autohaus_build_quote(self):
         """Build the PUBLIC shipping quote (safe for the customer).
 
-        The FinditParts API does not return a base rate yet, so the Panama air
-        price is the markup per pound times the billable weight in pounds
-        (rounded up). Only the final price, method label, transit window and
-        delivery mode are exposed; the markup rate is never sent to the
-        frontend.
+        The US leg is free for the customer: the FinditParts domestic US rate is
+        absorbed into the Panama air price as its base, and the commercial
+        markup per pound is added on top. Only the final price, method label,
+        transit window and delivery mode are exposed; the base rate and markup
+        are never sent to the frontend.
         """
         self.ensure_one()
         dest_country = self._autohaus_destination_country()
@@ -212,7 +361,8 @@ class SaleOrder(models.Model):
             return {"destination": "usa", "rates": []}
 
         weight_lb = self._autohaus_cart_weight_lb()
-        total = self._autohaus_markup_per_lb() * weight_lb
+        base_rate = self._autohaus_usa_base_rate()
+        total = base_rate + self._autohaus_markup_per_lb() * weight_lb
 
         rates = []
         for service in self._autohaus_enabled_panama_services():

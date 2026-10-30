@@ -49,6 +49,7 @@ class FindinPartProduct(models.Model):
 
     sku = fields.Char('SKU', required=True, index=True)
     finditparts_id = fields.Char('FindinPart ID', index=True)
+    variant_id = fields.Char('Variant ID', index=True)
     brand = fields.Char('Brand')
     manufacturer = fields.Char('Manufacturer')
     part_number = fields.Char('Part Number')
@@ -1346,8 +1347,15 @@ class FindinPartProduct(models.Model):
             seo_name = ' - '.join(seo_parts) if seo_parts else (part_number or short_desc)
 
             # Map API fields to model fields
+            _variant = product_data.get('current_variant') or {}
             vals = {
                 'finditparts_id': str(product_data.get('id', '')),
+                'variant_id': str(
+                    _variant.get('id')
+                    or _variant.get('variant_id')
+                    or product_data.get('preferred_variant_id')
+                    or ''
+                ),
                 'sku': part_number,
                 'part_number': part_number,
                 'name': seo_name or short_desc or part_number,
