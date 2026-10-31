@@ -32,13 +32,13 @@
 
                                 <!-- HEADER: azul marino + logo -->
                                 <tr>
-                                    <td align="center" style="background-color:#0f2c4d;padding:28px 32px;">
-                                        <img t-if="company and company.logo"
-                                             t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                    <td align="center" style="background-color:#ffffff;padding:28px 32px;">
+                                        <img t-if="company and not company.uses_default_logo"
+                                             t-att-src="'/logo.png?company=%s' % company.id"
                                              style="max-height:56px;width:auto;display:block;"
                                              t-att-alt="company.name"/>
-                                        <span t-if="company and not company.logo"
-                                              style="color:#ffffff;font-size:24px;font-weight:bold;letter-spacing:1.5px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">AutoHaus Parts</span>
+                                        <span t-if="company and company.uses_default_logo"
+                                              style="color:#0f2c4d;font-size:24px;font-weight:bold;letter-spacing:1.5px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">AutoHaus Parts</span>
                                     </td>
                                 </tr>
 
@@ -61,19 +61,19 @@
 
                                 <!-- FOOTER: azul marino + datos de contacto -->
                                 <tr>
-                                    <td style="background-color:#0f2c4d;padding:28px 32px 24px 32px;">
+                                    <td style="background-color:#ffffff;padding:28px 32px 24px 32px;">
                                         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                                             <tr>
                                                 <td>
                                                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
-                                                            <td t-if="company and company.logo" valign="middle" style="padding-right:14px;">
-                                                                <img t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                                            <td t-if="company and not company.uses_default_logo" valign="middle" style="padding-right:14px;">
+                                                                <img t-att-src="'/logo.png?company=%s' % company.id"
                                                                      style="max-height:36px;width:auto;display:block;"
                                                                      t-att-alt="company.name"/>
                                                             </td>
                                                             <td valign="middle">
-                                                                <span style="color:#ffffff;font-size:15px;font-weight:bold;letter-spacing:1px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">AutoHaus Parts</span>
+                                                                <span style="color:#0f2c4d;font-size:15px;font-weight:bold;letter-spacing:1px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">AutoHaus Parts</span>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -82,28 +82,28 @@
                                         </table>
                                         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:18px;">
                                             <tr>
-                                                <td style="border-top:1px solid rgba(255,255,255,0.15);padding-top:16px;">
+                                                <td style="border-top:1px solid #e8e8e8;padding-top:16px;">
                                                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
                                                             <t t-if="company.phone">
-                                                                <td style="color:#b9cbdc;font-size:12px;line-height:1.6;padding-right:8px;">
+                                                                <td style="color:#454748;font-size:16px;line-height:1.6;padding-right:8px;">
                                                                     <t t-out="company.phone"/>
                                                                 </td>
                                                             </t>
                                                             <t t-if="company.phone and company.email">
-                                                                <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                                <td style="color:#cccccc;font-size:16px;padding-right:8px;">|</td>
                                                             </t>
                                                             <t t-if="company.email">
-                                                                <td style="font-size:12px;line-height:1.6;padding-right:8px;">
+                                                                <td style="font-size:16px;line-height:1.6;padding-right:8px;">
                                                                     <span style="color:#ee5a24;">&#9993;&amp;nbsp;</span><a t-att-href="'mailto:%s' % company.email"
                                                                        style="color:#ee5a24;text-decoration:none;" t-out="company.email"/>
                                                                 </td>
                                                             </t>
                                                             <t t-if="company.website and (company.phone or company.email)">
-                                                                <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                                <td style="color:#cccccc;font-size:16px;padding-right:8px;">|</td>
                                                             </t>
                                                             <t t-if="company.website">
-                                                                <td style="font-size:12px;line-height:1.6;">
+                                                                <td style="font-size:16px;line-height:1.6;">
                                                                     <a t-att-href="company.website"
                                                                        style="color:#ee5a24;text-decoration:none;" t-out="company.website"/>
                                                                 </td>
@@ -150,13 +150,13 @@
 
                                 <!-- HEADER: azul marino + logo -->
                                 <tr>
-                                    <td align="center" style="background-color:#0f2c4d;padding:28px 32px;">
-                                        <img t-if="company and company.logo"
-                                             t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                    <td align="center" style="background-color:#ffffff;padding:28px 32px;">
+                                        <img t-if="company and not company.uses_default_logo"
+                                             t-att-src="'/logo.png?company=%s' % company.id"
                                              style="max-height:56px;width:auto;display:block;"
                                              t-att-alt="company.name"/>
-                                        <span t-if="company and not company.logo"
-                                              style="color:#ffffff;font-size:24px;font-weight:bold;letter-spacing:1.5px;">AutoHaus Parts</span>
+                                        <span t-if="company and company.uses_default_logo"
+                                              style="color:#0f2c4d;font-size:24px;font-weight:bold;letter-spacing:1.5px;">AutoHaus Parts</span>
                                     </td>
                                 </tr>
 
@@ -224,19 +224,19 @@
 
                                 <!-- FOOTER: azul marino + datos de contacto -->
                                 <tr t-if="show_footer">
-                                    <td style="background-color:#0f2c4d;padding:28px 32px 24px 32px;">
+                                    <td style="background-color:#ffffff;padding:28px 32px 24px 32px;">
                                         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                                             <tr>
                                                 <td>
                                                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
-                                                            <td t-if="company and company.logo" valign="middle" style="padding-right:14px;">
-                                                                <img t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                                            <td t-if="company and not company.uses_default_logo" valign="middle" style="padding-right:14px;">
+                                                                <img t-att-src="'/logo.png?company=%s' % company.id"
                                                                      style="max-height:36px;width:auto;display:block;"
                                                                      t-att-alt="company.name"/>
                                                             </td>
                                                             <td valign="middle">
-                                                                <span style="color:#ffffff;font-size:15px;font-weight:bold;letter-spacing:1px;">AutoHaus Parts</span>
+                                                                <span style="color:#0f2c4d;font-size:15px;font-weight:bold;letter-spacing:1px;">AutoHaus Parts</span>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -244,28 +244,28 @@
                                             </tr>
                                         </table>
                                         <div style="margin-top:16px;">
-                                            <hr width="100%" style="background-color:rgba(255,255,255,0.15);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:0px 0px 14px 0px;"/>
+                                            <hr width="100%" style="background-color:#e8e8e8;border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:0px 0px 14px 0px;"/>
                                             <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                 <tr>
                                                     <t t-if="company.phone">
-                                                        <td style="color:#b9cbdc;font-size:12px;line-height:1.6;padding-right:8px;">
+                                                        <td style="color:#454748;font-size:16px;line-height:1.6;padding-right:8px;">
                                                             <t t-out="company.phone"/>
                                                         </td>
                                                     </t>
                                                     <t t-if="company.phone and company.email">
-                                                        <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                        <td style="color:#cccccc;font-size:16px;padding-right:8px;">|</td>
                                                     </t>
                                                     <t t-if="company.email">
-                                                        <td style="font-size:12px;line-height:1.6;padding-right:8px;">
+                                                        <td style="font-size:16px;line-height:1.6;padding-right:8px;">
                                                             <span style="color:#ee5a24;">&#9993;&amp;nbsp;</span><a t-att-href="'mailto:%s' % company.email"
                                                                style="color:#ee5a24;text-decoration:none;" t-out="company.email"/>
                                                         </td>
                                                     </t>
                                                     <t t-if="company.website and (company.phone or company.email)">
-                                                        <td style="color:rgba(255,255,255,0.25);font-size:12px;padding-right:8px;">|</td>
+                                                        <td style="color:#cccccc;font-size:16px;padding-right:8px;">|</td>
                                                     </t>
                                                     <t t-if="company.website">
-                                                        <td style="font-size:12px;line-height:1.6;">
+                                                        <td style="font-size:16px;line-height:1.6;">
                                                             <a t-att-href="company.website"
                                                                style="color:#ee5a24;text-decoration:none;" t-out="company.website"/>
                                                         </td>
@@ -273,9 +273,9 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                        <div style="color:#b9cbdc;font-size:11px;margin-top:8px;">
+                                        <div style="color:#454748;font-size:16px;margin-top:8px;">
                                             <span t-if="show_unfollow" id="mail_unfollow">
-                                                | <a href="/mail/unfollow" style="text-decoration:none;color:#b9cbdc;">Unfollow</a>
+                                                | <a href="/mail/unfollow" style="text-decoration:none;color:#454748;">Unfollow</a>
                                             </span>
                                         </div>
                                     </td>
@@ -313,13 +313,13 @@
 
                                 <!-- HEADER: azul marino + logo -->
                                 <tr>
-                                    <td align="center" style="background-color:#0f2c4d;padding:24px 32px;">
-                                        <img t-if="company and company.logo"
-                                             t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                    <td align="center" style="background-color:#ffffff;padding:24px 32px;">
+                                        <img t-if="company and not company.uses_default_logo"
+                                             t-att-src="'/logo.png?company=%s' % company.id"
                                              style="max-height:48px;width:auto;display:block;"
                                              t-att-alt="company.name"/>
-                                        <span t-if="company and not company.logo"
-                                              style="color:#ffffff;font-size:22px;font-weight:bold;letter-spacing:1.5px;">AutoHaus Parts</span>
+                                        <span t-if="company and company.uses_default_logo"
+                                              style="color:#0f2c4d;font-size:22px;font-weight:bold;letter-spacing:1.5px;">AutoHaus Parts</span>
                                     </td>
                                 </tr>
 
@@ -365,19 +365,19 @@
 
                                 <!-- FOOTER: azul marino + datos de contacto -->
                                 <tr>
-                                    <td style="background-color:#0f2c4d;padding:24px 32px 20px 32px;">
+                                    <td style="background-color:#ffffff;padding:24px 32px 20px 32px;">
                                         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                                             <tr>
                                                 <td>
                                                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
-                                                            <td t-if="company and company.logo" valign="middle" style="padding-right:12px;">
-                                                                <img t-att-src="'data:image/png;base64,%s' % company.logo.decode()"
+                                                            <td t-if="company and not company.uses_default_logo" valign="middle" style="padding-right:12px;">
+                                                                <img t-att-src="'/logo.png?company=%s' % company.id"
                                                                      style="max-height:32px;width:auto;display:block;"
                                                                      t-att-alt="company.name"/>
                                                             </td>
                                                             <td valign="middle">
-                                                                <span style="color:#ffffff;font-size:14px;font-weight:bold;letter-spacing:1px;">AutoHaus Parts</span>
+                                                                <span style="color:#0f2c4d;font-size:14px;font-weight:bold;letter-spacing:1px;">AutoHaus Parts</span>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -386,28 +386,28 @@
                                         </table>
                                         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;">
                                             <tr>
-                                                <td style="border-top:1px solid rgba(255,255,255,0.15);padding-top:12px;">
+                                                <td style="border-top:1px solid #e8e8e8;padding-top:12px;">
                                                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                         <tr>
                                                             <t t-if="company.phone">
-                                                                <td style="color:#b9cbdc;font-size:11px;line-height:1.6;padding-right:8px;">
+                                                                <td style="color:#454748;font-size:16px;line-height:1.6;padding-right:8px;">
                                                                     <t t-out="company.phone"/>
                                                                 </td>
                                                             </t>
                                                             <t t-if="company.phone and company.email">
-                                                                <td style="color:rgba(255,255,255,0.25);font-size:11px;padding-right:8px;">|</td>
+                                                                <td style="color:#cccccc;font-size:16px;padding-right:8px;">|</td>
                                                             </t>
                                                             <t t-if="company.email">
-                                                                <td style="font-size:11px;line-height:1.6;padding-right:8px;">
+                                                                <td style="font-size:16px;line-height:1.6;padding-right:8px;">
                                                                     <span style="color:#ee5a24;">&#9993;&amp;nbsp;</span><a t-att-href="'mailto:%s' % company.email"
                                                                        style="color:#ee5a24;text-decoration:none;" t-out="company.email"/>
                                                                 </td>
                                                             </t>
                                                             <t t-if="company.website and (company.phone or company.email)">
-                                                                <td style="color:rgba(255,255,255,0.25);font-size:11px;padding-right:8px;">|</td>
+                                                                <td style="color:#cccccc;font-size:16px;padding-right:8px;">|</td>
                                                             </t>
                                                             <t t-if="company.website">
-                                                                <td style="font-size:11px;line-height:1.6;">
+                                                                <td style="font-size:16px;line-height:1.6;">
                                                                     <a t-att-href="company.website"
                                                                        style="color:#ee5a24;text-decoration:none;" t-out="company.website"/>
                                                                 </td>
@@ -419,9 +419,9 @@
                                         </table>
                                         <table t-if="show_unfollow" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;">
                                             <tr>
-                                                <td style="padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);">
+                                                <td style="padding-top:10px;border-top:1px solid #e8e8e8;">
                                                     <span t-if="show_unfollow" id="mail_unfollow">
-                                                        | <a href="/mail/unfollow" style="text-decoration:none;color:#b9cbdc;font-size:10px;">Unfollow</a>
+                                                        | <a href="/mail/unfollow" style="text-decoration:none;color:#454748;font-size:10px;">Unfollow</a>
                                                     </span>
                                                 </td>
                                             </tr>
