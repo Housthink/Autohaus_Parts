@@ -31,7 +31,6 @@
                     <details class="o_autohaus_catalog_menu">
                         <summary class="o_autohaus_catalog_menu_toggle" aria-label="Abrir menú del catálogo">
                             <i class="fa fa-bars" aria-hidden="true"/>
-                            <span>Catálogo</span>
                         </summary>
                         <div class="o_autohaus_catalog_menu_panel">
                             <a href="/categorias" class="o_autohaus_catalog_menu_link">
@@ -44,7 +43,7 @@
                             </a>
                             <a href="/productos" class="o_autohaus_catalog_menu_link">
                                 <i class="fa fa-cubes" aria-hidden="true"/>
-                                <span>Productos</span>
+                                <span>Número de parte</span>
                             </a>
                         </div>
                     </details>
@@ -98,7 +97,7 @@
                 <div class="o_autohaus_navbar2_inner">
                     <a class="o_autohaus_navlink" href="/shop">Tienda</a>
                     <a class="o_autohaus_navlink" href="/best-sellers">Best Sellers</a>
-                    <a class="o_autohaus_navlink" href="#">Sobre Nosotros</a>
+                    <a class="o_autohaus_navlink" href="/nosotros#sobre-nosotros">Sobre Nosotros</a>
                     <a class="o_autohaus_navlink" href="/contactus">Contáctanos</a>
                 </div>
             </div>

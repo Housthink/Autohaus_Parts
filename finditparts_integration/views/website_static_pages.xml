@@ -156,7 +156,7 @@
             <div id="wrap" class="o_autohaus_info_page"><div class="container py-4 py-lg-5">
                 <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Nosotros</span></nav>
                 <header class="o_autohaus_info_header"><h1>Nosotros</h1><p>Repuestos confiables para mantener tu operación en movimiento.</p></header>
-                <section class="o_autohaus_info_content">
+                <section id="sobre-nosotros" class="o_autohaus_info_content">
                     <h2>AutoHaus Parts</h2><p>Somos una tienda especializada en repuestos para vehículos y equipos de trabajo. Combinamos un catálogo amplio, información clara y atención cercana para ayudarte a encontrar la pieza correcta.</p>
                     <h2>Nuestro compromiso</h2><p>Trabajamos para ofrecer disponibilidad actualizada, precios transparentes y una experiencia de compra sencilla desde la búsqueda hasta la entrega en Panamá.</p>
                     <p>¿Tienes una pregunta? <a href="/contactus">Nuestro equipo está para ayudarte.</a></p>
@@ -449,9 +449,9 @@
         <t t-call="website.layout">
             <div id="wrap" class="o_autohaus_info_page o_autohaus_glossary_page">
                 <div class="container py-4 py-lg-5">
-                    <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Productos</span></nav>
+                    <nav class="o_autohaus_info_breadcrumb"><a href="/">Inicio</a><span>/</span><span>Número de parte</span></nav>
                     <header class="o_autohaus_info_header">
-                        <h1>Catálogo de productos</h1>
+                        <h1>Todos los productos</h1>
                         <p>Explora todos nuestros repuestos por orden alfabético. Haz clic en un producto para ver sus detalles.</p>
                     </header>
 

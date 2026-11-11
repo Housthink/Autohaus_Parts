@@ -217,9 +217,8 @@ class WebsiteSalePickup(WebsiteSale):
     def shop_shipping_quote(self, **kwargs):
         """Return the PUBLIC shipping quote for the current order.
 
-        Only the final price, method label, transit window and delivery mode
-        are exposed. Base rates, per-pound markup and formulas are computed
-        server-side and kept out of this response.
+        The server keeps ownership of the formula, while the public component
+        values let checkout show the customer how the final amount is formed.
         """
         order = self._current_order()
         if not order:
@@ -234,6 +233,7 @@ class WebsiteSalePickup(WebsiteSale):
             "status": "ok",
             "destination": quote.get("destination"),
             "rates": quote.get("rates", []),
+            "breakdown": quote.get("breakdown", {}),
             "has_eligible": has_eligible,
         }
 

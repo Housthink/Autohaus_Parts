@@ -351,9 +351,8 @@ class SaleOrder(models.Model):
 
         The US leg is free for the customer: the FinditParts domestic US rate is
         absorbed into the Panama air price as its base, and the commercial
-        markup per pound is added on top. Only the final price, method label,
-        transit window and delivery mode are exposed; the base rate and markup
-        are never sent to the frontend.
+        markup per pound is added on top. The same server-side components are
+        returned for checkout transparency without changing the formula.
         """
         self.ensure_one()
         dest_country = self._autohaus_destination_country()
@@ -362,7 +361,9 @@ class SaleOrder(models.Model):
 
         weight_lb = self._autohaus_cart_weight_lb()
         base_rate = self._autohaus_usa_base_rate()
-        total = base_rate + self._autohaus_markup_per_lb() * weight_lb
+        markup_per_lb = self._autohaus_markup_per_lb()
+        markup_total = markup_per_lb * weight_lb
+        total = base_rate + markup_total
 
         rates = []
         for service in self._autohaus_enabled_panama_services():
@@ -376,7 +377,17 @@ class SaleOrder(models.Model):
                 "eligible": eligible,
                 "total": total if eligible else None,
             })
-        return {"destination": "panama", "rates": rates}
+        return {
+            "destination": "panama",
+            "rates": rates,
+            "breakdown": {
+                "base_rate": base_rate,
+                "weight_lb": weight_lb,
+                "markup_per_lb": markup_per_lb,
+                "markup_total": markup_total,
+                "total": total,
+            },
+        }
 
     def _get_delivery_methods(self):
         """Filter delivery methods by destination and enabled services."""

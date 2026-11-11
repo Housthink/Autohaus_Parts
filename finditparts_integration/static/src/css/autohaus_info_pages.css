@@ -1,5 +1,6 @@
 /* Shared styling for public informational pages. */
 .o_autohaus_info_page { min-height: 60vh; background: #f6f7f9; }
+.o_autohaus_info_page [id] { scroll-margin-top: 90px; }
 .o_autohaus_info_page .container { max-width: 1100px; }
 .o_autohaus_info_breadcrumb { display: flex; gap: 0.5rem; margin-bottom: 1rem; color: #6b7280; font-size: 0.82rem; }
 .o_autohaus_info_breadcrumb a { color: #123a5f; text-decoration: none; }

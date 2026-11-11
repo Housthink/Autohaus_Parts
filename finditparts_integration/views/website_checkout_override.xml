@@ -159,6 +159,18 @@
         <xpath expr="//div[@id='shop_checkout']" position="after">
             <t t-set="sale_order" t-value="request.session.get('sale_order_id') and request.env['sale.order'].sudo().browse(request.session.get('sale_order_id')) or False"/>
             <div id="pickup_meta" t-att-data-pickup="sale_order and sale_order.pickup_warehouse or ''" style="display:none;"></div>
+            <div id="autohaus_shipping_breakdown" class="container mt-3" hidden="hidden" aria-live="polite">
+                <div class="card border-primary-subtle shadow-sm">
+                    <div class="card-body">
+                        <h3 class="h6 mb-3">Desglose del envío a Estados Unidos</h3>
+                        <div class="d-flex justify-content-between"><span>Tarifa base doméstica</span><strong data-shipping-base="">—</strong></div>
+                        <div class="d-flex justify-content-between"><span>Recargo logístico (<span data-shipping-weight="">—</span> lb)</span><strong data-shipping-markup="">—</strong></div>
+                        <hr class="my-2"/>
+                        <div class="d-flex justify-content-between fw-bold"><span>Total de envío</span><strong data-shipping-total="">—</strong></div>
+                        <p class="small text-muted mb-0 mt-2">El cálculo conserva las tarifas y reglas vigentes para este pedido.</p>
+                    </div>
+                </div>
+            </div>
             <style>
                 #billing_address_list { display: none !important; }
                 .o_note_warehouse { display: none !important; }
